@@ -1,2 +1,2 @@
 # InternetpaperA2
-Austin's and Sven's  Project
+Isaac's, Austin's and Sven's  Project
