@@ -31,6 +31,7 @@ services:
     mysqldb:
         image: mysql:5.7
         container_name: ${MYSQL_HOST}
+        command: "--innodb_use_native_aio=0"
         restart: always
         env_file:
             - ".env"
