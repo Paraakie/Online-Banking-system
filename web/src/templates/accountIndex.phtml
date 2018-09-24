@@ -1,0 +1,18 @@
+<?php include "header.phtml" ?>
+<!---------- Body starts --------------->
+<h1>Welcome to ...</h1>
+The accounts are:
+<table>
+    <?php foreach ($accounts as $account) { ?>
+    <tr>
+        <td><?= $account->getId() ?></td>
+        <td><?= $account->getName() ?></td>
+        <td><a href= <?= $linkTo('accountDelete', ['id' => $account->getId()]);?> >delete</a></td>
+    </tr>
+    <?php } ?>
+</table>
+
+<a href=<?= $linkTo('accountCreate'); ?>>Create new account.</a>
+<br>
+<!---------- Body ends -------------------->
+<?php include "footer.phtml" ?>

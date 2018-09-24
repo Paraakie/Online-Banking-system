@@ -1,0 +1,29 @@
+# ====== OS X ===========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# ====== WINDOWS ===========================================
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+
+### PhpStorm ###
+# User-specific stuff:
+.idea/
+
+### Project specific ###
+/web/vendor/
+/data/
+*.log

@@ -1,0 +1,19 @@
+{
+  "name": "agilman/a2",
+  "version": "0.0.1",
+  "description": "Massey University Internet Programming 159.339 Assignment 2",
+  "require": {
+    "dannyvankooten/php-router":"dev-master"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*",
+    "phpdocumentor/phpdocumentor": "2.*"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "agilman\\a2\\": "src/"
+    }
+  }
+}
