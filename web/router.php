@@ -65,7 +65,7 @@ $collection->attachRoute(
  */
 $collection->attachRoute(
     new Route(
-        '/',
+        '/login/',
         array(
             '_controller' => 'agilman\a2\controller\HomeController::createLoginPage',
             'methods' => 'GET',

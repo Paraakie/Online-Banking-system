@@ -14,7 +14,7 @@ class Model
     protected $db;
 
     // is this the best place for these constants?
-    const DB_HOST = 'a2';
+    const DB_HOST = 'mysql';
     const DB_USER = 'root';
     const DB_PASS = 'root';
     const DB_NAME = 'agilman_a2';
@@ -29,6 +29,8 @@ class Model
         );
 
         if (!$this->db) {
+            error_log("Failed to connect to mysql!", 0);
+            die("Failed to connect to database");
             // can't connect to MYSQL???
             // handle it...
             // e.g. throw new someException($this->db->connect_error, $this->db->connect_errno);
