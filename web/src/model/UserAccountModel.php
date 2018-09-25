@@ -14,7 +14,6 @@ class UserAccountModel extends Model
     private $id;
     private $name;
     private $password;
-    //An sql prepared statement for getting the account with a given name and password
 
     /**
      * Loads the user account with the given id
@@ -70,13 +69,13 @@ class UserAccountModel extends Model
 
     /**
      * Saves user account information to the database. Creates an id if the account doesn't have one already.
-
+     * name and password must not be null.
      * @return $this UserAccountModel
      */
     public function save()
     {
-        $name = $this->name ?? "NULL";
-        $password = $this->password ?? "NULL";
+        $name = $this->name;
+        $password = $this->password;
         if (!isset($this->id)) {
             if (!$stm = $this->db->prepare("INSERT INTO `user_accounts`(`name`, `password`) VALUES(?, ?)")) {
                 exit();
@@ -103,5 +102,50 @@ class UserAccountModel extends Model
         }
 
         return $this;
+    }
+
+    /**
+     * Gets the account password
+     * @return string A hash of the account password
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * Sets the account password
+     * @param string $password A hash of the account password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * Gets the account name
+     * @return string The account name
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the account name
+     * @param string $name The new account name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Returns a unique id for the account. The account must have been saved to have an id.
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }
