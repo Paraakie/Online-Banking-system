@@ -93,7 +93,7 @@ class UserAccountModel extends Model
             if (!$stm = $this->db->prepare("UPDATE `user_accounts` SET `name`=?, `password`=? WHERE `id`=?;")) {
                 exit();
             }
-            $stm->bind_param("ss", $name, $password, $this->id);
+            $stm->bind_param("ssi", $name, $password, $this->id);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
