@@ -10,7 +10,7 @@ $collection->attachRoute(
     new Route(
         '/',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::indexAction',
+            '_controller' => 'agilman\a2\controller\HomeController::createLoginPage',
             'methods' => 'GET',
             'name' => 'Home'
         )
@@ -57,6 +57,19 @@ $collection->attachRoute(
         '_controller' => 'agilman\a2\controller\AccountController::updateAction',
         'methods' => 'GET',
         'name' => 'accountUpdate'
+        )
+    )
+);
+/**
+our login router
+ */
+$collection->attachRoute(
+    new Route(
+        '/',
+        array(
+            '_controller' => 'agilman\a2\controller\HomeController::createLoginPage',
+            'methods' => 'GET',
+            'name' => 'login'
         )
     )
 );
