@@ -61,7 +61,7 @@ $collection->attachRoute(
     )
 );
 /**
-our login router
+ * our login router
  */
 $collection->attachRoute(
     new Route(
@@ -74,6 +74,10 @@ $collection->attachRoute(
     )
 );
 
+/**
+ * our validateLogin router
+ */
+
 $collection->attachRoute(
     new Route(
         '/',
@@ -85,5 +89,15 @@ $collection->attachRoute(
     )
 );
 
+$collection->attachRoute(
+    new Route(
+        '/',
+        array(
+            '_controller' => 'agilman\a2\controller\HomeController::createSignUpPage',
+            'methods' => 'POST',
+            'name' => 'signUp'
+        )
+    )
+);
 $router = new Router($collection);
 $router->setBasePath('/');

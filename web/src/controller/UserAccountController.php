@@ -8,7 +8,7 @@
 
 namespace agilman\a2\controller;
 
-
+use agilman\a2\view\View;
 use agilman\a2\model\UserAccountModel;
 
 class UserAccountController extends Controller
@@ -21,7 +21,9 @@ class UserAccountController extends Controller
         if($user !== null) {
             $this->redirect('accountIndex');
         } else {
-            $this->redirect('login');
+            $view = new View('login');
+            echo $view->addData("error", "Invalid user name or password")->render();
+
         }
     }
 }
