@@ -74,5 +74,16 @@ $collection->attachRoute(
     )
 );
 
+$collection->attachRoute(
+    new Route(
+        '/',
+        array(
+            '_controller' => 'agilman\a2\controller\UserAccountController::validateLogin',
+            'methods' => 'POST',
+            'name' => 'validateLogin'
+        )
+    )
+);
+
 $router = new Router($collection);
 $router->setBasePath('/');

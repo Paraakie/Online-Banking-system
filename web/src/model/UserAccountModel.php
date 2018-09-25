@@ -42,15 +42,19 @@ class UserAccountModel extends Model
      * @param $password string The account password
      * @return UserAccountModel An account if the account exists, null otherwise
      */
-    public function loadByNameAndPassword(string $name, string $password): UserAccountModel
+    public function loadByNameAndPassword(string $name, string $password): ?UserAccountModel
     {
-        if (!$selectAccountByNameAndPassword = $this->db->prepare("SELECT `id` FROM `user_accounts` WHERE name=? AND password=?;")) {
+        if (!$selectAccountByNameAndPassword = $this->db->prepare(
+            "SELECT `id` FROM `user_accounts` WHERE `name`=? AND `password`=?;")) {
+
             // throw new ...
+            exit("Failed to make prepared statement");
         }
         $selectAccountByNameAndPassword->bind_param("ss", $name, $password);
         if (!$result = $selectAccountByNameAndPassword->execute()) {
             $selectAccountByNameAndPassword->close();
             // throw new ...
+            exit("Failed to execute prepared statement");
         }
         $selectAccountByNameAndPassword->bind_result($id);
         if($selectAccountByNameAndPassword->fetch()) {
