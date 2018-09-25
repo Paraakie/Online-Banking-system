@@ -21,10 +21,10 @@ class UserAccountModel extends Model
      * @param $id int The account id
      * @return $this The loaded account
      */
-    public function loadByID($id)
+    public function loadByID(int $id)
     {
         if (!$result = $this->db->query("SELECT `name`, `password` FROM `user_accounts` WHERE `id`=$id;")) {
-            // throw new ...
+            exit();
         }
 
         $result = $result->fetch_assoc();
@@ -47,7 +47,6 @@ class UserAccountModel extends Model
         if (!$selectAccountByNameAndPassword = $this->db->prepare(
             "SELECT `id` FROM `user_accounts` WHERE `name`=? AND `password`=?;")) {
 
-            // throw new ...
             exit("Failed to make prepared statement");
         }
         $selectAccountByNameAndPassword->bind_param("ss", $name, $password);
@@ -67,5 +66,42 @@ class UserAccountModel extends Model
         }
         $selectAccountByNameAndPassword->close();
         return null;
+    }
+
+    /**
+     * Saves user account information to the database. Creates an id if the account doesn't have one already.
+
+     * @return $this UserAccountModel
+     */
+    public function save()
+    {
+        $name = $this->name ?? "NULL";
+        $password = $this->password ?? "NULL";
+        if (!isset($this->id)) {
+            if (!$stm = $this->db->prepare("INSERT INTO `user_accounts`(`name`, `password`) VALUES(?, ?)")) {
+                exit();
+            }
+            $stm->bind_param("ss", $name, $password);
+            $result = $stm->execute();
+            $stm->close();
+            if (!$result) {
+                exit("Failed to execute prepared statement");
+            }
+            $stm->close();
+            $this->id = $this->db->insert_id;
+        } else {
+            // saving existing account - perform UPDATE
+            if (!$stm = $this->db->prepare("UPDATE `user_accounts` SET `name`=?, `password`=? WHERE `id`=?;")) {
+                exit();
+            }
+            $stm->bind_param("ss", $name, $password, $this->id);
+            $result = $stm->execute();
+            $stm->close();
+            if (!$result) {
+                exit("Failed to execute prepared statement");
+            }
+        }
+
+        return $this;
     }
 }
