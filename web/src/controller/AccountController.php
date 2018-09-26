@@ -19,7 +19,7 @@ class AccountController extends Controller
     {
         $collection = new AccountCollectionModel();
         $accounts = $collection->getAccounts();
-        $view = new View('accountIndex');
+        $view = new View('userHome');
         echo $view->addData('accounts', $accounts)->render();
     }
     /**
