@@ -29,7 +29,7 @@ class TransactionCollectionModel extends Model
      *
      * @return \Generator|TransactionModel[] Transactions
      */
-    public function getAccounts()
+    public function getTransactions()
     {
         foreach ($this->transactionsIds as $id) {
             // Use a generator to save on memory/resources

@@ -107,5 +107,19 @@ $collection->attachRoute(
     )
 );
 
+/**
+ * Transaction Pages
+ */
+$collection->attachRoute(
+    new Route(
+        '/transIndex/',
+        array(
+            '_controller' => 'agilman\a2\controller\TransController::createTransIndexPage',
+            'methods' => 'GET',
+            'name' => 'transIndex'
+        )
+    )
+);
+
 $router = new Router($collection);
 $router->setBasePath('/');

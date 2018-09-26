@@ -1,0 +1,22 @@
+<!-- This page displays all the transactions of one user,
+     no matter how many accounts an user has -->
+<?php include "header.phtml" ?>
+<!---------- Body starts --------------->
+<h1>The TransHub</h1>
+<p>All of your transactions in one place</p>
+
+<table border = "1">
+    <?php foreach ($transactions as $transaction) { ?>
+        <tr>
+            <td><?= $transaction->getId() ?></td>
+            <td><?= $transaction->getAccountID() ?></td>
+            <td><?= $transaction->getTime() ?></td>
+            <td><?= $transaction->getAmount() ?></td>
+            <td><?= $transaction->getType() ?></td>
+        </tr>
+    <?php } ?>
+</table>
+
+
+<!---------- Body ends -------------------->
+<?php include "footer.phtml" ?>
