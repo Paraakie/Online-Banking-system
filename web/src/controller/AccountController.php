@@ -15,7 +15,7 @@ class AccountController extends Controller
     /**
      * Account Index action
      */
-    public function indexAction()
+    public function showAccounts()
     {
         $collection = new AccountCollectionModel();
         $accounts = $collection->getAccounts();

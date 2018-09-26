@@ -21,9 +21,9 @@ $collection->attachRoute(
     new Route(
         '/account/',
         array(
-        '_controller' => 'agilman\a2\controller\AccountController::indexAction',
+        '_controller' => 'agilman\a2\controller\AccountController::showAccounts',
         'methods' => 'GET',
-        'name' => 'accountIndex'
+        'name' => 'showAccounts'
         )
     )
 );
@@ -89,7 +89,7 @@ $collection->attachRoute(
     new Route(
         '/signUp/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::createSignUpPage',
+            '_controller' => 'agilman\a2\controller\UserAccountController::signUp',
             'methods' => 'POST',
             'name' => 'signUp'
         )
@@ -100,7 +100,7 @@ $collection->attachRoute(
     new Route(
         '/signUp/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::createSignUpPage',
+            '_controller' => 'agilman\a2\controller\UserAccountController::signUp',
             'methods' => 'GET',
             'name' => 'signUp'
         )

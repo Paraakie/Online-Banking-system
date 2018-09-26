@@ -68,6 +68,38 @@ class UserAccountModel extends Model
     }
 
     /**
+     * Loads the user account with the given name.
+     * @param $name string The account name
+     * @return UserAccountModel An account if the account exists, null otherwise
+     */
+    public function loadByName(string $name): ?UserAccountModel
+    {
+        if (!$selectAccountByName = $this->db->prepare(
+            "SELECT `id`, `password` FROM `user_accounts` WHERE `name`=?;")) {
+
+            exit("Failed to make prepared statement");
+        }
+        $selectAccountByName->bind_param("s", $name);
+        if (!$result = $selectAccountByName->execute()) {
+            $selectAccountByName->close();
+            // throw new ...
+            exit("Failed to execute prepared statement");
+        }
+
+        $selectAccountByName->bind_result($id, $password);
+        $result = $selectAccountByName->fetch();
+        $selectAccountByName->close();
+        if($result) {
+            $this->name = $name;
+            $this->password = $password;
+            $this->id = $id;
+
+            return $this;
+        }
+        return null;
+    }
+
+    /**
      * Saves user account information to the database. Creates an id if the account doesn't have one already.
      * name and password must not be null.
      * @return $this UserAccountModel
@@ -86,7 +118,6 @@ class UserAccountModel extends Model
             if (!$result) {
                 exit("Failed to execute prepared statement");
             }
-            $stm->close();
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
