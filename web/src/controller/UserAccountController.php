@@ -59,6 +59,9 @@ class UserAccountController extends Controller
             $userAccount->setName($name);
             $userAccount->setPassword($password);
             $userAccount->save();
+            session_start();
+            $_SESSION['userName'] = $name;
+            $_SESSION['userID'] = $userAccount->getId();
             $this->redirect("showAccounts");
         } else {
             $view = new View('signUp');
