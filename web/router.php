@@ -10,7 +10,7 @@ $collection->attachRoute(
     new Route(
         '/',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::createLoginPage',
+            '_controller' => 'agilman\a2\controller\HomeController::indexAction',
             'methods' => 'GET',
             'name' => 'Home'
         )
@@ -67,37 +67,45 @@ $collection->attachRoute(
     new Route(
         '/login/',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::createLoginPage',
+            '_controller' => 'agilman\a2\controller\UserAccountController::login',
             'methods' => 'GET',
             'name' => 'login'
         )
     )
 );
 
-/**
- * our validateLogin router
- */
-
 $collection->attachRoute(
     new Route(
-        '/',
+        '/login/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::validateLogin',
+            '_controller' => 'agilman\a2\controller\UserAccountController::login',
             'methods' => 'POST',
-            'name' => 'validateLogin'
+            'name' => 'login'
         )
     )
 );
 
 $collection->attachRoute(
     new Route(
-        '/',
+        '/signUp/',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::createSignUpPage',
+            '_controller' => 'agilman\a2\controller\UserAccountController::createSignUpPage',
             'methods' => 'POST',
             'name' => 'signUp'
         )
     )
 );
+
+$collection->attachRoute(
+    new Route(
+        '/signUp/',
+        array(
+            '_controller' => 'agilman\a2\controller\UserAccountController::createSignUpPage',
+            'methods' => 'GET',
+            'name' => 'signUp'
+        )
+    )
+);
+
 $router = new Router($collection);
 $router->setBasePath('/');

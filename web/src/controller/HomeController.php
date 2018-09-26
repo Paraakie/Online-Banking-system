@@ -17,14 +17,4 @@ class HomeController extends Controller
     {
         $this->redirect('login');
     }
-
-    public function createLoginPage(){
-        $view = new View('login');
-        echo $view->render();
-    }
-
-    public function createSignUpPage(){
-        $view = new View('signUp');
-        echo $view->render();
-    }
 }

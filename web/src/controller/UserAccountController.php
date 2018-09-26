@@ -13,7 +13,7 @@ use agilman\a2\model\UserAccountModel;
 
 class UserAccountController extends Controller
 {
-    public function validateLogin()
+    private function validateLogin()
     {
         $name = $_POST["userName"];
         $password = $_POST["userPassword"];
@@ -24,6 +24,23 @@ class UserAccountController extends Controller
             $view = new View('login');
             echo $view->addData("error", "Invalid user name or password")->render();
 
+        }
+    }
+
+    public function createSignUpPage(){
+        $view = new View('signUp');
+        echo $view->render();
+    }
+
+    public function login(){
+        if (isset($_POST['validateLogin'])) {
+            $this->validateLogin();
+        }
+        elseif (isset($_POST['signUp'])) {
+            $this->redirect('signUp');
+        } else {
+            $view = new View('login');
+            echo $view->render();
         }
     }
 }
