@@ -17,4 +17,9 @@ class HomeController extends Controller
     {
         $this->redirect('login');
     }
+
+    public function temp(){
+        $view = new View('userHome');
+        $view->render();
+    }
 }

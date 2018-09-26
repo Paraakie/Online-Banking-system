@@ -1,0 +1,13 @@
+<?php include "header.phtml" ?>
+<h1 align="center">Welcome to First National Bank</h1>
+
+<? $hours = Date('G');
+    if($hours >= 6 && $hours < 12){
+        echo "<p>Good Morning, </p>";
+    } else if($hours >= 12 && $hours < 18){
+        echo "<p>Good Afternoon, </p>";
+    } else {
+        echo "<p>Good Evening, </p>";
+    }
+?>
+<?php include "footer.phtml" ?>
