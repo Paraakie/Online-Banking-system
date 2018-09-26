@@ -23,7 +23,7 @@ class UserAccountModel extends Model
     public function loadByID(int $id)
     {
         if (!$result = $this->db->query("SELECT `name`, `password` FROM `user_accounts` WHERE `id`=$id;")) {
-            exit();
+            return null;
         }
 
         $result = $result->fetch_assoc();
