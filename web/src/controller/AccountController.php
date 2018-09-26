@@ -17,10 +17,16 @@ class AccountController extends Controller
      */
     public function showAccounts()
     {
-        $collection = new AccountCollectionModel();
-        $accounts = $collection->getAccounts();
-        $view = new View('userHome');
-        echo $view->addData('accounts', $accounts)->render();
+        session_start();
+        if(isset($_SESSION['userName'])) {
+            $collection = new AccountCollectionModel();
+            $accounts = $collection->getAccounts();
+            $view = new View('userHome');
+            echo $view->addData('userName', $_SESSION['userName'])->render();
+            //echo $view->addData('accounts', $accounts)->render();
+        } else {
+            echo "login failed";
+        }
     }
     /**
      * Account Create action

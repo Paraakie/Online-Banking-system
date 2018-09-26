@@ -15,11 +15,12 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $this->redirect('login');
+        session_start();
+        if(isset($_SESSION['userName'])){
+            $this->redirect('showAccounts');
+        } else {
+            $this->redirect('login');
+        }
     }
 
-    public function temp(){
-        $view = new View('userHome');
-        $view->render();
-    }
 }

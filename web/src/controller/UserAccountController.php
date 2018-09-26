@@ -21,6 +21,9 @@ class UserAccountController extends Controller
         $password = $_POST["userPassword"];
         $user = (new UserAccountModel())->loadByNameAndPassword($name, $password);
         if($user !== null) {
+            session_start();
+            $_SESSION['userName'] = $name;
+            $_SESSION['userID'] = $user->getId();
             $this->redirect('showAccounts');
         } else {
             $view = new View('login');
