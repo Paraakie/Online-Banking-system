@@ -40,6 +40,13 @@ class BankAccountModel extends Model
     }
 
     /**
+     * @return decimal Account balance
+     */
+    public function getBalance(){
+        return $this->balance;
+    }
+
+    /**
      * @param string $name Account name
      *
      * @return $this BankAccountModel

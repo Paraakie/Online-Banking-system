@@ -21,14 +21,27 @@
     };
 ?>
 </div>  
-
 <div>
-    <?
-    foreach($accounts as $bankAccount){
-        echo "<p>$bankAccount->getName() $bankAccount->getId()</p>";
-    }
+    <p1>Your Accounts:</p1><br>
 
-        ?>
+    <table style="border:1px solid black;border-spacing:30px;">
+    <tr>
+        <th>Name</th>
+        <th>Account No.</th>
+        <th>Balance</th>
+    </tr>
+    <? foreach ($accounts as $bankAccount){
+        echo "
+            <tr>
+                <td>{$bankAccount->getName()}</td>
+                <td>{$bankAccount->getID()}</td>
+                <td>{$bankAccount->getBalance()}$</td>
+            </tr>
+        ";
+    }
+    ?>
+    </table>
 </div>
+
 
 <?php include "footer.phtml" ?>
