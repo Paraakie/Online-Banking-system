@@ -22,5 +22,13 @@
 ?>
 </div>  
 
+<div>
+    <?
+    foreach($accounts as $bankAccount){
+        echo "<p>$bankAccount->getName() $bankAccount->getId()</p>";
+    }
+
+        ?>
+</div>
 
 <?php include "footer.phtml" ?>

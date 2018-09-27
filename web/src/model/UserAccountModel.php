@@ -186,7 +186,7 @@ class UserAccountModel extends Model
      */
     public function getBankAccounts(): \Generator
     {
-        if (!$result = $this->db->query("SELECT `id` FROM `account` WHERE `accountID`=$this->id;")) {
+        if (!$result = $this->db->query("SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id;")) {
             die($this->db->error);
         }
         $accountIds = array_column($result->fetch_all(), 0);
