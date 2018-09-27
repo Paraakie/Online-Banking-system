@@ -112,7 +112,7 @@ $collection->attachRoute(
  */
 $collection->attachRoute(
     new Route(
-        '/transIndex/',
+        '/transactions/',
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransIndexPage',
             'methods' => 'GET',
