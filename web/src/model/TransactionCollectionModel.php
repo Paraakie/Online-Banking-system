@@ -19,6 +19,7 @@ class TransactionCollectionModel extends Model
         parent::__construct();
         if (!$result = $this->db->query("SELECT `id` FROM `transactions`;")) {
             // throw new ...
+            die("Failed to get transactions");
         }
         $this->transactionsIds = array_column($result->fetch_all(), 0);
         $this->N = $result->num_rows;
