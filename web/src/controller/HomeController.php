@@ -23,4 +23,14 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     *  Logout Action
+     */
+    public function logout(){
+        //Deleteing session
+        session_start();
+        session_destroy();
+        $this->redirect('login');
+    }
+
 }
