@@ -1,11 +1,16 @@
 <?php include "header.phtml" ?>
 <h1 align="center">Welcome to First National Bank</h1>
 
-<form method="get" action="logout">
-
-<input type="submit" value="Log out" name="logout">
+<form style="position:fixed;top:0;right:0;"method="get" action="logout">
+    <?
+    $date = date("i-h-s");
+    echo date("l , jS \of F ");
+    ?>
+<input type="submit" value="Log out" name="logout" style="font-size:16px;">
 
 </form>
+<div style="font-size:20px;">
+
 <? $hours = Date('G');
     if($hours >= 6 && $hours < 12){
         echo "<p>Good Morning, $userName</p>";
@@ -15,6 +20,7 @@
         echo "<p>Good Evening, $userName</p>";
     };
 ?>
+</div>
 
 
 <?php include "footer.phtml" ?>
