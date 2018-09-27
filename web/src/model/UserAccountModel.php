@@ -179,4 +179,21 @@ class UserAccountModel extends Model
     {
         return $this->id;
     }
+
+    /**
+     * Gets all the bank accounts for this user
+     * @return \Generator|AccountModel[] Accounts
+     */
+    public function getBankAccounts(): \Generator
+    {
+        if (!$result = $this->db->query("SELECT `id` FROM `account` WHERE `accountID`=$this->id;")) {
+            die($this->db->error);
+        }
+        $accountIds = array_column($result->fetch_all(), 0);
+        foreach ($accountIds as $id) {
+            // Use a generator to save on memory/resources
+            // load accounts from DB one at a time only when required
+            yield (new AccountModel())->load($id);
+        }
+    }
 }

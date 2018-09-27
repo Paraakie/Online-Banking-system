@@ -1,7 +1,9 @@
 <?php
 namespace agilman\a2\controller;
 
-use agilman\a2\model\{AccountModel, AccountCollectionModel};
+use agilman\a2\model\{
+    AccountModel, AccountCollectionModel, UserAccountModel
+};
 use agilman\a2\view\View;
 
 /**
@@ -19,11 +21,13 @@ class AccountController extends Controller
     {
         session_start();
         if(isset($_SESSION['userName'])) {
-            $collection = new AccountCollectionModel();
-            $accounts = $collection->getAccounts();
+            $userId = $_SESSION['userID'];
+            $user = (new UserAccountModel())->loadByID($userId);
+            $accounts = $user->getBankAccounts();
             $view = new View('userHome');
-            echo $view->addData('userName', $_SESSION['userName'])->render();
-            //echo $view->addData('accounts', $accounts)->render();
+            $view->addData('userName', $_SESSION['userName']);
+            $view->addData('accounts', $accounts);
+            echo $view->render();
         } else {
             header('Refresh: 3; URL=/');
             echo "<p align=center style=color:red;>Please login...<br> Redirecting back to login page</p>";
