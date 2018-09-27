@@ -18,22 +18,13 @@ use agilman\a2\model\TransactionCollectionModel;
 class TransController extends Controller
 {
     /**
-     * Transaction Index action
+     * createTransIndexPage
      */
-    public function indexAction()
-    {
+    public function createTransIndexPage(){
         $collection = new TransactionCollectionModel();
         $transactions = $collection->getTransactions();
         $view = new View('transIndex');
         echo $view->addData('transactions', $transactions)->render();
-    }
-
-    /**
-     * createTransIndexPage
-     */
-    public function createTransIndexPage(){
-        $view = new View('transIndex');
-        echo $view->render();
     }
 
 
