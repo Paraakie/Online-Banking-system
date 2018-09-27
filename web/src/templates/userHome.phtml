@@ -1,6 +1,11 @@
 <?php include "header.phtml" ?>
 <h1 align="center">Welcome to First National Bank</h1>
 
+<form method="get">
+
+<input type="submit" value="Log out" name="logOut">
+
+</form>
 <? $hours = Date('G');
     if($hours >= 6 && $hours < 12){
         echo "<p>Good Morning, $userName</p>";
