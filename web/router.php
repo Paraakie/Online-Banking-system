@@ -108,6 +108,20 @@ $collection->attachRoute(
 );
 
 /**
+ * Delete Account
+ */
+$collection->attachRoute(
+    new Route(
+        '/account/delete/:id',
+        array(
+            '_controller' => 'agilman\a2\controller\AccountController::deleteAction',
+            'methods' => 'GET',
+            'name' => 'accountDelete'
+        )
+    )
+);
+
+/**
  * Transaction Pages
  */
 //Transaction Index
@@ -117,7 +131,7 @@ $collection->attachRoute(
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransIndexPage',
             'methods' => 'GET',
-            'name' => 'createTransIndexPage'
+            'name' => 'TransIndex'
         )
     )
 );
@@ -129,7 +143,7 @@ $collection->attachRoute(
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransDepositPage',
             'methods' => 'GET',
-            'name' => 'createTransDepositPage'
+            'name' => 'TransDeposit'
         )
     )
 );
@@ -141,7 +155,7 @@ $collection->attachRoute(
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransTransferPage',
             'methods' => 'GET',
-            'name' => 'createTransTransferPage'
+            'name' => 'TransTransfer'
         )
     )
 );
@@ -153,7 +167,7 @@ $collection->attachRoute(
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransWithdrawalPage',
             'methods' => 'GET',
-            'name' => 'createTransWithdrawalPage'
+            'name' => 'TransWithdrawal'
         )
     )
 );

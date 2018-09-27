@@ -31,6 +31,9 @@ class BankAccountModel extends Model
         return $this->id;
     }
 
+    public function getUserId(){
+        return $this->userID;
+    }
     /**
      * @return string Account Name
      */
@@ -156,7 +159,7 @@ class BankAccountModel extends Model
      */
     public function delete()
     {
-        if (!$result = $this->db->query("DELETE FROM `account` WHERE `account`.`id` = $this->id;")) {
+        if (!$result = $this->db->query("DELETE FROM `bank_accounts` WHERE `bank_accounts`.`id` = $this->id;")) {
             die($this->db->error);
         }
 

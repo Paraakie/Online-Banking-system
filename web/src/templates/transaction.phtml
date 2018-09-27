@@ -6,6 +6,13 @@
 <p>All of your transactions in one place</p>
 
 <table border = "1">
+    <tr>
+        <th>ID</th>
+        <th>Account No.</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Type</th>
+    </tr>
     <?php foreach ($transactions as $transaction) { ?>
         <tr>
             <td><?= $transaction->getId() ?></td>
@@ -20,7 +27,9 @@
         </tr>
     <?php } ?>
 </table>
-<!--<a href=<?= $linkTo('userHome'); ?>>Back</a>-->
+
+<br>
+<a href=<?= $linkTo('Home'); ?>>Back</a>
 
 <!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>

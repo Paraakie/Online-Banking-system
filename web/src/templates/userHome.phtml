@@ -2,7 +2,7 @@
 <form style="position:fixed;top:0;right:0;"method="get" action="logout">
     <?
     $date = date("i-h-s");
-    echo date("l , jS \of F ");
+    echo date("l, jS \of F ");
     ?>
 <input type="submit" value="Log out" name="logout" style="font-size:16px;">
 
@@ -28,20 +28,22 @@
         <th>Account No.</th>
         <th>Balance</th>
     </tr>
+
     <? foreach ($accounts as $bankAccount){
-        $dollars = $transaction->getAmount() / 100;
-        $cents = $transaction->getAmount() % 100;
+        $balance = ($bankAccount->getBalance()) / 100;
         echo "
             <tr>
                 <td>{$bankAccount->getName()}</td>
                 <td>{$bankAccount->getID()}</td>
-                <td>\${$dollars}.{$cents}</td>
+                <td>\${$balance}</td>
+                <td><a href={$linkTo('accountDelete', ['id' => $bankAccount->getID()])}>delete</a></td>
             </tr>
         ";
     }
     ?>
-    </table>
-</div>
 
+
+<br>
+<a href=<?= $linkTo('TransIndex'); ?>>View All Transactions</a>
 
 <?php include "footer.phtml" ?>

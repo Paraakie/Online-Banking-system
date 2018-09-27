@@ -36,7 +36,6 @@ class Model
             // e.g. throw new someException($this->db->connect_error, $this->db->connect_errno);
         }
 
-        //----------------------------------------------------------------------------
         // This is to make our life easier
         // Create your database and populate it with sample data
         $this->db->query("CREATE DATABASE IF NOT EXISTS " . Model::DB_NAME . ";");
@@ -66,7 +65,7 @@ class Model
                 error_log("Failed creating table account", 0);
             }
         }
-        //----------------------------------------------------------------------------
+
 
         $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
         if ($result->num_rows == 0) {
