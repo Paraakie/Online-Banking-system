@@ -41,50 +41,6 @@ class TransactionModel extends Model
 
 
     /**
-     * Getters and Setters
-     */
-
-    /**
-     * @return int Transaction ID
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return  int Account ID
-     */
-    public function getAccountID()
-    {
-        return $this->accountID;
-    }
-
-    /**
-     * @return string Time
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * @return double Amount
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @return string Type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Loads transaction information from the database
      *
      * @param int $id Transaction ID
@@ -142,5 +98,81 @@ class TransactionModel extends Model
         }
 
         return $this;
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    /**
+     * @return int Transaction ID
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return  int Account ID
+     */
+    public function getAccountID(): int
+    {
+        return $this->accountID;
+    }
+
+    /**
+     * @return string Time
+     */
+    public function getTime(): string
+    {
+        return $this->time;
+    }
+
+    /**
+     * @return double Amount
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string Type
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $accountID The bank account the created the transaction
+     */
+    public function setAccountID(int $accountID): void
+    {
+        $this->accountID = $accountID;
+    }
+
+    /**
+     * @param string $time Format: DD/MM/YEAR HH:MM
+     */
+    public function setTime(string $time): void
+    {
+        $this->time = $time;
+    }
+
+    /**
+     * @param $amount
+     */
+    public function setAmount($amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @param string $type Can be 'T' = Transfer, 'W' = Withdrawal or 'D' = Deposit
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 }
