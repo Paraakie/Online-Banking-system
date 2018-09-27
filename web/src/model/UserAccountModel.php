@@ -196,4 +196,14 @@ class UserAccountModel extends Model
             yield (new BankAccountModel())->load($id);
         }
     }
+
+    public function getBankAccountByID(int $bankAccountID): ?BankAccountModel
+    {
+        if (!$result = $this->db->query(
+            "SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id AND bank_accounts.id=$$bankAccountID;"
+                )) {
+            die($this->db->error);
+        }
+        return $result->num_rows == 1 ? (new BankAccountModel())->load($bankAccountID) : null;
+    }
 }

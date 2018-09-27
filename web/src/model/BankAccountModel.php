@@ -47,6 +47,31 @@ class BankAccountModel extends Model
     }
 
     /**
+     * Gets all transactions make with the account
+     */
+    public function getTransactions(): \Generator
+    {
+        if (!$result = $this->db->query("SELECT `id` FROM `transactions` WHERE `accountID`=$this->id;")) {
+            die($this->db->error);
+        }
+        $transactionIds = array_column($result->fetch_all(), 0);
+        foreach ($transactionIds as $id) {
+            // Use a generator to save on memory/resources
+            // load accounts from DB one at a time only when required
+            yield (new TransactionModel())->loadByID($id);
+        }
+    }
+
+    /**
+     * @return int The minimum balance that a user can reduce their balance to by making transactions.
+     * The balance can still go below this from fees etc.
+     */
+    public function getMinimumAllowedBalance(): int
+    {
+        return 0;
+    }
+
+    /**
      * @param string $name Account name
      *
      * @return $this BankAccountModel
@@ -54,7 +79,16 @@ class BankAccountModel extends Model
     public function setName(string $name)
     {
         $this->name = $name;
+        return $this;
+    }
 
+    /**
+     * @param int $balance The new balance in cents
+     * @return $this BankAccountModel
+     */
+    public function setBalance(int $balance): BankAccountModel
+    {
+        $this->balance = $balance;
         return $this;
     }
 
@@ -127,21 +161,5 @@ class BankAccountModel extends Model
         }
 
         return $this;
-    }
-
-    /**
-     * Gets all transactions make with the account
-     */
-    public function getTransactions(): \Generator
-    {
-        if (!$result = $this->db->query("SELECT `id` FROM `transactions` WHERE `accountID`=$this->id;")) {
-            die($this->db->error);
-        }
-        $transactionIds = array_column($result->fetch_all(), 0);
-        foreach ($transactionIds as $id) {
-            // Use a generator to save on memory/resources
-            // load accounts from DB one at a time only when required
-            yield (new TransactionModel())->loadByID($id);
-        }
     }
 }

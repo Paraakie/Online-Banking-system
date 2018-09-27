@@ -1,15 +1,15 @@
 <?php include "header.phtml" ?>
 <!---------- Body starts --------------->
 
-<form style="text-align:center;padding-top:80px;" method="post">
-
-    <? echo "<p style='color:red;'>$error</p>"?>
+<form style="text-align:center;padding-top:80px;" method="post", action="">
+    <? echo "<h2>Transferring from $fromAccountID</h2>
+    <p style='color:red;'>$error</p>"?>
     <br>
     <pl>Enter Amount you want to Transfer:</pl><br>
-    <input type="number" name="tAmount" min="0" required><br><br>
+    <input type="number" name="amount" min="0" required><br><br>
     <p1>Enter Account you want to Transfer to:</p1><br>
-    <input type="text" name="transferAcc" required><br><br>
-    <input type="submit" value="Submit">
+    <input type="text" name="toAccount" required><br><br>
+    <input type="submit" value="Submit", name="submit">
 </form>
 
 <!---------- Body ends -------------------->
