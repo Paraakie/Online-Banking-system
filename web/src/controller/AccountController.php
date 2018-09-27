@@ -25,7 +25,8 @@ class AccountController extends Controller
             echo $view->addData('userName', $_SESSION['userName'])->render();
             //echo $view->addData('accounts', $accounts)->render();
         } else {
-            echo "login failed";
+            header('Refresh: 3; URL=/');
+            echo "<p align=center style=color:red;>Please login...<br> Redirecting back to login page</p>";
         }
     }
     /**

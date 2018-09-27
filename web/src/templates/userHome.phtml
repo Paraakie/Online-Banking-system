@@ -3,11 +3,13 @@
 
 <? $hours = Date('G');
     if($hours >= 6 && $hours < 12){
-        echo "<p>Good Morning, </p>";
+        echo "<p>Good Morning, $userName</p>";
     } else if($hours >= 12 && $hours < 18){
-        echo "<p>Good Afternoon, </p>";
+        echo "<p>Good Afternoon, $userName</p>";
     } else {
-        echo "<p>Good Evening, </p>";
-    } echo "$userName";
+        echo "<p>Good Evening, $userName</p>";
+    };
 ?>
+
+
 <?php include "footer.phtml" ?>
