@@ -110,6 +110,7 @@ $collection->attachRoute(
 /**
  * Transaction Pages
  */
+//Transaction Index
 $collection->attachRoute(
     new Route(
         '/transactions/',
@@ -117,6 +118,42 @@ $collection->attachRoute(
             '_controller' => 'agilman\a2\controller\TransController::createTransIndexPage',
             'methods' => 'GET',
             'name' => 'createTransIndexPage'
+        )
+    )
+);
+
+//Transaction Deposit
+$collection->attachRoute(
+    new Route(
+        '/transactions/deposit',
+        array(
+            '_controller' => 'agilman\a2\controller\TransController::createTransDepositPage',
+            'methods' => 'GET',
+            'name' => 'createTransDepositPage'
+        )
+    )
+);
+
+//Transaction Transfer
+$collection->attachRoute(
+    new Route(
+        '/transactions/transfer',
+        array(
+            '_controller' => 'agilman\a2\controller\TransController::createTransTransferPage',
+            'methods' => 'GET',
+            'name' => 'createTransTransferPage'
+        )
+    )
+);
+
+//Transaction Withdrawal
+$collection->attachRoute(
+    new Route(
+        '/transactions/withdrawal',
+        array(
+            '_controller' => 'agilman\a2\controller\TransController::createTransWithdrawalPage',
+            'methods' => 'GET',
+            'name' => 'createTransWithdrawalPage'
         )
     )
 );

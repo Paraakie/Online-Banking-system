@@ -1,0 +1,14 @@
+<?php include "header.phtml" ?>
+<!---------- Body starts --------------->
+
+<form style="text-align:center;padding-top:80px;" method="post">
+
+    <? echo "<p style='color:red;'>$error</p>"?>
+    <br>
+    <p1>Enter Amount you want to Deposit:</p1><br><br>
+    <input type="number" name="dAmount" min="0" required><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+<!---------- Body ends -------------------->
+<?php include "footer.phtml" ?>
