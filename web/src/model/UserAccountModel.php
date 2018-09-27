@@ -182,7 +182,7 @@ class UserAccountModel extends Model
 
     /**
      * Gets all the bank accounts for this user
-     * @return \Generator|AccountModel[] Accounts
+     * @return \Generator|BankAccountModel[] Accounts
      */
     public function getBankAccounts(): \Generator
     {
@@ -193,7 +193,7 @@ class UserAccountModel extends Model
         foreach ($accountIds as $id) {
             // Use a generator to save on memory/resources
             // load accounts from DB one at a time only when required
-            yield (new AccountModel())->load($id);
+            yield (new BankAccountModel())->load($id);
         }
     }
 }

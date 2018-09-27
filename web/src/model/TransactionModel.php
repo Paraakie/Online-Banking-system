@@ -18,7 +18,7 @@ class TransactionModel extends Model
     private $id;
 
     /**
-     * @var integer Account ID from AccountModel
+     * @var integer Account ID from BankAccountModel
      */
     private $accountID;
 

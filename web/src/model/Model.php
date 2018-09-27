@@ -46,36 +46,31 @@ class Model
             error_log("Mysql database not available!", 0);
         }
 
-        $result = $this->db->query("SHOW TABLES LIKE 'account';");
+        $result = $this->db->query("SHOW TABLES LIKE 'bank_accounts';");
         if ($result->num_rows == 0) {
-            // table doesn't exist
-            // create it and populate with sample data
+            // table doesn't exist create it
 
             $result = $this->db->query(
-                "CREATE TABLE `account` (
+                "CREATE TABLE `bank_accounts` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-                                          `name` varchar(256) DEFAULT NULL,
-                                          PRIMARY KEY (`id`) );"
+                                          `name` varchar(256) NOT NULL,
+                                          `balance` decimal NOT NULL,
+                                          `userID` int(8) unsigned NOT NULL,
+                                          PRIMARY KEY (`id`),
+                                          FOREIGN KEY (`userID`) REFERENCES `user_accounts`(`id`)
+                                           );"
             );
 
             if (!$result) {
                 // handle appropriately
                 error_log("Failed creating table account", 0);
             }
-
-            if (!$this->db->query(
-                "INSERT INTO `account` VALUES (NULL,'Bob'), (NULL,'Mary');"
-            )) {
-                // handle appropriately
-                error_log("Failed creating sample data!", 0);
-            }
         }
         //----------------------------------------------------------------------------
 
         $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
         if ($result->num_rows == 0) {
-            // table doesn't exist
-            // create it and populate with sample data
+            // table doesn't exist create it
 
             $result = $this->db->query(
                 "CREATE TABLE `user_accounts` (
@@ -94,8 +89,7 @@ class Model
 
         $result = $this->db->query("SHOW TABLES LIKE 'transactions';");
         if ($result->num_rows == 0) {
-            // table doesn't exist
-            // create it and populate with sample data
+            // table doesn't exist create it
 
             $result = $this->db->query(
                 "CREATE TABLE `transactions` (

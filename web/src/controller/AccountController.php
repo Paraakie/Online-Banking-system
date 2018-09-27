@@ -2,7 +2,7 @@
 namespace agilman\a2\controller;
 
 use agilman\a2\model\{
-    AccountModel, AccountCollectionModel, UserAccountModel
+    BankAccountModel, UserAccountModel
 };
 use agilman\a2\view\View;
 
@@ -38,7 +38,7 @@ class AccountController extends Controller
      */
     public function createAction()
     {
-        $account = new AccountModel();
+        $account = new BankAccountModel();
         $names = ['Bob','Mary','Jon','Peter','Grace'];
         shuffle($names);
         $account->setName($names[0]); // will come from Form data
@@ -55,7 +55,7 @@ class AccountController extends Controller
      */
     public function deleteAction($id)
     {
-        (new AccountModel())->load($id)->delete();
+        (new BankAccountModel())->load($id)->delete();
         $view = new View('accountDeleted');
         echo $view->addData('accountId', $id)->render();
     }
@@ -66,7 +66,7 @@ class AccountController extends Controller
      */
     public function updateAction($id)
     {
-        $account = (new AccountModel())->load($id);
+        $account = (new BankAccountModel())->load($id);
         $account->setName('Joe')->save(); // new name will come from Form data
     }
 }
