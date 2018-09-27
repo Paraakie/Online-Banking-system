@@ -89,6 +89,29 @@ class Model
                 // handle appropriately
                 error_log("Failed creating table user_accounts", 0);
             }
+
+
+            $result = $this->db->query("SHOW TABLES LIKE 'transactions';");
+            if ($result->num_rows == 0) {
+                // table doesn't exist
+                // create it and populate with sample data
+
+                $result = $this->db->query(
+                    "CREATE TABLE `transactions` (
+                                          `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+                                          `accountID` int(8) NOT NULL,
+                                          `time` varchar(100) NOT NULL,
+                                          `amount` decimal NOT NULL,
+                                          `type` varchar(1) NOT NULL,
+                                          PRIMARY KEY (`id`),
+                                          FOREIGN KEY (`accountID`) REFERENCES `user_accounts`(id) );"
+                );
+
+                if (!$result) {
+                    // handle appropriately
+                    error_log("Failed creating table transactions", 0);
+                }
+            }
         }
     }
 
