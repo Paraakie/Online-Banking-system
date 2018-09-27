@@ -40,7 +40,7 @@ class BankAccountModel extends Model
     }
 
     /**
-     * @return decimal Account balance
+     * @return int Account balance in cents
      */
     public function getBalance(){
         return $this->balance;
@@ -92,7 +92,7 @@ class BankAccountModel extends Model
             if(!$stm = $this->db->prepare("INSERT INTO `account` VALUES (NULL, ?, ?, ?);")) {
                 die($this->db->error);
             }
-            $stm->bind_param("ssi", $this->name, $this->balance, $this->userID);
+            $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -104,7 +104,7 @@ class BankAccountModel extends Model
             if(!$stm = $this->db->prepare("UPDATE `account` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
                 die($this->db->error);
             }
-            $stm->bind_param("ssi", $this->name, $this->balance, $this->userID);
+            $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -141,7 +141,7 @@ class BankAccountModel extends Model
         foreach ($transactionIds as $id) {
             // Use a generator to save on memory/resources
             // load accounts from DB one at a time only when required
-            yield (new TransactionModel())->load($id);
+            yield (new TransactionModel())->loadByID($id);
         }
     }
 }

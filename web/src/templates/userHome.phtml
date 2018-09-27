@@ -29,11 +29,13 @@
         <th>Balance</th>
     </tr>
     <? foreach ($accounts as $bankAccount){
+        $dollars = $transaction->getAmount() / 100;
+        $cents = $transaction->getAmount() % 100;
         echo "
             <tr>
                 <td>{$bankAccount->getName()}</td>
                 <td>{$bankAccount->getID()}</td>
-                <td>{$bankAccount->getBalance()}$</td>
+                <td>\${$dollars}.{$cents}</td>
             </tr>
         ";
     }

@@ -54,7 +54,7 @@ class Model
                 "CREATE TABLE `bank_accounts` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
                                           `name` varchar(256) NOT NULL,
-                                          `balance` decimal NOT NULL,
+                                          `balance` bigint NOT NULL,
                                           `userID` int(8) unsigned NOT NULL,
                                           PRIMARY KEY (`id`),
                                           FOREIGN KEY (`userID`) REFERENCES `user_accounts`(`id`)
@@ -96,7 +96,7 @@ class Model
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
                                           `accountID` int(8) unsigned NOT NULL,
                                           `time` varchar(100) NOT NULL,
-                                          `amount` decimal NOT NULL,
+                                          `amount` bigint NOT NULL,
                                           `type` varchar(1) NOT NULL,
                                           PRIMARY KEY (`id`),
                                           FOREIGN KEY (`accountID`) REFERENCES `user_accounts`(`id`)

@@ -29,7 +29,7 @@ class TransactionModel extends Model
     private $time;
 
     /**
-     * @var double Amount
+     * @var int Amount
      */
     private $amount;
 
@@ -75,7 +75,7 @@ class TransactionModel extends Model
                 "INSERT INTO `transaction`(`accountID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?)")) {
                 exit();
             }
-            $stm->bind_param("ssss", $this->accountID, $this->time, $this->amount, $this->type);
+            $stm->bind_param("isis", $this->accountID, $this->time, $this->amount, $this->type);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -89,7 +89,7 @@ class TransactionModel extends Model
                 "UPDATE `transaction` SET `accountID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
                 exit();
             }
-            $stm->bind_param("ssssi", $this->accountID, $this->time, $this->amount, $this->type, $this->id);
+            $stm->bind_param("isisi", $this->accountID, $this->time, $this->amount, $this->type, $this->id);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -129,9 +129,9 @@ class TransactionModel extends Model
     }
 
     /**
-     * @return double Amount
+     * @return int Amount in cents
      */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -161,9 +161,9 @@ class TransactionModel extends Model
     }
 
     /**
-     * @param $amount
+     * @param int $amount Amount in cents
      */
-    public function setAmount($amount): void
+    public function setAmount(int $amount): void
     {
         $this->amount = $amount;
     }
