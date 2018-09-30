@@ -22,4 +22,9 @@ class Controller
         $url = $GLOBALS['router']->generate($route, $params);
         header("Location: $url");
     }
+
+    public static function getUrl(string $route, $params = []): string
+    {
+        return $GLOBALS['router']->generate($route, $params);
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace agilman\a2\model;
 
+use DateTime;
+
 /**
  * Class TransactionModel
  *
@@ -23,8 +25,7 @@ class TransactionModel extends Model
     private $accountID;
 
     /**
-     * @var string Time
-     * Format: DD/MM/YEAR HH:MM
+     * @var DateTime Time
      */
     private $time;
 
@@ -54,12 +55,13 @@ class TransactionModel extends Model
             exit();
         }
 
-        $result = $result->fetch_assoc();
-        $this->accountID = $result['accountID'];
-        $this->time = $result['time'];
-        $this->amount = $result['amount'];
-        $this->type = $result['type'];
+        $data = $result->fetch_assoc();
+        $this->accountID = intval($data['accountID']);
+        $this->time = new DateTime($data['time']);
+        $this->amount = $data['amount'];
+        $this->type = $data['type'];
         $this->id = $id;
+        $result->close();
 
         return $this;
     }
@@ -75,7 +77,13 @@ class TransactionModel extends Model
                 "INSERT INTO `transaction`(`accountID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?)")) {
                 exit();
             }
-            $stm->bind_param("isis", $this->accountID, $this->time, $this->amount, $this->type);
+            $stm->bind_param(
+                "isis",
+                $this->accountID,
+                $this->time->format('Y-m-d H:i:s'),
+                $this->amount,
+                $this->type
+            );
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -89,7 +97,14 @@ class TransactionModel extends Model
                 "UPDATE `transaction` SET `accountID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
                 exit();
             }
-            $stm->bind_param("isisi", $this->accountID, $this->time, $this->amount, $this->type, $this->id);
+            $stm->bind_param(
+                "isisi",
+                $this->accountID,
+                $this->time->format('Y-m-d H:i:s'),
+                $this->amount,
+                $this->type,
+                $this->id
+            );
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
@@ -107,7 +122,7 @@ class TransactionModel extends Model
     /**
      * @return int Transaction ID
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -121,9 +136,9 @@ class TransactionModel extends Model
     }
 
     /**
-     * @return string Time
+     * @return DateTime The time the transaction was created
      */
-    public function getTime(): string
+    public function getTime(): DateTime
     {
         return $this->time;
     }
@@ -153,9 +168,9 @@ class TransactionModel extends Model
     }
 
     /**
-     * @param string $time Format: DD/MM/YEAR HH:MM
+     * @param DateTime $time
      */
-    public function setTime(string $time): void
+    public function setTime(DateTime $time): void
     {
         $this->time = $time;
     }

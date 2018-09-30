@@ -5,7 +5,6 @@ use agilman\a2\model\BankAccountModel;
 use agilman\a2\model\TransactionModel;
 use agilman\a2\model\UserAccountModel;
 use agilman\a2\view\View;
-//use agilman\a2\model\TransactionModel;
 use agilman\a2\model\TransactionCollectionModel;
 
 /**
@@ -40,66 +39,60 @@ class TransController extends Controller
         echo $view->addData('transactions', $transactions)->render();
     }
 
-    private function handleTransfer(int $userId, int $fromAccountID): void
+    private function handleTransfer(UserAccountModel $user, int $fromAccountID): ?string
     {
-        if(isset($_GET['submit'])) {
-            $user = (new UserAccountModel())->loadByID($userId);
-            $fromAccount = $user->getBankAccountByID($fromAccountID);
-            if($fromAccount === null) {
-                $this->redirect("login");
-                return;
-            }
-            $toAccountStr = $_GET["toAccount"];
-            $amountStr = $_GET["amount"];
-            $toAccountID = filter_var($toAccountStr, FILTER_VALIDATE_INT);
-            $toAccount = $toAccountID === FALSE ? null : (new BankAccountModel())->load($toAccountID);
-            if($toAccount === null) {
-                $view = new View('transTransfer');
-                $view->addData('fromAccountID', $fromAccountID);
-                $view->addData('error', "Invalid account ID to transfer to");
-                echo $view->render();
-                return;
-            }
-            $amount = intval(floatval($amountStr) * 100);
-            if($amount < 0) {
-                $view = new View('transTransfer');
-                $view->addData('fromAccountID', $fromAccountID);
-                $view->addData('error', "Cannot transfer a negative amount");
-                echo $view->render();
-                return;
-            }
-            $newFromAmount = $fromAccount->getBalance() - $amount;
-            if($newFromAmount < $fromAccount->getMinimumAllowedBalance()) {
-                $view = new View('transTransfer');
-                $view->addData('fromAccountID', $fromAccountID);
-                $view->addData('error', "Your bank account's balance is too low");
-                echo $view->render();
-                return;
-            }
-            $newToAmount = $toAccount->getBalance() + $amount;
-            $toAccount->setBalance($newToAmount);
-            $fromAccount->setBalance($newFromAmount);
-            $toAccount->save();
-            $fromAccount->save();
-            $this->redirect('showAccounts');
-        } else {
-            $view = new View('transTransfer');
-            echo $view->addData('$fromAccountID', $fromAccountID)->render();
+        $fromAccount = $user->getBankAccountByID($fromAccountID);
+        if($fromAccount === null) {
+            //the user doesn't own the bank account they are trying to transfer money from
+            return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
         }
+        $toAccountStr = $_GET["toAccount"];
+        $amountStr = $_GET["amount"];
+        $toAccountID = filter_var($toAccountStr, FILTER_VALIDATE_INT);
+        $toAccount = $toAccountID === FALSE ? null : (new BankAccountModel())->load($toAccountID);
+        if($toAccount === null) {
+            return "Invalid account ID to transfer to";
+        }
+        $amount = intval(floatval($amountStr) * 100);
+        if($amount < 0) {
+            return "Cannot transfer a negative amount";
+        }
+        $newFromAmount = $fromAccount->getBalance() - $amount;
+        if($newFromAmount < $fromAccount->getMinimumAllowedBalance()) {
+            return "Your bank account's balance is too low";
+        }
+        $newToAmount = $toAccount->getBalance() + $amount;
+        $toAccount->setBalance($newToAmount);
+        $fromAccount->setBalance($newFromAmount);
+        $toAccount->save();
+        static::saveTransaction($toAccountID, $amount, "D");
+        $fromAccount->save();
+        static::saveTransaction($fromAccount->getId(), $amount, "W");
+        return null;
     }
 
     /**
      * Display the Web-page for /Transaction/Transfer/
-     * @param int $fromAccountID The id off the account to transfer money from
+     * @param int $fromAccountID The id of the account to transfer money from
      */
     public function createTransTransferPage(int $fromAccountID) {
-        session_start();
-        if(isset($_SESSION['userName'])) {
-            $userId = $_SESSION['userID'];
-            $this->handleTransfer($userId, $fromAccountID);
-        } else {
-            header('Refresh: 3; URL=/');
-            echo "<p align=center style=color:red;>Please login...<br> Redirecting back to login page</p>";
+        $user = UserAccountController::getCurrentUser();
+        if($user !== null) {
+            if(isset($_GET['submit'])) {
+                $error = $this->handleTransfer($user, $fromAccountID);
+                if($error === null) {
+                    $okLocation = static::getUrl("showAccounts");
+                    $this->redirect('transactionSuccess', ['message'=>"transfer successful", 'okLocation'=>$okLocation]);
+                } else {
+                    $view = new View('transTransfer');
+                    $view->addData('fromAccountID', $fromAccountID);
+                    $view->addData('error', $error);
+                    echo $view->render();
+                }
+            } else {
+                $view = new View('transTransfer');
+                echo $view->addData('$fromAccountID', $fromAccountID)->render();
+            }
         }
     }
 
@@ -114,14 +107,18 @@ class TransController extends Controller
     }
 
     /**
-     * Create Transaction - Unfiinished
+     * save Transaction
+     * @param int $accountID The id of the bank account that was effected by the transaction
+     * @param int $amount The amount of the transaction in cents
+     * @param string $type Can be 'W' = Withdrawal or 'D' = Deposit
      */
-    public function createTransaction(){
+    private static function saveTransaction(int $accountID, int $amount, string $type)
+    {
         $transaction = new TransactionModel();
-        $transaction->setTime();
-        //...
+        $transaction->setTime(new \DateTime());
+        $transaction->setAccountID($accountID);
+        $transaction->setAmount($amount);
+        $transaction->setType($type);
         $transaction->save();
-        $view = new View('transactionCreated');
-        echo $view->addData('transaction', $transaction)->render();
     }
 }
