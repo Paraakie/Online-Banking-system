@@ -111,13 +111,24 @@ class TransController extends Controller
     }
 
     /**
+     * Class: Handle Withdrawal
+     *
+     *
+     */
+    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amount){
+
+    }
+
+    /**
      * Display the Web-page for /Transaction/Withdrawal/
+     * @param int $fromAccountID The id of the account to transfer money from
      */
     public function createTransWithdrawalPage(int $fromAccountID){
         $user = UserAccountController::getCurrentUser();
         if($user !== null){
             if(isset($_GET['withdrawal'])){
-                $error = $this->handleWithdrawal($user, $fromAccountID);
+                $amountWithdrawn = $_GET('wAmount');
+                $error = $this->handleWithdrawal($user, $fromAccountID, $amountWithdrawn);
                 if($error === null) {
                     $okLocation = static::getUrl("showAccounts");
                     $this->redirect('transactionSuccess', ['message'=>"withdrawal successful", 'okLocation'=>$okLocation]);
@@ -130,10 +141,8 @@ class TransController extends Controller
                 }
             }
             else {
-                $collection = new TransactionCollectionModel();
-                $transactions = $collection->getTransactions();
                 $view = new View('transWithdrawal');
-                echo $view->addData('transactions', $transactions)->render();
+                echo $view->addData('fromAccount', $fromAccountID)->render();
             }
         }
     }
