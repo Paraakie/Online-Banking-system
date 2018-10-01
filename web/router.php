@@ -148,7 +148,9 @@ $collection->attachRoute(
     )
 );
 
-//Transaction Transfer
+/*
+ * Transaction Transfer
+ */
 $collection->attachRoute(
     new Route(
         '/transactions/transfer/:id',
@@ -159,8 +161,10 @@ $collection->attachRoute(
         )
     )
 );
+/*
+ * Transaction Withdrawal
+ */
 
-//Transaction Withdrawal
 $collection->attachRoute(
     new Route(
         '/transactions/withdrawal/:id',
