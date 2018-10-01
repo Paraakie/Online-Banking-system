@@ -17,7 +17,7 @@
         <tr>
             <td><?= $transaction->getId() ?></td>
             <td><?= $transaction->getAccountID() ?></td>
-            <td><?= $transaction->getTime() ?></td>
+            <td><?= $transaction->getTime()->format('Y-m-d H:i:s') ?></td>
             <td><?
                 $dollars = $transaction->getAmount() / 100;
                 $cents = $transaction->getAmount() % 100;
