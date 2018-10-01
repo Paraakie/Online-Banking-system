@@ -76,8 +76,6 @@ class UserAccountController extends Controller
     {
         $user = (new UserAccountModel())->loadByNameAndPassword($name, $password);
         if($user !== null) {
-            session_start();
-            $_SESSION['userName'] = $name;
             $_SESSION['userID'] = $user->getId();
             return null;
         } else {
@@ -89,6 +87,9 @@ class UserAccountController extends Controller
      * Handles the logic for the login page
      */
     public function login(){
+        session_start();
+        $_SESSION['userName'] = $_POST["userName"];
+
         if (isset($_POST['validateLogin'])) {
             $name = $_POST["userName"];
             $password = $_POST["userPassword"];
@@ -115,7 +116,7 @@ class UserAccountController extends Controller
     public static function getCurrentUser(): ?UserAccountModel
     {
         session_start();
-        if(isset($_SESSION['userName'])) {
+        if(isset($_SESSION['userID'])) {
             $userId = $_SESSION['userID'];
             return (new UserAccountModel())->loadByID($userId);
         } else {

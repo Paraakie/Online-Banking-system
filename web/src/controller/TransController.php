@@ -61,7 +61,7 @@ class TransController extends Controller
         }
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
-            if(isset($_POST['withdrawal'])) {
+            if(isset($_POST['submit'])) {
                 //correct user information and account number
                 $amount = intval(floatval($_POST['amount']) * 100);
                 $balance = $bankAccount->getBalance() + $amount;
