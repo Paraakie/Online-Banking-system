@@ -50,6 +50,7 @@ class TransController extends Controller
     /**
      *  This function do the deposit, it will first check correct user information
      *  then check account existence
+     * @param int $id
      */
     public function deposit(int $id){
 
@@ -147,11 +148,11 @@ class TransController extends Controller
      *
      * @param UserAccountModel $user
      * @param int $fromAccountID
-     * @param $amountWIthdrawn
+     * @param int $amountWithdrawn
      * @return null|string
      */
 
-    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amountWithdrawn){
+    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, int $amountWithdrawn){
         $fromAccount = $user->getBankAccountByID($fromAccountID);
         if($fromAccount === null) {
             //the user doesn't own the bank account they are trying to transfer money from
@@ -166,7 +167,7 @@ class TransController extends Controller
         }
         $fromAccount->setBalance($newBalance);
         $fromAccount->save();
-        static::saveTransaction($fromAccount->getId(), $newBalance, "W");
+        static::saveTransaction($fromAccount->getId(), $amountWithdrawn, "W");
         return null;
     }
 
@@ -176,25 +177,26 @@ class TransController extends Controller
      */
     public function createTransWithdrawalPage(int $fromAccountID){
         $user = UserAccountController::getCurrentUser();
-        if($user !== null){
-            if(isset($_GET['withdrawal'])){
-                $amountWithdrawn = $_GET('wAmount');
-                $error = $this->handleWithdrawal($user, $fromAccountID, $amountWithdrawn);
-                if($error === null) {
-                    $okLocation = static::getUrl("showAccounts");
-                    $this->redirect('transactionSuccess', ['message'=>"withdrawal successful", 'okLocation'=>$okLocation]);
-                }
-                else{
-                    $view = new View('transWithdrawal');
-                    $view->addData('fromAccountID', $fromAccountID);
-                    $view->addData('error', $error);
-                    echo $view->render();
-                }
+        if($user === null) {
+            return;
+        }
+        if(isset($_GET['withdrawal'])){
+            $amountWithdrawn = intval(floatval($_GET['wAmount']) * 100);
+            $error = $this->handleWithdrawal($user, $fromAccountID, $amountWithdrawn);
+            if($error === null) {
+                $okLocation = static::getUrl("showAccounts");
+                $this->transactionSuccessful("Withdrawal successful", $okLocation);
             }
-            else {
+            else{
                 $view = new View('transWithdrawal');
-                echo $view->addData('fromAccount', $fromAccountID)->render();
+                $view->addData('fromAccountID', $fromAccountID);
+                $view->addData('error', $error);
+                echo $view->render();
             }
+        }
+        else {
+            $view = new View('transWithdrawal');
+            echo $view->addData('fromAccount', $fromAccountID)->render();
         }
     }
 
