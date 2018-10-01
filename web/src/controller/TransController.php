@@ -101,7 +101,7 @@ class TransController extends Controller
             return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
         }
         $toAccountID = filter_var($toAccountStr, FILTER_VALIDATE_INT);
-        $toAccount = $toAccountID === FALSE ? null : (new BankAccountModel())->load($toAccountID);
+        $toAccount = $toAccountID === false ? null : (new BankAccountModel())->load($toAccountID);
         if($toAccount === null) {
             return "Invalid account ID to transfer to";
         }
