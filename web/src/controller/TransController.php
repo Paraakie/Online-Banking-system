@@ -143,29 +143,30 @@ class TransController extends Controller
     }
 
     /**
-     * Class: Handle Withdrawal
+     * Class handleWithdrawal
      *
      * @param UserAccountModel $user
      * @param int $fromAccountID
-     * @param $amount, the amount withdrawn
+     * @param $amountWIthdrawn
+     * @return null|string
      */
 
-    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amountWIthdrawn){
+    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amountWithdrawn){
         $fromAccount = $user->getBankAccountByID($fromAccountID);
         if($fromAccount === null) {
             //the user doesn't own the bank account they are trying to transfer money from
             return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
         }
-        if($amountWIthdrawn < 0) {
-            return "Cannot transfer a negative amount";
+        if($amountWithdrawn < 0) {
+            return "Cannot withdrawn a negative amount";
         }
-        $newFromAmount = $fromAccount->getBalance() - $amountWIthdrawn;
-        if($newFromAmount < $fromAccount->getMinimumAllowedBalance()) {
+        $newBalance = $fromAccount->getBalance() - $amountWithdrawn;
+        if($newBalance < $fromAccount->getMinimumAllowedBalance()) {
             return "Your bank account's balance is too low";
         }
-        $newAmount = $fromAccount->getBalance() - $amountWIthdrawn;
+        $fromAccount->setBalance($newBalance);
         $fromAccount->save();
-        static::saveTransaction($fromAccount->getId(), $newAmount , "W");
+        static::saveTransaction($fromAccount->getId(), $newBalance, "W");
         return null;
     }
 
