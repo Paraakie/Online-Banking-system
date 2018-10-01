@@ -2,12 +2,13 @@
 <!---------- Body starts --------------->
 
 <form style="text-align:center;padding-top:80px;" method="post">
+    <? echo "<h2>Leaving a deposit on $fromAccountID</h2>
+    <p style='color:red;'>$error</p>"?>
 
-    <? echo "<p style='color:red;'>$error</p>"?>
     <br>
     <p1>Enter Amount you want to Deposit:</p1><br>
     <input type="number" name="dAmount" min="0" required><br><br>
-    <input type="submit" value="deposit">
+    <input type="submit" value="deposit" name="deposit">
 </form>
 
 <!---------- Body ends -------------------->
