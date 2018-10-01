@@ -88,7 +88,7 @@ class TransController extends Controller
                 $error = $this->handleTransfer($user, $fromAccountID, $toAccountStr, $amountStr);
                 if($error === null) {
                     $okLocation = static::getUrl("showAccounts");
-                    $this->redirect('transactionSuccess', ['message'=>"transfer successful", 'okLocation'=>$okLocation]);
+                    $this->transactionSuccessful("Transfer successful", $okLocation);
                 } else {
                     $view = new View('transTransfer');
                     $view->addData('fromAccountID', $fromAccountID);
@@ -110,6 +110,14 @@ class TransController extends Controller
         $transactions = $collection->getTransactions();
         $view = new View('transWithdrawal');
         echo $view->addData('transactions', $transactions)->render();
+    }
+
+    private function transactionSuccessful(string $message, string $okLocation)
+    {
+        $view = new View("transactionSuccess");
+        $view->addData('message', $message);
+        $view->addData('okLocation', $okLocation);
+        echo $view->render();
     }
 
     /**

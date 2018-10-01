@@ -33,8 +33,8 @@
         $balance = ($bankAccount->getBalance()) / 100;
         echo "
             <tr>
-                <td>{$bankAccount->getName()}</td>
                 <td>{$bankAccount->getID()}</td>
+                <td>{$bankAccount->getName()}</td>
                 <td>\${$balance}</td>
                 <td><a href={$linkTo('deposit', ['id' => $bankAccount->getID()])}>Deposit</a></td>
                 <td><a href={$linkTo('accountDelete', ['id' => $bankAccount->getID()])}>Withdrawal</a></td>
