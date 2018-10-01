@@ -28,6 +28,26 @@ class AccountController extends Controller
             echo $view->render();
         }
     }
+
+    /**
+     * enter new Account Name here
+     * A page that simply reads in a string from the user     *
+     */
+    public function enterAccName(){
+        if(isset($_GET['submit'])) {
+
+            $name = $_GET('accName');
+
+            $view = new View("accountCreated");
+            $view->addData("newAccName", $name);
+            echo $view->render();
+        }
+        else {
+            $view = new View('enterAccName');
+            echo $view->render();
+        }
+    }
+
     /**
      * Account Create action
      *
