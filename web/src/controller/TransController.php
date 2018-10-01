@@ -36,13 +36,46 @@ class TransController extends Controller
     }
 
     /**
-     * Display the Web-page for /Transaction/Deposit/
+     *  Account to create deposit page
+     * @param int $id Account id to be deposited
      */
-    public function createTransDepositPage(int $fromAccountID){
-        $collection = new TransactionCollectionModel();
-        $transactions = $collection->getTransactions();
-        $view = new View('transDeposit');
-        echo $view->addData('transactions', $transactions)->render();
+    public function createDepositPage($id){
+        $user = UserAccountController::getCurrentUser();
+        if($user == null) {
+            return;
+        }
+        $bankAccount = $user->getBankAccountByID($id);
+        if($bankAccount !== null) {
+            $view = new View('transDeposit');
+            $view->addData('accountId', $id);
+            echo $view->render();
+        }
+    }
+
+    /**
+     *  This function do the deposit, it will first check correct user information
+     *  then check account existence
+     */
+    public function deposit($id){
+
+        $user = UserAccountController::getCurrentUser();
+        if($user == null) {
+            //incorrect user information
+            return;
+        }
+        $bankAccount = $user->getBankAccountByID($id);
+        if($bankAccount !== null) {
+            //correct user information and account number
+            $balance = $bankAccount->getBalance() + $_POST['amount'];
+            $bankAccount->setBalance($balance);
+            $bankAccount->save();
+            $view = new View("transDepositMessage");
+            $view->addData("balance", $bankAccount->getBalance());
+            $view->addData("accountId",$id);
+            echo $view->render();
+        } else {
+
+        }
     }
 
 
