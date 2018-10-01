@@ -68,13 +68,12 @@ class UserAccountController extends Controller
     }
 
     /**
-     * @param string $name
-     * @param string $password
+     * Logs in if the userName and userPassword in $_SESSION match a user account
      * @return null|string The error message if an error occurred, otherwise null
      */
-    private function handleLogin(string $name, string $password): ?string
+    private function handleLogin(): ?string
     {
-        $user = (new UserAccountModel())->loadByNameAndPassword($name, $password);
+        $user = (new UserAccountModel())->loadByNameAndPassword($_SESSION['userName'], $_SESSION['userPassword']);
         if($user !== null) {
             $_SESSION['userID'] = $user->getId();
             return null;
@@ -89,15 +88,15 @@ class UserAccountController extends Controller
     public function login(){
         session_start();
         $_SESSION['userName'] = $_POST["userName"];
-
+        $_SESSION['userPassword'] = $_POST["userPassword"];
         if (isset($_POST['validateLogin'])) {
-            $name = $_POST["userName"];
-            $password = $_POST["userPassword"];
-            $error = $this->handleLogin($name, $password);
+            $error = $this->handleLogin();
             if($error === null) {
                 $this->redirect('showAccounts');
             } else {
                 $view = new View('login');
+                $view->addData('userName', $_SESSION['userName']);
+                $view->addData('userPassword', $_SESSION['userPassword']);
                 echo $view->addData("error", $error)->render();
             }
         }
