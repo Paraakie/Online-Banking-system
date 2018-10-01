@@ -36,7 +36,7 @@ class TransController extends Controller
     }
 
     /**
-     *  Account to create deposit page
+     * Account to create deposit page
      * @param int $id Account id to be deposited
      */
     public function createDepositPage($id){
@@ -119,7 +119,7 @@ class TransController extends Controller
     }
 
     /**
-     * Display the Web-page for /Transaction/Transfer/
+     * Display the Web-page for /Transaction/transfer
      * @param int $fromAccountID The id of the account to transfer money from
      */
     public function createTransTransferPage(int $fromAccountID) {
@@ -148,14 +148,17 @@ class TransController extends Controller
     /**
      * Class: Handle Withdrawal
      *
-     *
+     * @param UserAccountModel $user
+     * @param int $fromAccountID
+     * @param $amount, the amount withdrawn
      */
+
     public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amount){
 
     }
 
     /**
-     * Display the Web-page for /Transaction/Withdrawal/
+     * Display the Web-page for /Transaction/withdrawal
      * @param int $fromAccountID The id of the account to transfer money from
      */
     public function createTransWithdrawalPage(int $fromAccountID){
