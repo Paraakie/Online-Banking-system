@@ -110,8 +110,8 @@ class BankAccountModel extends Model
 
         $result = $result->fetch_assoc();
         $this->name = $result['name'];
-        $this->balance = $result['balance'];
-        $this->userID = $result['userID'];
+        $this->balance = intval($result['balance']);
+        $this->userID = intval($result['userID']);
         $this->id = $id;
 
         return $this;
@@ -126,7 +126,7 @@ class BankAccountModel extends Model
     {
         if (!isset($this->id)) {
             // New account - Perform INSERT
-            if(!$stm = $this->db->prepare("INSERT INTO `account` VALUES (NULL, ?, ?, ?);")) {
+            if(!$stm = $this->db->prepare("INSERT INTO `bank_accounts` VALUES (NULL, ?, ?, ?);")) {
                 die($this->db->error);
             }
             $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
