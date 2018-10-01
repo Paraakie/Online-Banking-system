@@ -163,7 +163,7 @@ $collection->attachRoute(
 //Transaction Withdrawal
 $collection->attachRoute(
     new Route(
-        '/transactions/withdrawal',
+        '/transactions/withdrawal/:id',
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransWithdrawalPage',
             'methods' => 'GET',

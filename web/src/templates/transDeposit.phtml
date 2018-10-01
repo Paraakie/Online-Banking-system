@@ -2,15 +2,20 @@
 <!---------- Body starts --------------->
 
 <form style="text-align:center;padding-top:80px;" method="post">
+    <? echo "<h2>Leaving a deposit on $fromAccountID</h2>
+    <p style='color:red;'>$error</p>"?>
 
-    <? echo "<p style='color:red;'>$message</p>"?>
+
+
+    <? echo "<p style='color:black;'>$message</p>"?>
+    <br>
+    <? echo "<p style='color:black;'>Balance after deposit : \$$balance</p>"?>
     <br>
     <p>Account:</p>
     <input type="text" name="accountId" value="<? echo $accountId?>" readonly>
     <p>Enter Amount you want to Deposit:</p>
     <input type="number" name="amount" min="0" required><br><br>
     <input type="submit" value="Submit">
-
 </form>
 
 <!---------- Body ends -------------------->

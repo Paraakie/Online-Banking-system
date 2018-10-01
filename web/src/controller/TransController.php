@@ -36,15 +36,56 @@ class TransController extends Controller
     }
 
     /**
-     * Display the Web-page for /Transaction/Deposit/
+     * Account to create deposit page
+     * @param int $id Account id to be deposited
      */
-    public function createTransDepositPage(){
-        $collection = new TransactionCollectionModel();
-        $transactions = $collection->getTransactions();
-        $view = new View('transDeposit');
-        echo $view->addData('transactions', $transactions)->render();
+    public function createDepositPage($id){
+        $user = UserAccountController::getCurrentUser();
+        if($user == null) {
+            return;
+        }
+        $bankAccount = $user->getBankAccountByID($id);
+        if($bankAccount !== null) {
+            $view = new View('transDeposit');
+            $view->addData('accountId', $id);
+            echo $view->render();
+        }
     }
 
+    /**
+     *  This function do the deposit, it will first check correct user information
+     *  then check account existence
+     */
+    public function deposit($id){
+
+        $user = UserAccountController::getCurrentUser();
+        if($user == null) {
+            //incorrect user information
+            return;
+        }
+        $bankAccount = $user->getBankAccountByID($id);
+        if($bankAccount !== null) {
+            //correct user information and account number
+            $balance = $bankAccount->getBalance() + $_POST['amount'];
+            $bankAccount->setBalance($balance);
+            $bankAccount->save();
+            $view = new View("transDepositMessage");
+            $view->addData("balance", $bankAccount->getBalance());
+            $view->addData("accountId",$id);
+            echo $view->render();
+        } else {
+
+        }
+    }
+
+
+    /**
+     * Class handleTransfer
+     *
+     * @param UserAccountModel $user
+     * @param int $fromAccountID
+     * @return null|string
+     */
     private function handleTransfer(UserAccountModel $user, int $fromAccountID, $toAccountStr, $amountStr): ?string
     {
         $fromAccount = $user->getBankAccountByID($fromAccountID);
@@ -76,7 +117,7 @@ class TransController extends Controller
     }
 
     /**
-     * Display the Web-page for /Transaction/Transfer/
+     * Display the Web-page for /Transaction/transfer
      * @param int $fromAccountID The id of the account to transfer money from
      */
     public function createTransTransferPage(int $fromAccountID) {
@@ -103,13 +144,43 @@ class TransController extends Controller
     }
 
     /**
-     * Display the Web-page for /Transaction/Withdrawal/
+     * Class: Handle Withdrawal
+     *
+     * @param UserAccountModel $user
+     * @param int $fromAccountID
+     * @param $amount, the amount withdrawn
      */
-    public function createTransWithdrawalPage(){
-        $collection = new TransactionCollectionModel();
-        $transactions = $collection->getTransactions();
-        $view = new View('transWithdrawal');
-        echo $view->addData('transactions', $transactions)->render();
+
+    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amount){
+
+    }
+
+    /**
+     * Display the Web-page for /Transaction/withdrawal
+     * @param int $fromAccountID The id of the account to transfer money from
+     */
+    public function createTransWithdrawalPage(int $fromAccountID){
+        $user = UserAccountController::getCurrentUser();
+        if($user !== null){
+            if(isset($_GET['withdrawal'])){
+                $amountWithdrawn = $_GET('wAmount');
+                $error = $this->handleWithdrawal($user, $fromAccountID, $amountWithdrawn);
+                if($error === null) {
+                    $okLocation = static::getUrl("showAccounts");
+                    $this->redirect('transactionSuccess', ['message'=>"withdrawal successful", 'okLocation'=>$okLocation]);
+                }
+                else{
+                    $view = new View('transWithdrawal');
+                    $view->addData('fromAccountID', $fromAccountID);
+                    $view->addData('error', $error);
+                    echo $view->render();
+                }
+            }
+            else {
+                $view = new View('transWithdrawal');
+                echo $view->addData('fromAccount', $fromAccountID)->render();
+            }
+        }
     }
 
     private function transactionSuccessful(string $message, string $okLocation)
