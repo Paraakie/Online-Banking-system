@@ -8,11 +8,6 @@ use agilman\a2\view\View;
 
 /**
  * Class TransController
- *
- * Created by PhpStorm.
- * User: Sven Gerhards
- * Date: 26/09/2018
- * Time: 2:08 PM
  */
 
 
@@ -151,8 +146,23 @@ class TransController extends Controller
      * @param $amount, the amount withdrawn
      */
 
-    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amount){
-
+    public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, $amountWIthdrawn){
+        $fromAccount = $user->getBankAccountByID($fromAccountID);
+        if($fromAccount === null) {
+            //the user doesn't own the bank account they are trying to transfer money from
+            return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
+        }
+        if($amountWIthdrawn < 0) {
+            return "Cannot transfer a negative amount";
+        }
+        $newFromAmount = $fromAccount->getBalance() - $amountWIthdrawn;
+        if($newFromAmount < $fromAccount->getMinimumAllowedBalance()) {
+            return "Your bank account's balance is too low";
+        }
+        $newAmount = $fromAccount->getBalance() - $amountWIthdrawn;
+        $fromAccount->save();
+        static::saveTransaction($fromAccount->getId(), $newAmount , "W");
+        return null;
     }
 
     /**
