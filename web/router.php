@@ -122,17 +122,6 @@ $collection->attachRoute(
     )
 );
 
-//Transaction Deposit
-$collection->attachRoute(
-    new Route(
-        '/transactions/deposit/:id',
-        array(
-            '_controller' => 'agilman\a2\controller\TransController::createTransDepositPage',
-            'methods' => 'GET',
-            'name' => 'TransDeposit'
-        )
-    )
-);
 
 //Transaction Transfer
 $collection->attachRoute(
@@ -180,7 +169,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\AccountController::createDepositPage',
+            '_controller' => 'agilman\a2\controller\TransController::createDepositPage',
             'methods' => 'GET',
             'name' => 'deposit'
         )
@@ -191,7 +180,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\AccountController::deposit',
+            '_controller' => 'agilman\a2\controller\TransController::deposit',
             'methods' => 'POST',
             'name' => 'deposit'
         )
