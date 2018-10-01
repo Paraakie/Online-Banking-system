@@ -3,10 +3,13 @@
 <?  if($deleted == true){
     echo "Account $accountId closed successfully";
     ?>
+    <br>
     <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
     <? } else {
             echo "Account $accountId closed failed";
-    ?><a href=<?= $linkTo('showAccounts'); ?>>Back</a>
+    ?>
+    <br>
+    <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
     <? }?>
     <!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>
