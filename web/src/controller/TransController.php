@@ -66,7 +66,7 @@ class TransController extends Controller
             $balance = $bankAccount->getBalance() + $amount;
             $bankAccount->setBalance($balance);
             $bankAccount->save();
-            static::saveTransaction($bankAccount->getId(), $amount, "D");
+            static::generateTransaction($bankAccount->getId(), $amount, "D");
             $view = new View("transDepositMessage");
             $view->addData("balance", $bankAccount->getBalance() / 100);
             $view->addData("accountId",$id);
@@ -78,13 +78,14 @@ class TransController extends Controller
 
 
     /**
-     * Class handleTransfer
+     * Transfers money from one account to another if possible.
      *
-     * @param UserAccountModel $user
-     * @param int $fromAccountID
-     * @param string $toAccountStr
-     * @param string $amountStr
-     * @return null|string
+     * @param UserAccountModel $user The current user
+     * @param int $fromAccountID The id of the bank account to remove money from.
+     * An error will be returned if the current user doesn't own this bank account
+     * @param string $toAccountStr The id of the bank account to add money to
+     * @param string $amountStr The amount of money to transfer in dollars
+     * @return null|string An error message if an error occurred, null otherwise
      */
     private function handleTransfer(UserAccountModel $user, int $fromAccountID, string $toAccountStr, string $amountStr): ?string
     {
@@ -110,9 +111,9 @@ class TransController extends Controller
         $toAccount->setBalance($newToAmount);
         $fromAccount->setBalance($newFromAmount);
         $toAccount->save();
-        static::saveTransaction($toAccountID, $amount, "D");
+        static::generateTransaction($toAccountID, $amount, "D");
         $fromAccount->save();
-        static::saveTransaction($fromAccount->getId(), $amount, "W");
+        static::generateTransaction($fromAccount->getId(), $amount, "W");
         return null;
     }
 
@@ -144,12 +145,12 @@ class TransController extends Controller
     }
 
     /**
-     * Class handleWithdrawal
+     * Removes money from a bank account
      *
      * @param UserAccountModel $user
      * @param int $fromAccountID
      * @param int $amountWithdrawn
-     * @return null|string
+     * @return null|string The error message if an error occurred, null otherwise
      */
 
     public function handleWithdrawal(UserAccountModel $user, int $fromAccountID, int $amountWithdrawn){
@@ -167,7 +168,7 @@ class TransController extends Controller
         }
         $fromAccount->setBalance($newBalance);
         $fromAccount->save();
-        static::saveTransaction($fromAccount->getId(), $amountWithdrawn, "W");
+        static::generateTransaction($fromAccount->getId(), $amountWithdrawn, "W");
         return null;
     }
 
@@ -200,6 +201,11 @@ class TransController extends Controller
         }
     }
 
+    /**
+     * Displays the transaction successful web page
+     * @param string $message A message to let the user know what transaction succeeded
+     * @param string $okLocation The location to go to when when the user clicks the ok button
+     */
     private function transactionSuccessful(string $message, string $okLocation)
     {
         $view = new View("transactionSuccess");
@@ -209,12 +215,12 @@ class TransController extends Controller
     }
 
     /**
-     * save Transaction
+     * Creates a transaction and saves it to the database
      * @param int $accountID The id of the bank account that was effected by the transaction
      * @param int $amount The amount of the transaction in cents
      * @param string $type Can be 'W' = Withdrawal or 'D' = Deposit
      */
-    private static function saveTransaction(int $accountID, int $amount, string $type)
+    private static function generateTransaction(int $accountID, int $amount, string $type)
     {
         $transaction = new TransactionModel();
         $transaction->setTime(new \DateTime());
