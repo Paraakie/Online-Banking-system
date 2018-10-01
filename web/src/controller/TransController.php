@@ -51,7 +51,7 @@ class TransController extends Controller
      *  This function do the deposit, it will first check correct user information
      *  then check account existence
      */
-    public function deposit($id){
+    public function deposit(int $id){
 
         $user = UserAccountController::getCurrentUser();
         if($user == null) {
@@ -61,17 +61,17 @@ class TransController extends Controller
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
             //correct user information and account number
-            $amount = intval($_POST['amount']);
+            $amount = intval(floatval($_POST['amount']) * 100);
             $balance = $bankAccount->getBalance() + $amount;
             $bankAccount->setBalance($balance);
             $bankAccount->save();
             static::saveTransaction($bankAccount->getId(), $amount, "D");
             $view = new View("transDepositMessage");
-            $view->addData("balance", $bankAccount->getBalance());
+            $view->addData("balance", $bankAccount->getBalance() / 100);
             $view->addData("accountId",$id);
             echo $view->render();
         } else {
-
+            $this->redirect("login");
         }
     }
 
@@ -81,9 +81,11 @@ class TransController extends Controller
      *
      * @param UserAccountModel $user
      * @param int $fromAccountID
+     * @param string $toAccountStr
+     * @param string $amountStr
      * @return null|string
      */
-    private function handleTransfer(UserAccountModel $user, int $fromAccountID, $toAccountStr, $amountStr): ?string
+    private function handleTransfer(UserAccountModel $user, int $fromAccountID, string $toAccountStr, string $amountStr): ?string
     {
         $fromAccount = $user->getBankAccountByID($fromAccountID);
         if($fromAccount === null) {
