@@ -113,10 +113,13 @@ class BankAccountModel extends Model
             die($this->db->error);
         }
 
-        $result = $result->fetch_assoc();
-        $this->name = $result['name'];
-        $this->balance = intval($result['balance']);
-        $this->userID = intval($result['userID']);
+        $data = $result->fetch_assoc();
+        if($data === null) {
+            return null;
+        }
+        $this->name = $data['name'];
+        $this->balance = intval($data['balance']);
+        $this->userID = intval($data['userID']);
         $this->id = $id;
 
         return $this;

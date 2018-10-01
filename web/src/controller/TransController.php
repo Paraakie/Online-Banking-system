@@ -52,7 +52,7 @@ class TransController extends Controller
      *  then check account existence
      * @param int $id
      */
-    public function deposit(int $id){
+    public function depositPage(int $id){
 
         $user = UserAccountController::getCurrentUser();
         if($user == null) {
@@ -61,16 +61,22 @@ class TransController extends Controller
         }
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
-            //correct user information and account number
-            $amount = intval(floatval($_POST['amount']) * 100);
-            $balance = $bankAccount->getBalance() + $amount;
-            $bankAccount->setBalance($balance);
-            $bankAccount->save();
-            static::generateTransaction($bankAccount->getId(), $amount, "D");
-            $view = new View("transDepositMessage");
-            $view->addData("balance", $bankAccount->getBalance() / 100);
-            $view->addData("accountId",$id);
-            echo $view->render();
+            if(isset($_POST['withdrawal'])) {
+                //correct user information and account number
+                $amount = intval(floatval($_POST['amount']) * 100);
+                $balance = $bankAccount->getBalance() + $amount;
+                $bankAccount->setBalance($balance);
+                $bankAccount->save();
+                static::generateTransaction($bankAccount->getId(), $amount, "D");
+                $view = new View("transDepositMessage");
+                $view->addData("balance", $bankAccount->getBalance() / 100);
+                $view->addData("fromAccountID",$id);
+                echo $view->render();
+            } else {
+                $view = new View('transDeposit');
+                $view->addData('fromAccountID', $id);
+                echo $view->render();
+            }
         } else {
             $this->redirect("login");
         }
@@ -95,7 +101,7 @@ class TransController extends Controller
             return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
         }
         $toAccountID = filter_var($toAccountStr, FILTER_VALIDATE_INT);
-        $toAccount = $toAccountID === FALSE ? null : (new BankAccountModel())->load($toAccountID);
+        $toAccount = $toAccountID === false ? null : (new BankAccountModel())->load($toAccountID);
         if($toAccount === null) {
             return "Invalid account ID to transfer to";
         }
@@ -197,7 +203,7 @@ class TransController extends Controller
         }
         else {
             $view = new View('transWithdrawal');
-            echo $view->addData('fromAccount', $fromAccountID)->render();
+            echo $view->addData('fromAccountID', $fromAccountID)->render();
         }
     }
 

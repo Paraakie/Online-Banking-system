@@ -2,13 +2,14 @@
 <!---------- Body starts --------------->
 
 <form style="text-align:center;padding-top:80px;" method="GET">
-    <? echo "<h2>Withdrawal from $fromAccountID</h2>
+    <? echo "<h2>Making a Withdrawal</h2>
     <p style='color:red;'>$error</p>"?>
-
     <br>
-    <p1>Enter Amount you want to Withdrawal:</p1><br>
-    <input type="number" step="0.01" name="wAmount" min="0" required><br><br>
-    <input type="submit" value="Submit" name="withdrawal">
+    <p>Account:<br>
+    <input type="text" name="accountId" value="<? echo $fromAccountID?>" readonly></p>
+    <p1>Amount to Withdrawal:<br>
+    <input type="number" step="0.01" name="wAmount" min="0" required></p1>
+    <p><input type="submit" value="Submit" name="withdrawal"></p>
 </form>
 
 <!---------- Body ends -------------------->

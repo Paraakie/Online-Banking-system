@@ -5,7 +5,9 @@ use PHPRouter\Route;
 
 $collection = new RouteCollection();
 
-// example of using a redirect to another route
+/**
+ * Redirects to log-in or showAccounts when address isn't specified
+ */
 $collection->attachRoute(
     new Route(
         '/',
@@ -17,6 +19,9 @@ $collection->attachRoute(
     )
 );
 
+/**
+ * When user is logged-in he can see all his accounts
+ */
 $collection->attachRoute(
     new Route(
         '/account/',
@@ -28,9 +33,27 @@ $collection->attachRoute(
     )
 );
 
+/**
+ * User Enters Name here before creating an account
+ */
 $collection->attachRoute(
     new Route(
-        '/account/create/',
+        '/account/enterAccName',
+        array(
+            '_controller' => 'agilman\a2\controller\AccountController::enterAccName',
+            'methods' => 'GET',
+            'name' => 'enterAccName'
+        )
+    )
+);
+
+
+/**
+ * Create an account, always called after enter 'enterAccountName'
+ */
+$collection->attachRoute(
+    new Route(
+        '/account/create/:name',
         array(
         '_controller' => 'agilman\a2\controller\AccountController::createAction',
         'methods' => 'GET',
@@ -130,7 +153,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createDepositPage',
+            '_controller' => 'agilman\a2\controller\TransController::depositPage',
             'methods' => 'GET',
             'name' => 'deposit'
         )
@@ -141,7 +164,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::deposit',
+            '_controller' => 'agilman\a2\controller\TransController::depositPage',
             'methods' => 'POST',
             'name' => 'deposit'
         )
