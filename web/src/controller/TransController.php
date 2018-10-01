@@ -5,7 +5,6 @@ use agilman\a2\model\BankAccountModel;
 use agilman\a2\model\TransactionModel;
 use agilman\a2\model\UserAccountModel;
 use agilman\a2\view\View;
-use agilman\a2\model\TransactionCollectionModel;
 
 /**
  * Class TransController
@@ -23,8 +22,15 @@ class TransController extends Controller
      * Display the Web-page of /Transaction/
      */
     public function createTransIndexPage(){
-        $collection = new TransactionCollectionModel();
-        $transactions = $collection->getTransactions();
+        $user = UserAccountController::getCurrentUser();
+        if($user === null) {
+            return;
+        }
+        $bankAccounts = $user->getBankAccounts();
+        $transactions = new \AppendIterator();
+        foreach($bankAccounts as $bankAccount) {
+            $transactions->append($bankAccount->getTransactions());
+        }
         $view = new View('transaction');
         echo $view->addData('transactions', $transactions)->render();
     }
@@ -39,6 +45,7 @@ class TransController extends Controller
         echo $view->addData('transactions', $transactions)->render();
     }
 
+
     /**
      * Class handleTransfer
      *
@@ -46,15 +53,13 @@ class TransController extends Controller
      * @param int $fromAccountID
      * @return null|string
      */
-    private function handleTransfer(UserAccountModel $user, int $fromAccountID): ?string
+    private function handleTransfer(UserAccountModel $user, int $fromAccountID, $toAccountStr, $amountStr): ?string
     {
         $fromAccount = $user->getBankAccountByID($fromAccountID);
         if($fromAccount === null) {
             //the user doesn't own the bank account they are trying to transfer money from
             return 'Unable to access the account '.$fromAccountID.' please try again or contact customer support';
         }
-        $toAccountStr = $_GET["toAccount"];
-        $amountStr = $_GET["amount"];
         $toAccountID = filter_var($toAccountStr, FILTER_VALIDATE_INT);
         $toAccount = $toAccountID === FALSE ? null : (new BankAccountModel())->load($toAccountID);
         if($toAccount === null) {
@@ -86,7 +91,9 @@ class TransController extends Controller
         $user = UserAccountController::getCurrentUser();
         if($user !== null) {
             if(isset($_GET['submit'])) {
-                $error = $this->handleTransfer($user, $fromAccountID);
+                $toAccountStr = $_GET["toAccount"];
+                $amountStr = $_GET["amount"];
+                $error = $this->handleTransfer($user, $fromAccountID, $toAccountStr, $amountStr);
                 if($error === null) {
                     $okLocation = static::getUrl("showAccounts");
                     $this->redirect('transactionSuccess', ['message'=>"transfer successful", 'okLocation'=>$okLocation]);
@@ -98,7 +105,7 @@ class TransController extends Controller
                 }
             } else {
                 $view = new View('transTransfer');
-                echo $view->addData('$fromAccountID', $fromAccountID)->render();
+                echo $view->addData('fromAccountID', $fromAccountID)->render();
             }
         }
     }

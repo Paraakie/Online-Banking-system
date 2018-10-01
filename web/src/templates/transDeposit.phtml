@@ -5,10 +5,13 @@
     <? echo "<h2>Leaving a deposit on $fromAccountID</h2>
     <p style='color:red;'>$error</p>"?>
 
+
     <br>
-    <p1>Enter Amount you want to Deposit:</p1><br>
-    <input type="number" name="dAmount" min="0" required><br><br>
-    <input type="submit" value="deposit" name="deposit">
+    <p>Account:</p>
+    <input type="text" name="accountId" value="<? echo $accountId?>" readonly>
+    <p>Enter Amount you want to Deposit:</p>
+    <input type="number" name="amount" min="0" required><br><br>
+    <input type="submit" value="Submit">
 </form>
 
 <!---------- Body ends -------------------->

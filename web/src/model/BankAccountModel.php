@@ -143,7 +143,7 @@ class BankAccountModel extends Model
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
-            if(!$stm = $this->db->prepare("UPDATE `account` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
+            if(!$stm = $this->db->prepare("UPDATE `bank_accounts` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
                 die($this->db->error);
             }
             $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
@@ -164,7 +164,7 @@ class BankAccountModel extends Model
      */
     public function delete()
     {
-        if (!$result = $this->db->query("DELETE FROM `bank_accounts` WHERE `bank_accounts`.`id` = $this->id;")) {
+        if (!$result = $this->db->query("DELETE FROM `bank_accounts` WHERE `id` = $this->id;")) {
             die($this->db->error);
         }
 

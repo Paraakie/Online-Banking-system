@@ -36,7 +36,7 @@ class TransactionModel extends Model
 
     /**
      * @var string Type
-     * Can be 'T' = Transfer, 'W' = Withdrawal or 'D' = Deposit
+     * Can be 'W' = Withdrawal or 'D' = Deposit
      */
     private $type;
 
@@ -51,8 +51,8 @@ class TransactionModel extends Model
     public function loadByID($id)
     {
         if (!$result = $this->db->query(
-            "SELECT `accountID`, `time`, `amount`, `type` FROM `transaction` WHERE `id` = $id;")) {
-            exit();
+            "SELECT `accountID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;")) {
+            die($this->db->error);
         }
 
         $data = $result->fetch_assoc();
@@ -74,28 +74,31 @@ class TransactionModel extends Model
     {
         if (!isset($this->id)) {
             if (!$stm = $this->db->prepare(
-                "INSERT INTO `transaction`(`accountID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?)")) {
-                exit();
+                "INSERT INTO `transactions`(`accountID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?)")) {
+                die($this->db->error);
             }
-            $stm->bind_param(
+            $formattedDateTime = $this->time->format('Y-m-d H:i:s');
+            $result = $stm->bind_param(
                 "isis",
                 $this->accountID,
-                $this->time->format('Y-m-d H:i:s'),
+                $formattedDateTime,
                 $this->amount,
                 $this->type
             );
+            if (!$result) {
+                die($this->db->error);
+            }
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
-                exit("Failed to execute prepared statement");
+                die($this->db->error);
             }
-            $stm->close();
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
             if (!$stm = $this->db->prepare(
-                "UPDATE `transaction` SET `accountID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
-                exit();
+                "UPDATE `transactions` SET `accountID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
+                die($this->db->error);
             }
             $stm->bind_param(
                 "isisi",
@@ -108,7 +111,7 @@ class TransactionModel extends Model
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
-                exit("Failed to execute prepared statement");
+                die($this->db->error);
             }
         }
 
@@ -184,7 +187,7 @@ class TransactionModel extends Model
     }
 
     /**
-     * @param string $type Can be 'T' = Transfer, 'W' = Withdrawal or 'D' = Deposit
+     * @param string $type Can be 'W' = Withdrawal or 'D' = Deposit
      */
     public function setType(string $type): void
     {
