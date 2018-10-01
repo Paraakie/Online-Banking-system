@@ -137,7 +137,7 @@ $collection->attachRoute(
 //Transaction Transfer
 $collection->attachRoute(
     new Route(
-        '/transactions/transfer',
+        '/transactions/transfer/:id',
         array(
             '_controller' => 'agilman\a2\controller\TransController::createTransTransferPage',
             'methods' => 'GET',
