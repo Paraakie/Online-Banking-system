@@ -130,7 +130,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createDepositPage',
+            '_controller' => 'agilman\a2\controller\TransController::depositPage',
             'methods' => 'GET',
             'name' => 'deposit'
         )
@@ -141,7 +141,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::deposit',
+            '_controller' => 'agilman\a2\controller\TransController::depositPage',
             'methods' => 'POST',
             'name' => 'deposit'
         )
