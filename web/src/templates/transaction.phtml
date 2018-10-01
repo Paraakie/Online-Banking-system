@@ -13,7 +13,8 @@
         <th>Amount</th>
         <th>Type</th>
     </tr>
-    <?php foreach ($transactions as $transaction) { ?>
+    <?php for (; $transactions->valid(); $transactions->next()) { //couldn't get foreach to work for empty generator
+        $transaction = $transactions->current(); ?>
         <tr>
             <td><?= $transaction->getId() ?></td>
             <td><?= $transaction->getAccountID() ?></td>
