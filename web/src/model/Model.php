@@ -97,8 +97,7 @@ class Model
                                           `time` varchar(100) NOT NULL,
                                           `amount` bigint NOT NULL,
                                           `type` varchar(1) NOT NULL,
-                                          PRIMARY KEY (`id`),
-                                          FOREIGN KEY (`accountID`) REFERENCES `bank_accounts`(`id`)
+                                          PRIMARY KEY (`id`)
                                           );"
             );
 
