@@ -36,6 +36,7 @@
                 <td>{$bankAccount->getName()}</td>
                 <td>{$bankAccount->getID()}</td>
                 <td>\${$balance}</td>
+                <td><a href={$linkTo('accountDelete', ['id' => $bankAccount->getID()])}>delete</a></td>
                 <td><a href={$linkTo('deposit', ['id' => $bankAccount->getID()])}>Deposit</a></td>
                 <td><a href={$linkTo('accountDelete', ['id' => $bankAccount->getID()])}>Withdrawal</a></td>
                 <td><a href={$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}>transfer</a></td>

@@ -106,6 +106,7 @@ class AccountController extends Controller
      *  then check account existence
      */
     public function deposit($id){
+
         $user = UserAccountController::getCurrentUser();
         if($user == null) {
             //incorrect user information
@@ -117,10 +118,10 @@ class AccountController extends Controller
             $balance = $bankAccount->getBalance() + $_POST['amount'];
             $bankAccount->setBalance($balance);
             $bankAccount->save();
-            $view = new View("transDeposit");
-            $message = "Deposit amount : " .  $_POST['amount'] . "\n";
-            $message = $message . "Balance for $id : " . $bankAccount->getBalance();
-            $view->addData("message", $message)->render();
+            $view = new View("transDepositMessage");
+            $view->addData("balance", $bankAccount->getBalance());
+            $view->addData("accountId",$id);
+            echo $view->render();
         } else {
 
         }
