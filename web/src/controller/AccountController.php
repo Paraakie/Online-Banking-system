@@ -30,17 +30,17 @@ class AccountController extends Controller
     }
     /**
      * Account Create action
+     *
+     * @param string accName, custom name by user
      */
-    public function createAction()
+    public function createAction(string $accName)
     {
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
             return;
         }
         $account = new BankAccountModel();
-        $names = ['Bob','Mary','Jon','Peter','Grace'];
-        shuffle($names);
-        $account->setName($names[0]); // will come from Form data
+        $account->setName($accName); // will come from Form data
         $account->setBalance(0);
         $account->setUserId($user->getID());
         $account->save();
