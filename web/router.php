@@ -108,20 +108,6 @@ $collection->attachRoute(
 );
 
 /**
- * Delete Account
- */
-$collection->attachRoute(
-    new Route(
-        '/account/delete/:id',
-        array(
-            '_controller' => 'agilman\a2\controller\AccountController::deleteAction',
-            'methods' => 'GET',
-            'name' => 'accountDelete'
-        )
-    )
-);
-
-/**
  * Transaction Pages
  */
 //Transaction Index

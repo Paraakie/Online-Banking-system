@@ -95,6 +95,11 @@ class BankAccountModel extends Model
         return $this;
     }
 
+    public function setUserId(int $userID): void
+    {
+        $this->userID = $userID;
+    }
+
     /**
      * Loads account information from the database
      *

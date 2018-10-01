@@ -19,18 +19,13 @@ class AccountController extends Controller
      */
     public function showAccounts()
     {
-        session_start();
-        if(isset($_SESSION['userName'])) {
-            $userId = $_SESSION['userID'];
-            $user = (new UserAccountModel())->loadByID($userId);
+        $user = UserAccountController::getCurrentUser();
+        if($user !== null) {
             $accounts = $user->getBankAccounts();
             $view = new View('userHome');
             $view->addData('userName', $_SESSION['userName']);
             $view->addData('accounts', $accounts);
             echo $view->render();
-        } else {
-            header('Refresh: 3; URL=/');
-            echo "<p align=center style=color:red;>Please login...<br> Redirecting back to login page</p>";
         }
     }
     /**
@@ -38,14 +33,21 @@ class AccountController extends Controller
      */
     public function createAction()
     {
+        $user = UserAccountController::getCurrentUser();
+        if($user === null) {
+            return;
+        }
         $account = new BankAccountModel();
         $names = ['Bob','Mary','Jon','Peter','Grace'];
         shuffle($names);
         $account->setName($names[0]); // will come from Form data
+        $account->setBalance(0);
+        $account->setUserId($user->getID());
         $account->save();
         $id = $account->getId();
         $view = new View('accountCreated');
-        echo $view->addData('accountId', $id)->render();
+        $view->addData('accountId', $id);
+        echo $view->render();
     }
 
     /**
