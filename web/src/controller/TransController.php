@@ -66,9 +66,11 @@ class TransController extends Controller
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
             //correct user information and account number
-            $balance = $bankAccount->getBalance() + $_POST['amount'];
+            $amount = $_POST['amount'];
+            $balance = $bankAccount->getBalance() + $amount;
             $bankAccount->setBalance($balance);
             $bankAccount->save();
+            self::saveTransaction($id, $amount, "D");
             $view = new View("transDepositMessage");
             $view->addData("balance", $bankAccount->getBalance());
             $view->addData("accountId",$id);
