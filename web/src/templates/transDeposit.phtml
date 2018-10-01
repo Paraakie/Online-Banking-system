@@ -3,10 +3,12 @@
 
 <form style="text-align:center;padding-top:80px;" method="post">
 
-    <? echo "<p style='color:red;'>$error</p>"?>
+    <? echo "<p style='color:red;'>$message</p>"?>
     <br>
-    <p1>Enter Amount you want to Deposit:</p1><br><br>
-    <input type="number" name="dAmount" min="0" required><br><br>
+    <p>Account:</p>
+    <input type="text" name="accountId" value="<? echo $accountId?>" readonly>
+    <p>Enter Amount you want to Deposit:</p>
+    <input type="number" name="amount" min="0" required><br><br>
     <input type="submit" value="Submit">
 </form>
 
