@@ -61,9 +61,11 @@ class TransController extends Controller
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
             //correct user information and account number
-            $balance = $bankAccount->getBalance() + $_POST['amount'];
+            $amount = $_POST['amount'];
+            $balance = $bankAccount->getBalance() + $amount;
             $bankAccount->setBalance($balance);
             $bankAccount->save();
+            self::saveTransaction($id, $amount, "D");
             $view = new View("transDepositMessage");
             $view->addData("balance", $bankAccount->getBalance());
             $view->addData("accountId",$id);
@@ -124,7 +126,7 @@ class TransController extends Controller
                 $error = $this->handleTransfer($user, $fromAccountID, $toAccountStr, $amountStr);
                 if($error === null) {
                     $okLocation = static::getUrl("showAccounts");
-                    $this->redirect('transactionSuccess', ['message'=>"transfer successful", 'okLocation'=>$okLocation]);
+                    $this->transactionSuccessful("Transfer successful", $okLocation);
                 } else {
                     $view = new View('transTransfer');
                     $view->addData('fromAccountID', $fromAccountID);
@@ -191,6 +193,14 @@ class TransController extends Controller
                 echo $view->addData('fromAccount', $fromAccountID)->render();
             }
         }
+    }
+
+    private function transactionSuccessful(string $message, string $okLocation)
+    {
+        $view = new View("transactionSuccess");
+        $view->addData('message', $message);
+        $view->addData('okLocation', $okLocation);
+        echo $view->render();
     }
 
     /**
