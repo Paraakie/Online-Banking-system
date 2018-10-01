@@ -6,7 +6,8 @@
     <br>
     <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
     <? } else {
-            echo "Account $accountId closed failed";
+            echo "Account $accountId closed failed <br>";
+            echo "$message";
     ?>
     <br>
     <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
