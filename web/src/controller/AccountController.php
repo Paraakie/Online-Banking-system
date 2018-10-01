@@ -93,6 +93,7 @@ class AccountController extends Controller
             echo $view->addData('accountId', $id)->render();
         }
     }
+
     /**
      * Account Update action
      *

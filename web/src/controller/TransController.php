@@ -227,6 +227,7 @@ class TransController extends Controller
         $transaction->setAccountID($accountID);
         $transaction->setAmount($amount);
         $transaction->setType($type);
+        $transaction->setUserID(UserAccountController::getCurrentUser()->getId());
         $transaction->save();
 
     }
