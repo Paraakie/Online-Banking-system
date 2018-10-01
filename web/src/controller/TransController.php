@@ -38,13 +38,21 @@ class TransController extends Controller
     /**
      * Display the Web-page for /Transaction/Deposit/
      */
-    public function createTransDepositPage(){
+    public function createTransDepositPage(int $fromAccountID){
         $collection = new TransactionCollectionModel();
         $transactions = $collection->getTransactions();
         $view = new View('transDeposit');
         echo $view->addData('transactions', $transactions)->render();
     }
 
+
+    /**
+     * Class handleTransfer
+     *
+     * @param UserAccountModel $user
+     * @param int $fromAccountID
+     * @return null|string
+     */
     private function handleTransfer(UserAccountModel $user, int $fromAccountID, $toAccountStr, $amountStr): ?string
     {
         $fromAccount = $user->getBankAccountByID($fromAccountID);
@@ -105,11 +113,29 @@ class TransController extends Controller
     /**
      * Display the Web-page for /Transaction/Withdrawal/
      */
-    public function createTransWithdrawalPage(){
-        $collection = new TransactionCollectionModel();
-        $transactions = $collection->getTransactions();
-        $view = new View('transWithdrawal');
-        echo $view->addData('transactions', $transactions)->render();
+    public function createTransWithdrawalPage(int $fromAccountID){
+        $user = UserAccountController::getCurrentUser();
+        if($user !== null){
+            if(isset($_GET['withdrawal'])){
+                $error = $this->handleWithdrawal($user, $fromAccountID);
+                if($error === null) {
+                    $okLocation = static::getUrl("showAccounts");
+                    $this->redirect('transactionSuccess', ['message'=>"withdrawal successful", 'okLocation'=>$okLocation]);
+                }
+                else{
+                    $view = new View('transWithdrawal');
+                    $view->addData('fromAccountID', $fromAccountID);
+                    $view->addData('error', $error);
+                    echo $view->render();
+                }
+            }
+            else {
+                $collection = new TransactionCollectionModel();
+                $transactions = $collection->getTransactions();
+                $view = new View('transWithdrawal');
+                echo $view->addData('transactions', $transactions)->render();
+            }
+        }
     }
 
     /**
