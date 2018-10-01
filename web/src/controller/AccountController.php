@@ -55,14 +55,18 @@ class AccountController extends Controller
      */
     public function deleteAction($id)
     {
-        session_start();
-        $bankAccount = (new BankAccountModel())->load($id);
-        if($bankAccount != null && isset($_SESSION['userName']) && $_SESSION['userID'] == $bankAccount->getUserId()) {
+        $user = UserAccountController::getCurrentUser();
+        if($user == null) {
+            return;
+        }
+        $bankAccount = $user->getBankAccountByID($id);
+        if($bankAccount !== null) {
             $bankAccount->delete();
             $view = new View('accountClosed');
             $view->addData('deleted', true);
             echo $view->addData('accountId', $id)->render();
         } else {
+            echo "hello world";
             $view = new View('accountClosed');
             $view->addData('deleted', false);
             echo $view->addData('accountId', $id)->render();
