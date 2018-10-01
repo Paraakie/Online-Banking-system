@@ -172,6 +172,31 @@ $collection->attachRoute(
     )
 );
 
+/**
+ *  Deposit Routers
+ */
+
+$collection->attachRoute(
+    new Route(
+        '/account/deposit/:id',
+        array(
+            '_controller' => 'agilman\a2\controller\AccountController::createDepositPage',
+            'methods' => 'GET',
+            'name' => 'deposit'
+        )
+    )
+);
+
+$collection->attachRoute(
+    new Route(
+        '/account/deposit/:id',
+        array(
+            '_controller' => 'agilman\a2\controller\AccountController::deposit',
+            'methods' => 'POST',
+            'name' => 'deposit'
+        )
+    )
+);
 
 
 $router = new Router($collection);
