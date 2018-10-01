@@ -98,7 +98,7 @@ class Model
                                           `amount` bigint NOT NULL,
                                           `type` varchar(1) NOT NULL,
                                           PRIMARY KEY (`id`),
-                                          FOREIGN KEY (`accountID`) REFERENCES `user_accounts`(`id`)
+                                          FOREIGN KEY (`accountID`) REFERENCES `bank_accounts`(`id`)
                                           );"
             );
 
