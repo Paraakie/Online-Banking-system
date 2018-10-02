@@ -16,14 +16,28 @@ class TransController extends Controller
     /**
      * Display the Web-page of /Transaction/
      */
-    public function createTransIndexPage(){
+    public function createTransactionsPage(){
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
             return;
         }
-        $transactions = $user->getTransactions();
-        $view = new View('transaction');
-        echo $view->addData('transactions', $transactions)->render();
+        if(isset($_GET['bankAccountID'])) {
+            $bankAccountID = $_GET['bankAccountID'];
+            $bankAccount = $user->getBankAccountByID($bankAccountID);
+            if($bankAccount != null) {
+                $transactions = $bankAccount->getTransactions();
+                $view = new View('transaction');
+                $view->addData('transactions', $transactions);
+                echo $view->render();
+            } else {
+                $this->redirect('showAccounts');
+            }
+        } else {
+            $transactions = $user->getTransactions();
+            $view = new View('transaction');
+            $view->addData('transactions', $transactions);
+            echo $view->render();
+        }
     }
 
     /**

@@ -128,9 +128,9 @@ $collection->attachRoute(
     new Route(
         '/transactions/',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createTransIndexPage',
+            '_controller' => 'agilman\a2\controller\TransController::createTransactionsPage',
             'methods' => 'GET',
-            'name' => 'TransIndex'
+            'name' => 'transactions'
         )
     )
 );

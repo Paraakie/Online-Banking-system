@@ -36,10 +36,11 @@
                 <td>{$bankAccount->getID()}</td>
                 <td>{$bankAccount->getName()}</td>
                 <td>\${$balance}</td>
-                <td><a href={$linkTo('accountDelete', ['id' => $bankAccount->getID()])}>Delete</a></td>
-                <td><a href={$linkTo('deposit', ['id' => $bankAccount->getID()])}>Deposit</a></td>
-                <td><a href={$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}>Withdrawal</a></td>
-                <td><a href={$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}>Transfer</a></td>
+                <td><a href=\"{$linkTo('accountDelete', ['id' => $bankAccount->getID()])}\">Delete</a></td>
+                <td><a href=\"{$linkTo('deposit', ['id' => $bankAccount->getID()])}\">Deposit</a></td>
+                <td><a href=\"{$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}\">Withdrawal</a></td>
+                <td><a href=\"{$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}\">Transfer</a></td>
+                <td><a href=\"{$linkTo('transactions')}?bankAccountID={$bankAccount->getID()}\">Transactions</td>
             </tr>
         ";
     }
@@ -49,7 +50,7 @@
     <br>
     <a href="<?= $linkTo('accountCreate'); ?>">Create Bank Account</a>
     <br><br>
-    <a href="<?= $linkTo('TransIndex'); ?>">View All Transactions</a>
+    <a href="<?= $linkTo('transactions'); ?>">View All Transactions</a>
 </div>
 
 <?php include "footer.phtml" ?>
