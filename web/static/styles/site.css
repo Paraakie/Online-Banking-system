@@ -1,6 +1,25 @@
-
-body {
+/** Make footer sticked at the bottom of the page, copied from https://css-tricks.com/snippets/css/sticky-footer/*/
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
     background-color: lightgrey;
+}
+.page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -30px;
+}
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+.site-footer, .page-wrap:after {
+    height: 10px;
+}
+.site-footer {
+    text-align: center;
 }
 
 h1 {
