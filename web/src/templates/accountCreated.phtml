@@ -1,7 +1,19 @@
 <?php include "header.phtml" ?>
 <!---------- Body starts --------------->
-Account <?= $accountId ?> created successfully. <br>
+<form style="text-align:center;padding-top:80px;" method="GET">
+    <? echo "<h2>Creating new account</h2>
+    <p style='color:red;'>$error</p>"?>
+
+    <br>
+    <p1>Enter Name of new Account:</p1>
+    <br>
+    <input type="text" name="accName" required><br><br>
+    <input type="submit" value="Submit" name="submit">
+</form>
+
+<br>
 <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
 <br>
-    <!---------- Body ends -------------------->
+
+<!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>

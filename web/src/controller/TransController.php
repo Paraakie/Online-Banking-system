@@ -66,8 +66,10 @@ class TransController extends Controller
                 $amount = intval(floatval($_POST['amount']) * 100);
                 $balance = $bankAccount->getBalance() + $amount;
                 $bankAccount->setBalance($balance);
+
                 $bankAccount->save();
                 static::generateTransaction($bankAccount->getId(), $amount, "D");
+
                 $view = new View("transDepositMessage");
                 $view->addData("balance", $bankAccount->getBalance() / 100);
                 $view->addData("fromAccountID",$id);
@@ -214,7 +216,7 @@ class TransController extends Controller
      */
     private function transactionSuccessful(string $message, string $okLocation)
     {
-        $view = new View("transactionSuccess");
+        $view = new View("successMessage");
         $view->addData('message', $message);
         $view->addData('okLocation', $okLocation);
         echo $view->render();

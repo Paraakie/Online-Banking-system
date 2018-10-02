@@ -30,22 +30,27 @@ class AccountController extends Controller
     }
 
     /**
-     * enter new Account Name here
-     * A page that simply reads in a string from the user     *
+     * This method handles the Account Creation
+     *
+     * @param UserAccountController $user
+     * @param string $accName
+     * @return null|string
      */
-    public function enterAccName(){
-        if(isset($_GET['submit'])) {
+    public function handleAccountCreation(UserAccountModel $user, string $accName){
 
-            $name = $_GET('accName');
+        if($name = ""){
+            return "Name is empty";
+        }
 
-            $view = new View("accountCreated");
-            $view->addData("newAccName", $name);
-            echo $view->render();
-        }
-        else {
-            $view = new View('enterAccName');
-            echo $view->render();
-        }
+        $account = new BankAccountModel();
+        $account->setName($accName); // will come from Form data
+        $account->setBalance(0);
+        $account->setUserId($user->getID());
+        $account->save();
+        $id = $account->getId();
+
+
+        return null;
     }
 
     /**
@@ -53,20 +58,36 @@ class AccountController extends Controller
      *
      * @param string accName, custom name by user
      */
-    public function createAction(string $accName)
+    public function createAction()
     {
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
             return;
         }
-        $account = new BankAccountModel();
-        $account->setName($accName); // will come from Form data
-        $account->setBalance(0);
-        $account->setUserId($user->getID());
-        $account->save();
-        $id = $account->getId();
-        $view = new View('accountCreated');
-        $view->addData('accountId', $id);
+        if(isset($_GET['submit'])) {
+            $name = $_GET['accName'];
+            $error = $this->handleAccountCreation($user, $name);
+            if($error === null){
+                $okLocation = static::getUrl("showAccounts");
+                $this->creationSuccessful("Account $name was successful!", $okLocation);
+            }
+            else {
+                $view = new View('accountCreated');
+                $view->addData('error', $error);
+                echo $view->render();
+            }
+        }
+        else{
+            $view = new View('accountCreated');
+            echo $view->render();
+        }
+    }
+
+    private function creationSuccessful(string $message, string $okLocation)
+    {
+        $view = new View("successMessage");
+        $view->addData('message', $message);
+        $view->addData('okLocation', $okLocation);
         echo $view->render();
     }
 

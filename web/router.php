@@ -34,26 +34,12 @@ $collection->attachRoute(
 );
 
 /**
- * User Enters Name here before creating an account
+ * Create an account,
+ * after the enters a name 'enterAccountName'
  */
 $collection->attachRoute(
     new Route(
-        '/account/enterAccName',
-        array(
-            '_controller' => 'agilman\a2\controller\AccountController::enterAccName',
-            'methods' => 'GET',
-            'name' => 'enterAccName'
-        )
-    )
-);
-
-
-/**
- * Create an account, always called after enter 'enterAccountName'
- */
-$collection->attachRoute(
-    new Route(
-        '/account/create/:name',
+        '/account/create',
         array(
         '_controller' => 'agilman\a2\controller\AccountController::createAction',
         'methods' => 'GET',
@@ -62,6 +48,20 @@ $collection->attachRoute(
     )
 );
 
+$collection->attachRoute(
+    new Route(
+        '/account/create',
+        array(
+            '_controller' => 'agilman\a2\controller\AccountController::createAction',
+            'methods' => 'POST',
+            'name' => 'accountCreate'
+        )
+    )
+);
+
+/**
+ * Delete an account
+ */
 $collection->attachRoute(
     new Route(
         '/account/delete/:id',
@@ -73,6 +73,9 @@ $collection->attachRoute(
     )
 );
 
+/**
+ * Update an Account
+ */
 $collection->attachRoute(
     new Route(
         '/account/update/:id',
