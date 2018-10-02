@@ -23,12 +23,15 @@ class UserAccountModel extends Model
     public function loadByID(int $id)
     {
         if (!$result = $this->db->query("SELECT `name`, `password` FROM `user_accounts` WHERE `id`=$id;")) {
-            return null;
+            die($this->db->error);
         }
 
-        $result = $result->fetch_assoc();
-        $this->name = $result['name'];
-        $this->password = $result['password'];
+        $data = $result->fetch_assoc();
+        if($data === null) {
+            return null;
+        }
+        $this->name = $data['name'];
+        $this->password = $data['password'];
         $this->id = $id;
 
         return $this;
@@ -46,13 +49,12 @@ class UserAccountModel extends Model
         if (!$selectAccountByNameAndPassword = $this->db->prepare(
             "SELECT `id` FROM `user_accounts` WHERE `name`=? AND `password`=?;")) {
 
-            exit("Failed to make prepared statement");
+            die($this->db->error);
         }
         $selectAccountByNameAndPassword->bind_param("ss", $name, $password);
         if (!$result = $selectAccountByNameAndPassword->execute()) {
             $selectAccountByNameAndPassword->close();
-            // throw new ...
-            exit("Failed to execute prepared statement");
+            die($this->db->error);
         }
         $selectAccountByNameAndPassword->bind_result($id);
         if($selectAccountByNameAndPassword->fetch()) {
@@ -77,13 +79,13 @@ class UserAccountModel extends Model
         if (!$selectAccountByName = $this->db->prepare(
             "SELECT `id`, `password` FROM `user_accounts` WHERE `name`=?;")) {
 
-            exit("Failed to make prepared statement");
+            die($this->db->error);
         }
         $selectAccountByName->bind_param("s", $name);
         if (!$result = $selectAccountByName->execute()) {
             $selectAccountByName->close();
             // throw new ...
-            exit("Failed to execute prepared statement");
+            die($this->db->error);
         }
 
         $selectAccountByName->bind_result($id, $password);
@@ -110,25 +112,25 @@ class UserAccountModel extends Model
         $password = $this->password;
         if (!isset($this->id)) {
             if (!$stm = $this->db->prepare("INSERT INTO `user_accounts`(`name`, `password`) VALUES(?, ?)")) {
-                exit();
+                die($this->db->error);
             }
             $stm->bind_param("ss", $name, $password);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
-                exit("Failed to execute prepared statement");
+                die($this->db->error);
             }
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
             if (!$stm = $this->db->prepare("UPDATE `user_accounts` SET `name`=?, `password`=? WHERE `id`=?;")) {
-                exit();
+                die($this->db->error);
             }
             $stm->bind_param("ssi", $name, $password, $this->id);
             $result = $stm->execute();
             $stm->close();
             if (!$result) {
-                exit("Failed to execute prepared statement");
+                die($this->db->error);
             }
         }
 

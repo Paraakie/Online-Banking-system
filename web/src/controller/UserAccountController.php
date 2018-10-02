@@ -37,7 +37,8 @@ class UserAccountController extends Controller
         }
 
         $userAccount->setName($name);
-        $userAccount->setPassword($password);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $userAccount->setPassword($passwordHash);
         $userAccount->save();
         session_start();
         $_SESSION['userID'] = $userAccount->getId();
@@ -74,8 +75,8 @@ class UserAccountController extends Controller
      */
     private function handleLogin(string $userName, string $userPassword): ?string
     {
-        $user = (new UserAccountModel())->loadByNameAndPassword($userName, $userPassword);
-        if($user !== null) {
+        $user = (new UserAccountModel())->loadByName($userName);
+        if($user !== null && password_verify($userPassword, $user->getPassword())) {
             session_start();
             $_SESSION['userID'] = $user->getId();
             return null;
@@ -96,8 +97,8 @@ class UserAccountController extends Controller
                 $this->redirect('showAccounts');
             } else {
                 $view = new View('login');
-                $view->addData('userName', $_SESSION['userName']);
-                $view->addData('userPassword', $_SESSION['userPassword']);
+                $view->addData('userName', $userName);
+                $view->addData('userPassword', $userPassword);
                 echo $view->addData("error", $error)->render();
             }
         }
