@@ -206,4 +206,20 @@ class UserAccountModel extends Model
         }
         return $result->num_rows == 1 ? (new BankAccountModel())->load($bankAccountID) : null;
     }
+
+    /**
+     * Gets all transactions make with this user
+     */
+    public function getTransactions(): \Generator
+    {
+        if (!$result = $this->db->query("SELECT `id` FROM `transactions` WHERE `userID`=$this->id;")) {
+            die($this->db->error);
+        }
+        $transactionIds = array_column($result->fetch_all(), 0);
+        foreach ($transactionIds as $id) {
+            // Use a generator to save on memory/resources
+            // load accounts from DB one at a time only when required
+            yield (new TransactionModel())->loadByID($id);
+        }
+    }
 }

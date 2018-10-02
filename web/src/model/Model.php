@@ -94,6 +94,7 @@ class Model
                 "CREATE TABLE `transactions` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
                                           `accountID` int(8) unsigned NOT NULL,
+                                          `userID` int(8) unsigned NOT NULL,
                                           `time` varchar(100) NOT NULL,
                                           `amount` bigint NOT NULL,
                                           `type` varchar(1) NOT NULL,

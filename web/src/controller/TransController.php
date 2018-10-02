@@ -21,11 +21,13 @@ class TransController extends Controller
         if($user === null) {
             return;
         }
+        /*
         $bankAccounts = $user->getBankAccounts();
         $transactions = new \AppendIterator();
         foreach($bankAccounts as $bankAccount) {
             $transactions->append($bankAccount->getTransactions());
-        }
+        }*/
+        $transactions = $user->getTransactions();
         $view = new View('transaction');
         echo $view->addData('transactions', $transactions)->render();
     }
@@ -61,7 +63,7 @@ class TransController extends Controller
         }
         $bankAccount = $user->getBankAccountByID($id);
         if($bankAccount !== null) {
-            if(isset($_POST['withdrawal'])) {
+            if(isset($_POST['submit'])) {
                 //correct user information and account number
                 $amount = intval(floatval($_POST['amount']) * 100);
                 $balance = $bankAccount->getBalance() + $amount;
@@ -235,6 +237,7 @@ class TransController extends Controller
         $transaction->setAccountID($accountID);
         $transaction->setAmount($amount);
         $transaction->setType($type);
+        $transaction->setUserID(UserAccountController::getCurrentUser()->getId());
         $transaction->save();
 
     }

@@ -25,6 +25,11 @@ class TransactionModel extends Model
     private $accountID;
 
     /**
+     * @var integer User ID
+     */
+    private $userID;
+
+    /**
      * @var DateTime Time
      */
     private $time;
@@ -51,12 +56,13 @@ class TransactionModel extends Model
     public function loadByID($id)
     {
         if (!$result = $this->db->query(
-            "SELECT `accountID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;")) {
+            "SELECT `accountID`, `userID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;")) {
             die($this->db->error);
         }
 
         $data = $result->fetch_assoc();
         $this->accountID = intval($data['accountID']);
+        $this->userID = intval($data['userID']);
         $this->time = new DateTime($data['time']);
         $this->amount = $data['amount'];
         $this->type = $data['type'];
@@ -74,13 +80,14 @@ class TransactionModel extends Model
     {
         if (!isset($this->id)) {
             if (!$stm = $this->db->prepare(
-                "INSERT INTO `transactions`(`accountID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?)")) {
+                "INSERT INTO `transactions`(`accountID`, `userID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?, ?)")) {
                 die($this->db->error);
             }
             $formattedDateTime = $this->time->format('Y-m-d H:i:s');
             $result = $stm->bind_param(
-                "isis",
+                "iisis",
                 $this->accountID,
+                $this->userID,
                 $formattedDateTime,
                 $this->amount,
                 $this->type
@@ -97,12 +104,13 @@ class TransactionModel extends Model
         } else {
             // saving existing account - perform UPDATE
             if (!$stm = $this->db->prepare(
-                "UPDATE `transactions` SET `accountID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
+                "UPDATE `transactions` SET `accountID`=?, `userID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
                 die($this->db->error);
             }
             $stm->bind_param(
-                "isisi",
+                "iisisi",
                 $this->accountID,
+                $this->userID,
                 $this->time->format('Y-m-d H:i:s'),
                 $this->amount,
                 $this->type,
@@ -139,6 +147,15 @@ class TransactionModel extends Model
     }
 
     /**
+     * @return int User ID
+     */
+    public function getUserID() : int
+    {
+        return $this->userID;
+    }
+
+
+    /**
      * @return DateTime The time the transaction was created
      */
     public function getTime(): DateTime
@@ -168,6 +185,14 @@ class TransactionModel extends Model
     public function setAccountID(int $accountID): void
     {
         $this->accountID = $accountID;
+    }
+
+    /**
+     * @param int $userID The current user's ID
+     */
+    public function setUserID(int $userID) : void
+    {
+        $this->userID = $userID;
     }
 
     /**

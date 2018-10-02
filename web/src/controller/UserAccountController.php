@@ -68,16 +68,13 @@ class UserAccountController extends Controller
     }
 
     /**
-     * @param string $name
-     * @param string $password
+     * Logs in if the userName and userPassword in $_SESSION match a user account
      * @return null|string The error message if an error occurred, otherwise null
      */
-    private function handleLogin(string $name, string $password): ?string
+    private function handleLogin(): ?string
     {
-        $user = (new UserAccountModel())->loadByNameAndPassword($name, $password);
+        $user = (new UserAccountModel())->loadByNameAndPassword($_SESSION['userName'], $_SESSION['userPassword']);
         if($user !== null) {
-            session_start();
-            $_SESSION['userName'] = $name;
             $_SESSION['userID'] = $user->getId();
             return null;
         } else {
@@ -89,14 +86,17 @@ class UserAccountController extends Controller
      * Handles the logic for the login page
      */
     public function login(){
+        session_start();
+        $_SESSION['userName'] = $_POST["userName"];
+        $_SESSION['userPassword'] = $_POST["userPassword"];
         if (isset($_POST['validateLogin'])) {
-            $name = $_POST["userName"];
-            $password = $_POST["userPassword"];
-            $error = $this->handleLogin($name, $password);
+            $error = $this->handleLogin();
             if($error === null) {
                 $this->redirect('showAccounts');
             } else {
                 $view = new View('login');
+                $view->addData('userName', $_SESSION['userName']);
+                $view->addData('userPassword', $_SESSION['userPassword']);
                 echo $view->addData("error", $error)->render();
             }
         }
@@ -115,7 +115,7 @@ class UserAccountController extends Controller
     public static function getCurrentUser(): ?UserAccountModel
     {
         session_start();
-        if(isset($_SESSION['userName'])) {
+        if(isset($_SESSION['userID'])) {
             $userId = $_SESSION['userID'];
             return (new UserAccountModel())->loadByID($userId);
         } else {
