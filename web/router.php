@@ -74,19 +74,6 @@ $collection->attachRoute(
 );
 
 /**
- * Update an Account
- */
-$collection->attachRoute(
-    new Route(
-        '/account/update/:id',
-        array(
-        '_controller' => 'agilman\a2\controller\AccountController::updateAction',
-        'methods' => 'GET',
-        'name' => 'accountUpdate'
-        )
-    )
-);
-/**
  * our login router
  */
 $collection->attachRoute(

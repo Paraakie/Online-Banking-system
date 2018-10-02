@@ -32,9 +32,9 @@ class AccountController extends Controller
     /**
      * This method handles the Account Creation
      *
-     * @param UserAccountController $user
-     * @param string $accName
-     * @return null|string
+     * @param UserAccountModel $user The user to create a bank account for
+     * @param string $accName The name of the bank account e.g. Savings
+     * @return null|string An error message if an error occurred, null otherwise
      */
     public function handleAccountCreation(UserAccountModel $user, string $accName){
 
@@ -52,9 +52,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Account Create action
-     *
-     * @param string accName, custom name by user
+     * Account Create page action
      */
     public function createAction()
     {
@@ -67,7 +65,7 @@ class AccountController extends Controller
             $error = $this->handleAccountCreation($user, $name);
             if($error === null){
                 $okLocation = static::getUrl("showAccounts");
-                $this->creationSuccessful("Account $name was successful!", $okLocation);
+                $this->creationSuccessful("Account $name was created successfully!", $okLocation);
             }
             else {
                 $view = new View('accountCreated');
@@ -132,20 +130,5 @@ class AccountController extends Controller
             echo $view->addData('accountId', $id)->render();
         }
     }
-
-    /**
-     * Account Update action
-     *
-     * @param int $id Account id to be updated
-     */
-    public function updateAction($id)
-    {
-        $account = (new BankAccountModel())->load($id);
-        $account->setName('Joe')->save(); // new name will come from Form data
-    }
-
-   
-
-
 }
 
