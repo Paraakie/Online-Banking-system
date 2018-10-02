@@ -59,7 +59,11 @@ class UserAccountController extends Controller
                 $this->redirect("showAccounts");
             } else {
                 $view = new View('signUp');
-                echo $view->addData("error", $error)->render();
+                $view->addData('error', $error);
+                $view->addData('userName', $name);
+                $view->addData('userPassword', $password);
+                $view->addData('userPassword2', $password2);
+                echo $view->render();
             }
         } else {
             $view = new View('signUp');

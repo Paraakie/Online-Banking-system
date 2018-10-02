@@ -8,14 +8,14 @@
 
     <? echo "<p style='color:red;'>$error</p>"?>
     <br>
-    <p1>User Name</p1><br>
-    <input type="text" name="userName"><br><br>
-    <p1>Password</p1><br>
-    <input type="password" name="userPassword"><br><br>
-    <p1>Re-Enter Password</p1><br>
-    <input type="password" name="userPassword2"><br><br>
-    <input type="submit" value="Sign Up" name="signUp">
-    <input type="reset" value="Reset">
+    <p>User Name<br>
+    <input type="text" name="userName" value=<?= $userName ?>></p>
+    <p>Password<br>
+    <input type="password" name="userPassword" value=<?= $userPassword ?>></p>
+    <p>Re-Enter Password<br>
+    <input type="password" name="userPassword2" value=<?= $userPassword2 ?>></p>
+    <p><input type="submit" value="Sign Up" name="signUp">
+    <input type="reset" value="Reset"></p>
 </form>
 </div>
 <?php include "footer.phtml" ?>
