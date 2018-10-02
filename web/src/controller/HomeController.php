@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function indexAction()
     {
         session_start();
-        if(isset($_SESSION['userName'])){
+        if(isset($_SESSION['userID'])){
             $this->redirect('showAccounts');
         } else {
             $this->redirect('login');
