@@ -4,12 +4,12 @@
 
     <? echo "<p style='color:red;'>$error</p>"?>
     <br>
-    <p1>User Name</p1><br>
-    <input type="text" name="userName" value=<?= $userName ?>><br>
-    <p1>Password</p1><br>
-    <input type="password" name="userPassword" value=<?= $userPassword ?>><br><br>
-    <input type="submit" value="Login" name="validateLogin">
-    <input type="submit" value="Sign up" name="signUp">
+    <p>User Name<br>
+    <input type="text" name="userName" value=<?= $userName ?>></p>
+    <p>Password<br>
+    <input type="password" name="userPassword" value=<?= $userPassword ?>></p>
+    <p><input type="submit" value="Login" name="validateLogin">
+    <input type="submit" value="Sign up" name="signUp"></p>
 </form>
 
 <?php include "footer.phtml" ?>

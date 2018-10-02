@@ -21,12 +21,6 @@ class TransController extends Controller
         if($user === null) {
             return;
         }
-        /*
-        $bankAccounts = $user->getBankAccounts();
-        $transactions = new \AppendIterator();
-        foreach($bankAccounts as $bankAccount) {
-            $transactions->append($bankAccount->getTransactions());
-        }*/
         $transactions = $user->getTransactions();
         $view = new View('transaction');
         echo $view->addData('transactions', $transactions)->render();
@@ -145,6 +139,8 @@ class TransController extends Controller
                     $view = new View('transTransfer');
                     $view->addData('fromAccountID', $fromAccountID);
                     $view->addData('error', $error);
+                    $view->addData('amount', $amountStr);
+                    $view->addData('toAccount', $toAccountStr);
                     echo $view->render();
                 }
             } else {

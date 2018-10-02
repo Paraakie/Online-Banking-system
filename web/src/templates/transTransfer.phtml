@@ -8,9 +8,9 @@
     <p>Account to transfer from:<br>
     <input type="text" name="accountId" value="<? echo $fromAccountID?>" readonly></p>
     <p>Amount to Transfer:<br>
-    <input type="number" step="0.01" name="amount" min="0" required></p>
+    <input type="number" step="0.01" name="amount" value="<? echo $amount?>" min="0" required></p>
     <p>Account to Transfer to:<br>
-    <input type="text" name="toAccount" required></p>
+    <input type="text" name="toAccount" value="<? echo $toAccount?>" required></p>
     <p><input type="submit" value="Submit" name="submit"></p>
 </form>
 

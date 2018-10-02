@@ -23,7 +23,7 @@ class AccountController extends Controller
         if($user !== null) {
             $accounts = $user->getBankAccounts();
             $view = new View('userHome');
-            $view->addData('userName', $_SESSION['userName']);
+            $view->addData('userName', $user->getName());
             $view->addData('accounts', $accounts);
             echo $view->render();
         }
@@ -47,8 +47,6 @@ class AccountController extends Controller
         $account->setBalance(0);
         $account->setUserId($user->getID());
         $account->save();
-        $id = $account->getId();
-
 
         return null;
     }

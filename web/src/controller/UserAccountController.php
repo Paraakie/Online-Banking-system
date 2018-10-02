@@ -40,7 +40,6 @@ class UserAccountController extends Controller
         $userAccount->setPassword($password);
         $userAccount->save();
         session_start();
-        $_SESSION['userName'] = $name;
         $_SESSION['userID'] = $userAccount->getId();
 
         return null;
@@ -68,13 +67,16 @@ class UserAccountController extends Controller
     }
 
     /**
-     * Logs in if the userName and userPassword in $_SESSION match a user account
+     * Logs in if userName and userPassword match a user account
+     * @param string $userName
+     * @param string $userPassword
      * @return null|string The error message if an error occurred, otherwise null
      */
-    private function handleLogin(): ?string
+    private function handleLogin(string $userName, string $userPassword): ?string
     {
-        $user = (new UserAccountModel())->loadByNameAndPassword($_SESSION['userName'], $_SESSION['userPassword']);
+        $user = (new UserAccountModel())->loadByNameAndPassword($userName, $userPassword);
         if($user !== null) {
+            session_start();
             $_SESSION['userID'] = $user->getId();
             return null;
         } else {
@@ -86,11 +88,10 @@ class UserAccountController extends Controller
      * Handles the logic for the login page
      */
     public function login(){
-        session_start();
-        $_SESSION['userName'] = $_POST["userName"];
-        $_SESSION['userPassword'] = $_POST["userPassword"];
+        $userName = $_POST["userName"];
+        $userPassword = $_POST["userPassword"];
         if (isset($_POST['validateLogin'])) {
-            $error = $this->handleLogin();
+            $error = $this->handleLogin($userName, $userPassword);
             if($error === null) {
                 $this->redirect('showAccounts');
             } else {
