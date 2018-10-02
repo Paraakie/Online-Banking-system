@@ -4,13 +4,13 @@
     echo "Account $accountId closed successfully";
     ?>
     <br>
-    <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
+    <a href="<?= $linkTo('showAccounts'); ?>">Back</a>
     <? } else {
-            echo "Account $accountId closed failed <br>";
+            echo "Closing Account $accountId failed <br>";
             echo "$message";
     ?>
     <br>
-    <a href=<?= $linkTo('showAccounts'); ?>>Back</a>
+    <a href="<?= $linkTo('showAccounts'); ?>">Back</a>
     <? }?>
     <!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>

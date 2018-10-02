@@ -9,11 +9,11 @@
     <? echo "<p style='color:red;'>$error</p>"?>
     <br>
     <p>User Name<br>
-    <input type="text" name="userName" value=<?= $userName ?>></p>
+    <input type="text" name="userName" value="<?= $userName ?>" required></p>
     <p>Password<br>
-    <input type="password" name="userPassword" value=<?= $userPassword ?>></p>
+    <input type="password" name="userPassword" value="<?= $userPassword ?>" required></p>
     <p>Re-Enter Password<br>
-    <input type="password" name="userPassword2" value=<?= $userPassword2 ?>></p>
+    <input type="password" name="userPassword2" value="<?= $userPassword2 ?>" required></p>
     <p><input type="submit" value="Sign Up" name="signUp">
     <input type="reset" value="Reset"></p>
 </form>
