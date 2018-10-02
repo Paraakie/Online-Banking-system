@@ -1,7 +1,10 @@
 <?php
 /**
  * 159.339 Internet Programming 2017.2
- * Student ID: 99999999
+ * 15031719, Sven Gerhards
+ * ->isaac
+ * ->austin
+ *
  * Assignment: 2   Date: 01/09/17
  * System: PHP 7.1
  * Code guidelines: PSR-1, PSR-2
