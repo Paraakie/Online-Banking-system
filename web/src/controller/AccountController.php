@@ -19,8 +19,13 @@ class AccountController extends Controller
      */
     public function showAccounts()
     {
+        /**
+         * @var UserAccountModel this object is used to check user information
+         */
         $user = UserAccountController::getCurrentUser();
+        //User authenticity
         if($user !== null) {
+            //User is logged in
             $accounts = $user->getBankAccounts();
             $view = new View('userHome');
             $view->addData('userName', $user->getName());
@@ -42,11 +47,15 @@ class AccountController extends Controller
             return "Name is empty";
         }
 
+        /**
+         * @var BankAccountModel, when user successfully created a new account, this object is created which contains all
+         * information about the new account.
+         */
         $account = new BankAccountModel();
         $account->setName($accName); // will come from Form data
         $account->setBalance(0);
         $account->setUserId($user->getID());
-        $account->save();
+        $account->save(); //this fucntion will insert a new row to the database
 
         return null;
     }
@@ -56,31 +65,42 @@ class AccountController extends Controller
      */
     public function createAction()
     {
+        //User Authenticity
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
             return;
         }
+        //User clicked submit button
         if(isset($_GET['submit'])) {
             $name = $_GET['accName'];
             $error = $this->handleAccountCreation($user, $name);
             if($error === null){
+                //Account created successfully
                 $okLocation = static::getUrl("showAccounts");
                 $this->creationSuccessful("Account $name was created successfully!", $okLocation);
             }
             else {
+                //Error encountered
                 $view = new View('accountCreated');
                 $view->addData('error', $error);
                 echo $view->render();
             }
         }
+        //Render the account creation page
         else{
             $view = new View('accountCreated');
             echo $view->render();
         }
     }
 
+    /**
+     * This function is used to render the page after successfully created a new account
+     * @param string $message Contains the successful message with new account's name
+     * @param string $okLocation URL back to the user home page
+     */
     private function creationSuccessful(string $message, string $okLocation)
     {
+        //Render the page
         $view = new View("successMessage");
         $view->addData('message', $message);
         $view->addData('okLocation', $okLocation);
@@ -98,7 +118,7 @@ class AccountController extends Controller
          * @var UserAccountModel this object is used to check user information
          */
         $user = UserAccountController::getCurrentUser();
-        /** user hasn't logged in */
+        // user hasn't logged in
         if($user == null) {
             return;
         }
@@ -107,24 +127,23 @@ class AccountController extends Controller
          * @var BankAccountModel this object is used to check current user's authority to the account
          */
         $bankAccount = $user->getBankAccountByID($id);
-
-        /** current user is legit to modify the account*/
+        //current user is legit to modify the account
         if($bankAccount !== null ) {
             if ($bankAccount->getBalance() != 0) {
-                /** account has money left, delete failure*/
+                // account has money left, delete failure
                 $view = new View('accountClosed');
                 $view->addData('deleted', false);
                 $view->addData('message', "You still have money left in your account!");
                 echo $view->addData('accountId', $id)->render();
             } else {
-                /** account deleted successfully */
+                // account deleted successfully
                 $bankAccount->delete();
                 $view = new View('accountClosed');
                 $view->addData('deleted', true);
                 echo $view->addData('accountId', $id)->render();
             }
         } else {
-            /**  current user is not legit to modify this account*/
+            // current user is not legit to modify this account
             $view = new View('accountClosed');
             $view->addData('deleted', false);
             echo $view->addData('accountId', $id)->render();
