@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\controller;
 
 /**
@@ -17,7 +18,7 @@ class HomeController extends Controller
     {
         //session checking
         session_start();
-        if(isset($_SESSION['userID'])){
+        if (isset($_SESSION['userID'])) {
             //user is logged in, redirect to the home page
             $this->redirect('showAccounts');
         } else {
@@ -29,7 +30,8 @@ class HomeController extends Controller
     /**
      *  Logout Action
      */
-    public function logout(){
+    public function logout()
+    {
         //Deleting session
         session_start();
         session_destroy();

@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\model;
 
 
@@ -134,7 +135,7 @@ class BankAccountModel extends Model
         }
 
         $data = $result->fetch_assoc();
-        if($data === null) {
+        if ($data === null) {
             return null;
         }
         $this->name = $data['name'];
@@ -147,14 +148,13 @@ class BankAccountModel extends Model
 
     /**
      * Saves account information to the database
-
      * @return $this BankAccountModel
      */
     public function save(): BankAccountModel
     {
         if (!isset($this->id)) {
             // New account - Perform INSERT
-            if(!$stm = $this->db->prepare("INSERT INTO `bank_accounts` VALUES (NULL, ?, ?, ?);")) {
+            if (!$stm = $this->db->prepare("INSERT INTO `bank_accounts` VALUES (NULL, ?, ?, ?);")) {
                 die($this->db->error);
             }
             $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
@@ -166,7 +166,7 @@ class BankAccountModel extends Model
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
-            if(!$stm = $this->db->prepare("UPDATE `bank_accounts` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
+            if (!$stm = $this->db->prepare("UPDATE `bank_accounts` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
                 die($this->db->error);
             }
             $stm->bind_param("sii", $this->name, $this->balance, $this->userID);
@@ -182,7 +182,6 @@ class BankAccountModel extends Model
 
     /**
      * Deletes account from the database
-
      * @return $this BankAccountModel
      */
     public function delete(): BankAccountModel

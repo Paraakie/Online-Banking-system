@@ -1,4 +1,5 @@
 <?php
+
 use PHPRouter\RouteCollection;
 use PHPRouter\Router;
 use PHPRouter\Route;
@@ -26,9 +27,9 @@ $collection->attachRoute(
     new Route(
         '/account/',
         array(
-        '_controller' => 'jis\a2\controller\BankAccountController::showAccounts',
-        'methods' => 'GET',
-        'name' => 'showAccounts'
+            '_controller' => 'jis\a2\controller\BankAccountController::showAccounts',
+            'methods' => 'GET',
+            'name' => 'showAccounts'
         )
     )
 );
@@ -41,9 +42,9 @@ $collection->attachRoute(
     new Route(
         '/account/create',
         array(
-        '_controller' => 'jis\a2\controller\BankAccountController::createAction',
-        'methods' => 'GET',
-        'name' => 'accountCreate'
+            '_controller' => 'jis\a2\controller\BankAccountController::createAction',
+            'methods' => 'GET',
+            'name' => 'accountCreate'
         )
     )
 );
@@ -66,9 +67,9 @@ $collection->attachRoute(
     new Route(
         '/account/delete/:id',
         array(
-        '_controller' => 'jis\a2\controller\BankAccountController::deleteAction',
-        'methods' => 'GET',
-        'name' => 'accountDelete'
+            '_controller' => 'jis\a2\controller\BankAccountController::deleteAction',
+            'methods' => 'GET',
+            'name' => 'accountDelete'
         )
     )
 );

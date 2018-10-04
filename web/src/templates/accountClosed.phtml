@@ -1,17 +1,17 @@
 <!--This page is rendered when user attempt to close an account-->
 <?php include "header.phtml" ?>
 <!---------- Body starts --------------->
-<?  if($deleted == true){
+<? if ($deleted == true) {
     echo "Account $accountId closed successfully";
     ?>
     <br>
     <a href="<?= $linkTo('showAccounts'); ?>">Back</a>
-    <? } else {
-            echo "Closing Account $accountId failed <br>";
-            echo "$message";
+<? } else {
+    echo "Closing Account $accountId failed <br>";
+    echo "$message";
     ?>
     <br>
     <a href="<?= $linkTo('showAccounts'); ?>">Back</a>
-    <? }?>
-    <!---------- Body ends -------------------->
+<? } ?>
+<!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>

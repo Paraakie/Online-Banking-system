@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\controller;
 
 use jis\a2\model\{
@@ -25,7 +26,7 @@ class BankAccountController extends Controller
          * @var UserAccountModel this object is used to check user information
          */
         $user = UserAccountController::getCurrentUser();
-        if($user === null) {
+        if ($user === null) {
             //User is not logged in
             return;
         }
@@ -64,9 +65,10 @@ class BankAccountController extends Controller
      * @param string $accName The name of the bank account e.g. Savings
      * @return null|string An error message if an error occurred, null otherwise
      */
-    public function handleAccountCreation(UserAccountModel $user, string $accName){
+    public function handleAccountCreation(UserAccountModel $user, string $accName)
+    {
 
-        if($accName == ""){
+        if ($accName == "") {
             return "Name is empty";
         }
 
@@ -90,21 +92,20 @@ class BankAccountController extends Controller
     {
         //User Authenticity
         $user = UserAccountController::getCurrentUser();
-        if($user === null) {
+        if ($user === null) {
             return;
         }
 
-        if(isset($_GET['submit'])) {
+        if (isset($_GET['submit'])) {
             //User clicked submit button
 
             $name = $_GET['accName'];
             $error = $this->handleAccountCreation($user, $name);
-            if($error === null){
+            if ($error === null) {
                 //Account created successfully
                 $okLocation = static::getUrl("showAccounts");
                 $this->creationSuccessful("Account $name was created successfully!", $okLocation);
-            }
-            else {
+            } else {
                 //Error encountered
                 $view = new View('accountCreated');
                 $view->addData('error', $error);
@@ -142,7 +143,7 @@ class BankAccountController extends Controller
          * @var UserAccountModel this object is used to check user information
          */
         $user = UserAccountController::getCurrentUser();
-        if($user == null) {
+        if ($user == null) {
             // user hasn't logged in
             return;
         }
@@ -151,7 +152,7 @@ class BankAccountController extends Controller
          * @var BankAccountModel this object is used to check current user's authority to the account
          */
         $bankAccount = $user->getBankAccountByID($id);
-        if($bankAccount !== null ) {
+        if ($bankAccount !== null) {
             //current user owns the bank account they are trying to modify
             if ($bankAccount->getBalance() != 0) {
                 // account has money left, delete failure

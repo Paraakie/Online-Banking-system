@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\model;
 
 use DateTime;
@@ -9,7 +10,6 @@ use DateTime;
  * @package jis/a2
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-
 class TransactionModel extends Model
 {
     /**
@@ -59,7 +59,7 @@ class TransactionModel extends Model
         }
 
         $data = $result->fetch_assoc();
-        if($data === null) {
+        if ($data === null) {
             return null;
         }
         $this->accountID = intval($data['accountID']);
@@ -150,7 +150,7 @@ class TransactionModel extends Model
     /**
      * @return int User ID
      */
-    public function getUserID() : int
+    public function getUserID(): int
     {
         return $this->userID;
     }
@@ -191,7 +191,7 @@ class TransactionModel extends Model
     /**
      * @param int $userID The current user's ID
      */
-    public function setUserID(int $userID) : void
+    public function setUserID(int $userID): void
     {
         $this->userID = $userID;
     }

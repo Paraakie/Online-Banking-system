@@ -37,7 +37,7 @@ class UserAccountModel extends Model
         }
 
         $data = $result->fetch_assoc();
-        if($data === null) {
+        if ($data === null) {
             return null;
         }
 
@@ -68,7 +68,7 @@ class UserAccountModel extends Model
             die($this->db->error);
         }
         $selectAccountByNameAndPassword->bind_result($id);
-        if($selectAccountByNameAndPassword->fetch()) {
+        if ($selectAccountByNameAndPassword->fetch()) {
             $this->name = $name;
             $this->password = $password;
             $this->id = $id;
@@ -102,7 +102,7 @@ class UserAccountModel extends Model
         $selectAccountByName->bind_result($id, $password);
         $result = $selectAccountByName->fetch();
         $selectAccountByName->close();
-        if($result) {
+        if ($result) {
             $this->name = $name;
             $this->password = $password;
             $this->id = $id;
@@ -218,7 +218,7 @@ class UserAccountModel extends Model
     {
         if (!$result = $this->db->query(
             "SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id AND bank_accounts.id=$bankAccountID;"
-                )) {
+        )) {
             die($this->db->error);
         }
         return $result->num_rows == 1 ? (new BankAccountModel())->load($bankAccountID) : null;

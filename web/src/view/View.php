@@ -1,7 +1,9 @@
 <?php
+
 namespace jis\a2\view;
 
 use const jis\a2\APP_ROOT;
+
 /**
  * Class View
  *
@@ -29,7 +31,7 @@ class View
     public function __construct($template)
     {
         try {
-            $file =  APP_ROOT . DIRECTORY_SEPARATOR .
+            $file = APP_ROOT . DIRECTORY_SEPARATOR .
                 'src' . DIRECTORY_SEPARATOR .
                 'templates' . DIRECTORY_SEPARATOR .
                 $template . '.phtml';

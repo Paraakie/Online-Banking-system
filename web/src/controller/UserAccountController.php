@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\controller;
 
 use jis\a2\view\View;
@@ -28,15 +29,15 @@ class UserAccountController extends Controller
     private function handleSignUp(string $password, string $password2, string $name): ?string
     {
         //Error handling
-        if($password !== $password2) {
+        if ($password !== $password2) {
             return 'The two passwords must match';
         }
-        if(strlen($password) < UserAccountController::MIN_PASSWORD_LENGTH) {
+        if (strlen($password) < UserAccountController::MIN_PASSWORD_LENGTH) {
             return 'Your password must be at least '
                 . UserAccountController::MIN_PASSWORD_LENGTH . ' characters long';
         }
         $userAccount = new UserAccountModel();
-        if($userAccount->loadByName($name) != null) {
+        if ($userAccount->loadByName($name) != null) {
             return 'The account name is already in use';
         }
         //Information that user entered are correct, elgible to create a new user account
@@ -53,13 +54,14 @@ class UserAccountController extends Controller
     /**
      * handles the login for letting a user create an account
      */
-    public function signUp(){
-        if(isset($_POST['signUp'])) {
+    public function signUp()
+    {
+        if (isset($_POST['signUp'])) {
             $name = $_POST["userName"];
             $password = $_POST["userPassword"];
             $password2 = $_POST["userPassword2"];
             $error = $this->handleSignUp($password, $password2, $name);
-            if($error === null) {
+            if ($error === null) {
                 $this->redirect("showAccounts");
             } else {
                 $view = new View('signUp');
@@ -84,7 +86,7 @@ class UserAccountController extends Controller
     private function handleLogin(string $userName, string $userPassword): ?string
     {
         $user = (new UserAccountModel())->loadByName($userName);
-        if($user !== null && password_verify($userPassword, $user->getPassword())) {
+        if ($user !== null && password_verify($userPassword, $user->getPassword())) {
             session_start();
             $_SESSION['userID'] = $user->getId();
             return null;
@@ -96,12 +98,13 @@ class UserAccountController extends Controller
     /**
      * Handles the logic for the login page
      */
-    public function login(){
+    public function login()
+    {
         $userName = $_POST["userName"];
         $userPassword = $_POST["userPassword"];
         if (isset($_POST['validateLogin'])) {
             $error = $this->handleLogin($userName, $userPassword);
-            if($error === null) {
+            if ($error === null) {
                 $this->redirect('showAccounts');
             } else {
                 $view = new View('login');
@@ -109,8 +112,7 @@ class UserAccountController extends Controller
                 $view->addData('userPassword', $userPassword);
                 echo $view->addData("error", $error)->render();
             }
-        }
-        elseif (isset($_POST['signUp'])) {
+        } elseif (isset($_POST['signUp'])) {
             $this->redirect('signUp');
         } else {
             $view = new View('login');
@@ -125,12 +127,12 @@ class UserAccountController extends Controller
     public static function getCurrentUser(): ?UserAccountModel
     {
         session_start();
-        if(isset($_SESSION['userID'])) {
+        if (isset($_SESSION['userID'])) {
             $userId = $_SESSION['userID'];
             return (new UserAccountModel())->loadByID($userId);
         } else {
             $url = static::getUrl("login");
-            header('Refresh: 3; URL='.$url);
+            header('Refresh: 3; URL=' . $url);
             echo "<p align=center style=color:red;>Please login...<br> Redirecting back to login page</p>";
             return null;
         }

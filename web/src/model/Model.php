@@ -1,4 +1,5 @@
 <?php
+
 namespace jis\a2\model;
 
 use mysqli;
@@ -29,7 +30,7 @@ class Model
             Model::DB_HOST,
             Model::DB_USER,
             Model::DB_PASS
-            //            Model::DB_NAME
+        //            Model::DB_NAME
         );
 
         if (!$this->db) {
@@ -69,7 +70,7 @@ class Model
                     die($this->db->error);
                 }
             }
-            
+
             $result = $this->db->query(
                 "CREATE TABLE `bank_accounts` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -115,7 +116,8 @@ class Model
     /**
      * Closes the connection to the database
      */
-    public function close() {
+    public function close()
+    {
         $this->db->close();
     }
 }
