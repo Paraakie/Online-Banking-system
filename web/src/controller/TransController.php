@@ -1,14 +1,14 @@
 <?php
-namespace agilman\a2\controller;
+namespace jis\a2\controller;
 
-use agilman\a2\model\BankAccountModel;
-use agilman\a2\model\TransactionModel;
-use agilman\a2\model\UserAccountModel;
-use agilman\a2\view\View;
+use jis\a2\model\BankAccountModel;
+use jis\a2\model\TransactionModel;
+use jis\a2\model\UserAccountModel;
+use jis\a2\view\View;
 
 /**
- * Class TransController
- *
+ * Class TransController handles all requests to make transactions
+ * @package jis/a2
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class TransController extends Controller

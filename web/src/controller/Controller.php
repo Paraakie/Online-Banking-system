@@ -1,11 +1,11 @@
 <?php
 
-namespace agilman\a2\controller;
+namespace jis\a2\controller;
 
 /**
  * Class Controller defines helper functions to be used by other controllers
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */

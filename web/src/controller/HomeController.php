@@ -1,10 +1,10 @@
 <?php
-namespace agilman\a2\controller;
+namespace jis\a2\controller;
 
 /**
  * Class HomeController handles redirecting to the right page when the default page is requested
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */

@@ -1,12 +1,12 @@
 <?php
-namespace agilman\a2\model;
+namespace jis\a2\model;
 
 use DateTime;
 
 /**
  * Stores all the information about a transaction and handles saving it to a database
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 

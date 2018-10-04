@@ -1,11 +1,11 @@
 <?php
-namespace agilman\a2\model;
+namespace jis\a2\model;
 
 
 /**
  * Stores the information about a bank account and handles saving it to a database
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author  Isaac Clancy, Junyi Chen, Sven Gerhards
  */

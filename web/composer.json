@@ -1,6 +1,6 @@
 {
-  "name": "agilman/a2",
-  "version": "0.0.1",
+  "name": "jis/a2",
+  "version": "1.0.0",
   "description": "Massey University Internet Programming 159.339 Assignment 2",
   "require": {
     "dannyvankooten/php-router":"dev-master"
@@ -13,7 +13,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "agilman\\a2\\": "src/"
+      "jis\\a2\\": "src/"
     }
   }
 }

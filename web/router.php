@@ -12,7 +12,7 @@ $collection->attachRoute(
     new Route(
         '/',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::indexAction',
+            '_controller' => 'jis\a2\controller\HomeController::indexAction',
             'methods' => 'GET',
             'name' => 'Home'
         )
@@ -26,7 +26,7 @@ $collection->attachRoute(
     new Route(
         '/account/',
         array(
-        '_controller' => 'agilman\a2\controller\BankAccountController::showAccounts',
+        '_controller' => 'jis\a2\controller\BankAccountController::showAccounts',
         'methods' => 'GET',
         'name' => 'showAccounts'
         )
@@ -41,7 +41,7 @@ $collection->attachRoute(
     new Route(
         '/account/create',
         array(
-        '_controller' => 'agilman\a2\controller\BankAccountController::createAction',
+        '_controller' => 'jis\a2\controller\BankAccountController::createAction',
         'methods' => 'GET',
         'name' => 'accountCreate'
         )
@@ -52,7 +52,7 @@ $collection->attachRoute(
     new Route(
         '/account/create',
         array(
-            '_controller' => 'agilman\a2\controller\BankAccountController::createAction',
+            '_controller' => 'jis\a2\controller\BankAccountController::createAction',
             'methods' => 'POST',
             'name' => 'accountCreate'
         )
@@ -66,7 +66,7 @@ $collection->attachRoute(
     new Route(
         '/account/delete/:id',
         array(
-        '_controller' => 'agilman\a2\controller\BankAccountController::deleteAction',
+        '_controller' => 'jis\a2\controller\BankAccountController::deleteAction',
         'methods' => 'GET',
         'name' => 'accountDelete'
         )
@@ -80,7 +80,7 @@ $collection->attachRoute(
     new Route(
         '/login/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::login',
+            '_controller' => 'jis\a2\controller\UserAccountController::login',
             'methods' => 'GET',
             'name' => 'login'
         )
@@ -91,7 +91,7 @@ $collection->attachRoute(
     new Route(
         '/login/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::login',
+            '_controller' => 'jis\a2\controller\UserAccountController::login',
             'methods' => 'POST',
             'name' => 'login'
         )
@@ -102,7 +102,7 @@ $collection->attachRoute(
     new Route(
         '/signUp/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::signUp',
+            '_controller' => 'jis\a2\controller\UserAccountController::signUp',
             'methods' => 'POST',
             'name' => 'signUp'
         )
@@ -113,7 +113,7 @@ $collection->attachRoute(
     new Route(
         '/signUp/',
         array(
-            '_controller' => 'agilman\a2\controller\UserAccountController::signUp',
+            '_controller' => 'jis\a2\controller\UserAccountController::signUp',
             'methods' => 'GET',
             'name' => 'signUp'
         )
@@ -128,7 +128,7 @@ $collection->attachRoute(
     new Route(
         '/transactions/',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createTransactionsPage',
+            '_controller' => 'jis\a2\controller\TransController::createTransactionsPage',
             'methods' => 'GET',
             'name' => 'transactions'
         )
@@ -143,7 +143,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::depositPage',
+            '_controller' => 'jis\a2\controller\TransController::depositPage',
             'methods' => 'GET',
             'name' => 'deposit'
         )
@@ -154,7 +154,7 @@ $collection->attachRoute(
     new Route(
         '/account/deposit/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::depositPage',
+            '_controller' => 'jis\a2\controller\TransController::depositPage',
             'methods' => 'POST',
             'name' => 'deposit'
         )
@@ -168,7 +168,7 @@ $collection->attachRoute(
     new Route(
         '/transactions/transfer/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createTransTransferPage',
+            '_controller' => 'jis\a2\controller\TransController::createTransTransferPage',
             'methods' => 'GET',
             'name' => 'TransTransfer'
         )
@@ -182,7 +182,7 @@ $collection->attachRoute(
     new Route(
         '/transactions/withdrawal/:id',
         array(
-            '_controller' => 'agilman\a2\controller\TransController::createTransWithdrawalPage',
+            '_controller' => 'jis\a2\controller\TransController::createTransWithdrawalPage',
             'methods' => 'GET',
             'name' => 'TransWithdrawal'
         )
@@ -196,7 +196,7 @@ $collection->attachRoute(
     new Route(
         '/account/logout',
         array(
-            '_controller' => 'agilman\a2\controller\HomeController::logout',
+            '_controller' => 'jis\a2\controller\HomeController::logout',
             'methods' => 'GET',
             'name' => 'logout'
         )

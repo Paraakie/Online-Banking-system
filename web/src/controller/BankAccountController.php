@@ -1,15 +1,15 @@
 <?php
-namespace agilman\a2\controller;
+namespace jis\a2\controller;
 
-use agilman\a2\model\{
+use jis\a2\model\{
     BankAccountModel, UserAccountModel
 };
-use agilman\a2\view\View;
+use jis\a2\view\View;
 
 /**
  * Handles all requests related to the bank accounts of a user
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */

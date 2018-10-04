@@ -1,10 +1,10 @@
 <?php
 
-namespace agilman\a2\model;
+namespace jis\a2\model;
 
 /**
  * Class UserAccountModel handles authenticating a user
- * @package agilman\a2\model
+ * @package jis\a2\model
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class UserAccountModel extends Model

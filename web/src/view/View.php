@@ -1,22 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 30/08/17
- * Time: 4:38 PM
- */
+namespace jis\a2\view;
 
-namespace agilman\a2\view;
-
-use const agilman\a2\APP_ROOT;
+use const jis\a2\APP_ROOT;
 /**
  * Class View
  *
  * A wrapper for the view templates.
  * Limits the accessible scope available to phtml templates.
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @Date: 30/08/17
+ * @Time: 4:38 PM
  */
 class View
 {

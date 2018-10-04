@@ -1,20 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Isaac
- * Date: 25/09/2018
- * Time: 2:43 PM
- */
+namespace jis\a2\controller;
 
-namespace agilman\a2\controller;
-
-use agilman\a2\view\View;
-use agilman\a2\model\UserAccountModel;
+use jis\a2\view\View;
+use jis\a2\model\UserAccountModel;
 
 /**
  * Class UserAccountController Handles all requests related to a user e.g. creating an account and logging in
- * @package agilman\a2\controller
+ * @package jis\a2
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
+ * @Date: 25/09/2018
+ * @Time: 2:43 PM
  */
 class UserAccountController extends Controller
 {

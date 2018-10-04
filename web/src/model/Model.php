@@ -1,12 +1,12 @@
 <?php
-namespace agilman\a2\model;
+namespace jis\a2\model;
 
 use mysqli;
 
 /**
  * Defined helper function for models and creates the database if it doesn't exist
  *
- * @package agilman/a2
+ * @package jis/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
