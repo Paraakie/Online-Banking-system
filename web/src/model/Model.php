@@ -51,6 +51,25 @@ class Model
         if ($result->num_rows == 0) {
             // table doesn't exist create it
 
+            $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
+            if ($result->num_rows == 0) {
+                // table doesn't exist create it
+
+                $result = $this->db->query(
+                    "CREATE TABLE `user_accounts` (
+                                          `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+                                          `name` varchar(256) NOT NULL,
+                                          `password` varchar(256) NOT NULL,
+                                          PRIMARY KEY (`id`) );"
+                );
+
+                if (!$result) {
+                    // handle appropriately
+                    error_log("Failed creating table user_accounts", 0);
+                    die($this->db->error);
+                }
+            }
+            
             $result = $this->db->query(
                 "CREATE TABLE `bank_accounts` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -68,27 +87,6 @@ class Model
                 die($this->db->error);
             }
         }
-
-
-        $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
-        if ($result->num_rows == 0) {
-            // table doesn't exist create it
-
-            $result = $this->db->query(
-                "CREATE TABLE `user_accounts` (
-                                          `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-                                          `name` varchar(256) NOT NULL,
-                                          `password` varchar(256) NOT NULL,
-                                          PRIMARY KEY (`id`) );"
-            );
-
-            if (!$result) {
-                // handle appropriately
-                error_log("Failed creating table user_accounts", 0);
-                die($this->db->error);
-            }
-        }
-
 
         $result = $this->db->query("SHOW TABLES LIKE 'transactions';");
         if ($result->num_rows == 0) {
