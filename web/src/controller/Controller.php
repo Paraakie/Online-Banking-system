@@ -3,7 +3,7 @@
 namespace agilman\a2\controller;
 
 /**
- * Class Controller
+ * Class Controller defines helper functions to be used by other controllers
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
@@ -17,7 +17,7 @@ class Controller
      * @param $route
      * @param array $params
      */
-    public function redirect($route, $params = [])
+    public function redirect(string $route, $params = []): void
     {
         // Generate a redirect url for a given named route
         $url = $GLOBALS['router']->generate($route, $params);
@@ -25,10 +25,10 @@ class Controller
     }
 
     /**
-     * This function
-     * @param string $route Router's name
+     * This function returns the url for the name of a route
+     * @param string $route Route's name
      * @param array $params
-     * @return string  this is the url that user will get
+     * @return string this is the url that user will get
      */
     public static function getUrl(string $route, $params = []): string
     {

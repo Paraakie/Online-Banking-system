@@ -12,7 +12,7 @@ use agilman\a2\view\View;
 use agilman\a2\model\UserAccountModel;
 
 /**
- * Class UserAccountController
+ * Class UserAccountController Handles all requests related to a user e.g. creating an account and logging in
  * @package agilman\a2\controller
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */

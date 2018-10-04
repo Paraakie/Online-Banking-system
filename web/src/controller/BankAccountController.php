@@ -7,24 +7,24 @@ use agilman\a2\model\{
 use agilman\a2\view\View;
 
 /**
- * Class AccountController
+ * Handles all requests related to the bank accounts of a user
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-class AccountController extends Controller
+class BankAccountController extends Controller
 {
     /**
-     * Account Index action
+     * Shows all bank accounts for a user
      */
     public function showAccounts()
     {
+        //User authenticity
         /**
          * @var UserAccountModel this object is used to check user information
          */
         $user = UserAccountController::getCurrentUser();
-        //User authenticity
         if($user === null) {
             //User is not logged in
             return;
@@ -66,7 +66,7 @@ class AccountController extends Controller
      */
     public function handleAccountCreation(UserAccountModel $user, string $accName){
 
-        if($name = ""){
+        if($accName == ""){
             return "Name is empty";
         }
 
@@ -78,7 +78,7 @@ class AccountController extends Controller
         $account->setName($accName); // will come from Form data
         $account->setBalance(0);
         $account->setUserId($user->getID());
-        $account->save(); //this fucntion will insert a new row to the database
+        $account->save(); //this function will insert a new row in database
 
         return null;
     }
@@ -93,8 +93,10 @@ class AccountController extends Controller
         if($user === null) {
             return;
         }
-        //User clicked submit button
+
         if(isset($_GET['submit'])) {
+            //User clicked submit button
+
             $name = $_GET['accName'];
             $error = $this->handleAccountCreation($user, $name);
             if($error === null){
@@ -108,9 +110,8 @@ class AccountController extends Controller
                 $view->addData('error', $error);
                 echo $view->render();
             }
-        }
-        //Render the account creation page
-        else{
+        } else {
+            //Render the account creation page
             $view = new View('accountCreated');
             echo $view->render();
         }
@@ -131,7 +132,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Account Delete action
+     * Deletes a bank account if it belongs to the user and has a balance of zero
      *
      * @param int $id Account id to be deleted
      */
@@ -141,8 +142,8 @@ class AccountController extends Controller
          * @var UserAccountModel this object is used to check user information
          */
         $user = UserAccountController::getCurrentUser();
-        // user hasn't logged in
         if($user == null) {
+            // user hasn't logged in
             return;
         }
 
@@ -150,8 +151,8 @@ class AccountController extends Controller
          * @var BankAccountModel this object is used to check current user's authority to the account
          */
         $bankAccount = $user->getBankAccountByID($id);
-        //current user is legit to modify the account
         if($bankAccount !== null ) {
+            //current user owns the bank account they are trying to modify
             if ($bankAccount->getBalance() != 0) {
                 // account has money left, delete failure
                 $view = new View('accountClosed');
@@ -166,7 +167,7 @@ class AccountController extends Controller
                 echo $view->addData('accountId', $id)->render();
             }
         } else {
-            // current user is not legit to modify this account
+            //current user doesn't owns this bank account
             $view = new View('accountClosed');
             $view->addData('deleted', false);
             echo $view->addData('accountId', $id)->render();
