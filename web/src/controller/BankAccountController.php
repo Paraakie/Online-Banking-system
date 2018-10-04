@@ -73,8 +73,8 @@ class BankAccountController extends Controller
         }
 
         /**
-         * @var BankAccountModel, when user successfully created a new account, this object is created which contains all
-         * information about the new account.
+         * @var BankAccountModel, when user successfully created a new account, this object is created which contains
+         * all information about the new account.
          */
         $account = new BankAccountModel();
         $account->setName($accName); // will come from Form data
@@ -175,4 +175,3 @@ class BankAccountController extends Controller
         }
     }
 }
-

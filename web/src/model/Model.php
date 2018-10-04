@@ -30,7 +30,6 @@ class Model
             Model::DB_HOST,
             Model::DB_USER,
             Model::DB_PASS
-        //            Model::DB_NAME
         );
 
         if (!$this->db) {

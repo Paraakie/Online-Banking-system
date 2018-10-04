@@ -166,7 +166,8 @@ class BankAccountModel extends Model
             $this->id = $this->db->insert_id;
         } else {
             // saving existing account - perform UPDATE
-            if (!$stm = $this->db->prepare("UPDATE `bank_accounts` SET `name`=?, `balance`=?, `userID`=? WHERE `id` = $this->id;")) {
+            if (!$stm = $this->db->prepare("UPDATE `bank_accounts` SET `name`=?, `balance`=?,
+                    `userID`=? WHERE `id` = $this->id;")) {
                 die($this->db->error);
             }
             $stm->bind_param("sii", $this->name, $this->balance, $this->userID);

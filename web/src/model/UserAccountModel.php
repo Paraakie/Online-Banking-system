@@ -58,8 +58,8 @@ class UserAccountModel extends Model
     public function loadByNameAndPassword(string $name, string $password): ?UserAccountModel
     {
         if (!$selectAccountByNameAndPassword = $this->db->prepare(
-            "SELECT `id` FROM `user_accounts` WHERE `name`=? AND `password`=?;")) {
-
+            "SELECT `id` FROM `user_accounts` WHERE `name`=? AND `password`=?;"
+        )) {
             die($this->db->error);
         }
         $selectAccountByNameAndPassword->bind_param("ss", $name, $password);
@@ -88,8 +88,8 @@ class UserAccountModel extends Model
     public function loadByName(string $name): ?UserAccountModel
     {
         if (!$selectAccountByName = $this->db->prepare(
-            "SELECT `id`, `password` FROM `user_accounts` WHERE `name`=?;")) {
-
+            "SELECT `id`, `password` FROM `user_accounts` WHERE `name`=?;"
+        )) {
             die($this->db->error);
         }
         $selectAccountByName->bind_param("s", $name);
@@ -199,7 +199,9 @@ class UserAccountModel extends Model
      */
     public function getBankAccounts(): \Generator
     {
-        if (!$result = $this->db->query("SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id;")) {
+        if (!$result = $this->db->query(
+            "SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id;"
+        )) {
             die($this->db->error);
         }
         $accountIds = array_column($result->fetch_all(), 0);
@@ -217,7 +219,8 @@ class UserAccountModel extends Model
     public function getBankAccountByID(int $bankAccountID): ?BankAccountModel
     {
         if (!$result = $this->db->query(
-            "SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id AND bank_accounts.id=$bankAccountID;"
+            "SELECT `id` FROM `bank_accounts` WHERE bank_accounts.userID=$this->id 
+                AND bank_accounts.id=$bankAccountID;"
         )) {
             die($this->db->error);
         }

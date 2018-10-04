@@ -54,7 +54,8 @@ class TransactionModel extends Model
     public function loadByID($id): ?TransactionModel
     {
         if (!$result = $this->db->query(
-            "SELECT `accountID`, `userID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;")) {
+            "SELECT `accountID`, `userID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;"
+        )) {
             die($this->db->error);
         }
 
@@ -81,7 +82,9 @@ class TransactionModel extends Model
     {
         if (!isset($this->id)) {
             if (!$stm = $this->db->prepare(
-                "INSERT INTO `transactions`(`accountID`, `userID`, `time`, `amount`, `type`) VALUES(?, ?, ?, ?, ?)")) {
+                "INSERT INTO `transactions`(`accountID`, `userID`, `time`, `amount`, `type`)
+                    VALUES(?, ?, ?, ?, ?)"
+            )) {
                 die($this->db->error);
             }
             $formattedDateTime = $this->time->format('Y-m-d H:i:s');
@@ -105,7 +108,9 @@ class TransactionModel extends Model
         } else {
             // saving existing account - perform UPDATE
             if (!$stm = $this->db->prepare(
-                "UPDATE `transactions` SET `accountID`=?, `userID`=?, `time`=?, `amount`=?, `type`=? WHERE `id`=?;")) {
+                "UPDATE `transactions` SET `accountID`=?, `userID`=?, `time`=?, `amount`=?, `type`=?
+                    WHERE `id`=?;"
+            )) {
                 die($this->db->error);
             }
             $stm->bind_param(

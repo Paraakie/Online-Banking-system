@@ -37,5 +37,4 @@ class HomeController extends Controller
         session_destroy();
         $this->redirect('login');
     }
-
 }
