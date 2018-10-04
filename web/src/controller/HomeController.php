@@ -7,6 +7,7 @@ use agilman\a2\view\View;
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class HomeController extends Controller
 {
@@ -15,10 +16,13 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
+        //session checking
         session_start();
         if(isset($_SESSION['userID'])){
+            //user is logged in, redirect to the home page
             $this->redirect('showAccounts');
         } else {
+            //user hasn't logged in, to login page
             $this->redirect('login');
         }
     }

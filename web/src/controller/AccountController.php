@@ -11,6 +11,7 @@ use agilman\a2\view\View;
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class AccountController extends Controller
 {
