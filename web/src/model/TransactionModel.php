@@ -4,7 +4,7 @@ namespace agilman\a2\model;
 use DateTime;
 
 /**
- * Class TransactionModel
+ * Stores all the information about a transaction and handles saving it to a database
  *
  * @package agilman/a2
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
@@ -13,27 +13,27 @@ use DateTime;
 class TransactionModel extends Model
 {
     /**
-     * @var integer Transaction ID
+     * @var int Transaction ID, unique for a transaction
      */
     private $id;
 
     /**
-     * @var integer Account ID from BankAccountModel
+     * @var int Account ID from BankAccountModel
      */
     private $accountID;
 
     /**
-     * @var integer User ID
+     * @var int User ID
      */
     private $userID;
 
     /**
-     * @var DateTime Time
+     * @var DateTime Time of creation
      */
     private $time;
 
     /**
-     * @var int Amount
+     * @var int Amount in cents
      */
     private $amount;
 
@@ -49,9 +49,9 @@ class TransactionModel extends Model
      *
      * @param int $id Transaction ID
      *
-     * @return $this TransactionModel
+     * @return $this TransactionModel this if successful, null otherwise
      */
-    public function loadByID($id)
+    public function loadByID($id): ?TransactionModel
     {
         if (!$result = $this->db->query(
             "SELECT `accountID`, `userID`, `time`, `amount`, `type` FROM `transactions` WHERE `id` = $id;")) {
@@ -59,6 +59,9 @@ class TransactionModel extends Model
         }
 
         $data = $result->fetch_assoc();
+        if($data === null) {
+            return null;
+        }
         $this->accountID = intval($data['accountID']);
         $this->userID = intval($data['userID']);
         $this->time = new DateTime($data['time']);
