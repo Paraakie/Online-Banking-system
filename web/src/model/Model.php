@@ -4,16 +4,19 @@ namespace agilman\a2\model;
 use mysqli;
 
 /**
- * Class Model
+ * Defined helper function for models and creates the database if it doesn't exist
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class Model
 {
+    /**
+     * @var mysqli Connection to database
+     */
     protected $db;
 
-    // is this the best place for these constants?
     const DB_HOST = 'mysql';
     const DB_USER = 'root';
     const DB_PASS = 'root';
@@ -21,6 +24,7 @@ class Model
 
     public function __construct()
     {
+        //creating database
         $this->db = new mysqli(
             Model::DB_HOST,
             Model::DB_USER,
@@ -31,9 +35,6 @@ class Model
         if (!$this->db) {
             error_log("Failed to connect to mysql!", 0);
             die("Failed to connect to database");
-            // can't connect to MYSQL???
-            // handle it...
-            // e.g. throw new someException($this->db->connect_error, $this->db->connect_errno);
         }
 
         // This is to make our life easier
@@ -43,12 +44,32 @@ class Model
         if (!$this->db->select_db(Model::DB_NAME)) {
             // somethings not right.. handle it
             error_log("Mysql database not available!", 0);
+            die($this->db->error);
         }
 
         $result = $this->db->query("SHOW TABLES LIKE 'bank_accounts';");
         if ($result->num_rows == 0) {
             // table doesn't exist create it
 
+            $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
+            if ($result->num_rows == 0) {
+                // table doesn't exist create it
+
+                $result = $this->db->query(
+                    "CREATE TABLE `user_accounts` (
+                                          `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+                                          `name` varchar(256) NOT NULL,
+                                          `password` varchar(256) NOT NULL,
+                                          PRIMARY KEY (`id`) );"
+                );
+
+                if (!$result) {
+                    // handle appropriately
+                    error_log("Failed creating table user_accounts", 0);
+                    die($this->db->error);
+                }
+            }
+            
             $result = $this->db->query(
                 "CREATE TABLE `bank_accounts` (
                                           `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -63,28 +84,9 @@ class Model
             if (!$result) {
                 // handle appropriately
                 error_log("Failed creating table account", 0);
+                die($this->db->error);
             }
         }
-
-
-        $result = $this->db->query("SHOW TABLES LIKE 'user_accounts';");
-        if ($result->num_rows == 0) {
-            // table doesn't exist create it
-
-            $result = $this->db->query(
-                "CREATE TABLE `user_accounts` (
-                                          `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-                                          `name` varchar(256) NOT NULL,
-                                          `password` varchar(256) NOT NULL,
-                                          PRIMARY KEY (`id`) );"
-            );
-
-            if (!$result) {
-                // handle appropriately
-                error_log("Failed creating table user_accounts", 0);
-            }
-        }
-
 
         $result = $this->db->query("SHOW TABLES LIKE 'transactions';");
         if ($result->num_rows == 0) {
@@ -110,6 +112,9 @@ class Model
         }
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public function close() {
         $this->db->close();
     }

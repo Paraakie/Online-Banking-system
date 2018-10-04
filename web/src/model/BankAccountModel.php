@@ -3,54 +3,69 @@ namespace agilman\a2\model;
 
 
 /**
- * Class BankAccountModel
+ * Stores the information about a bank account and handles saving it to a database
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author  Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class BankAccountModel extends Model
 {
     /**
-     * @var integer Account ID
+     * @var int Account ID
      */
     private $id;
+
     /**
      * @var string Account Name
      */
     private $name;
 
+    /**
+     * @var int Balance in cents
+     */
     private $balance;
+
+    /**
+     * @var int Owner's user ID
+     */
     private $userID;
 
 
     /**
-     * @return int Account ID
+     * @return int Account ID, unique to a bank account
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId(){
+    /**
+     * @return int The id of the user that owns this account
+     */
+    public function getUserId(): int
+    {
         return $this->userID;
     }
+
     /**
-     * @return string Account Name
+     * @return string The name given to an account by the user
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @return int Account balance in cents
+     * @return int balance in cents
      */
-    public function getBalance(){
+    public function getBalance(): int
+    {
         return $this->balance;
     }
 
     /**
-     * Gets all transactions make with the account
+     * Gets all transactions made with the account
      */
     public function getTransactions(): \Generator
     {
@@ -79,7 +94,7 @@ class BankAccountModel extends Model
      *
      * @return $this BankAccountModel
      */
-    public function setName(string $name)
+    public function setName(string $name): BankAccountModel
     {
         $this->name = $name;
         return $this;
@@ -95,9 +110,14 @@ class BankAccountModel extends Model
         return $this;
     }
 
-    public function setUserId(int $userID): void
+    /**
+     * @param int $userID The id of the user that has this account
+     * @return $this BankAccountModel
+     */
+    public function setUserId(int $userID): BankAccountModel
     {
         $this->userID = $userID;
+        return $this;
     }
 
     /**
@@ -107,7 +127,7 @@ class BankAccountModel extends Model
      *
      * @return $this BankAccountModel
      */
-    public function load($id)
+    public function load($id): ?BankAccountModel
     {
         if (!$result = $this->db->query("SELECT `name`, `balance`, `userID` FROM `bank_accounts` WHERE `id` = $id;")) {
             die($this->db->error);
@@ -130,7 +150,7 @@ class BankAccountModel extends Model
 
      * @return $this BankAccountModel
      */
-    public function save()
+    public function save(): BankAccountModel
     {
         if (!isset($this->id)) {
             // New account - Perform INSERT
@@ -165,7 +185,7 @@ class BankAccountModel extends Model
 
      * @return $this BankAccountModel
      */
-    public function delete()
+    public function delete(): BankAccountModel
     {
         if (!$result = $this->db->query("DELETE FROM `bank_accounts` WHERE `id` = $this->id;")) {
             die($this->db->error);

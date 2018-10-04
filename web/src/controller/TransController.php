@@ -8,45 +8,79 @@ use agilman\a2\view\View;
 
 /**
  * Class TransController
+ *
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-
-
 class TransController extends Controller
 {
     /**
-     * Display the Web-page of /Transaction/
+     * Display the Web-page of /Transactions/
      */
     public function createTransactionsPage(){
+        /**
+         * @var UserAccountModel $user This is used for user authenticity
+         */
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
+            //User isn't logged in
             return;
         }
+        //script used to sort the transaction table. In javascript
+        $scripts = '
+            <script type="text/javascript">
+            let transactions,
+                order1 = 1,
+                order2 = 1,
+                order3 = 1,
+                order4 = 1,
+                order5 = 1;
+            window.onload = function () {
+                transactions = document.getElementById("transactions");
+            };
+        </script>
+        <script type="text/javascript" src="/static/scripts/sortTable.js"></script>
+        ';
+        //What to do then the user clicks on the table header. In javascript
+        $tableHeaderOnClickListeners = [
+            'sortTable(transactions, 0, order1);order1 *= -1; order2 = 1; order3 = 1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 1, order2);order1 = 1; order2 *= -1; order3 = 1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 2, order3);order1 = 1; order2 = 1; order3 *= -1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 3, order4);order1 = 1; order2 = 1; order3 = 1; order4 *= -1; order5 = 1;',
+            'sortTable(transactions, 4, order5);order1 = 1; order2 = 1; order3 = 1; order4 = 1; order5 *= -1;'
+            ];
         if(isset($_GET['bankAccountID'])) {
+            //The user wants to view all the transaction for one bank account.
             $bankAccountID = $_GET['bankAccountID'];
             $bankAccount = $user->getBankAccountByID($bankAccountID);
             if($bankAccount != null) {
                 $transactions = $bankAccount->getTransactions();
                 $view = new View('transaction');
                 $view->addData('transactions', $transactions);
+                $view->addData('scripts', $scripts);
+                $view->addData('tableHeaderOnClickListeners', $tableHeaderOnClickListeners);
                 echo $view->render();
             } else {
                 $this->redirect('showAccounts');
             }
         } else {
+            //The user wants to view all the transaction for one all bank accounts
             $transactions = $user->getTransactions();
             $view = new View('transaction');
             $view->addData('transactions', $transactions);
+            $view->addData('scripts', $scripts);
+            $view->addData('tableHeaderOnClickListeners', $tableHeaderOnClickListeners);
             echo $view->render();
         }
     }
 
     /**
-     * Account to create deposit page
+     * Displays the deposit page for a bank account
      * @param int $id Account id to be deposited
      */
     public function createDepositPage($id){
         $user = UserAccountController::getCurrentUser();
-        if($user == null) {
+        if($user === null) {
+            //User isn't logged in
             return;
         }
         $bankAccount = $user->getBankAccountByID($id);
@@ -54,6 +88,9 @@ class TransController extends Controller
             $view = new View('transDeposit');
             $view->addData('accountId', $id);
             echo $view->render();
+        } else {
+            //The bank account doesn't belong to the user
+            $this->redirect("login");
         }
     }
 
@@ -65,8 +102,8 @@ class TransController extends Controller
     public function depositPage(int $id){
 
         $user = UserAccountController::getCurrentUser();
-        if($user == null) {
-            //incorrect user information
+        if($user === null) {
+            //User isn't logged in
             return;
         }
         $bankAccount = $user->getBankAccountByID($id);
@@ -141,26 +178,28 @@ class TransController extends Controller
      */
     public function createTransTransferPage(int $fromAccountID) {
         $user = UserAccountController::getCurrentUser();
-        if($user !== null) {
-            if(isset($_GET['submit'])) {
-                $toAccountStr = $_GET["toAccount"];
-                $amountStr = $_GET["amount"];
-                $error = $this->handleTransfer($user, $fromAccountID, $toAccountStr, $amountStr);
-                if($error === null) {
-                    $okLocation = static::getUrl("showAccounts");
-                    $this->transactionSuccessful("Transfer successful", $okLocation);
-                } else {
-                    $view = new View('transTransfer');
-                    $view->addData('fromAccountID', $fromAccountID);
-                    $view->addData('error', $error);
-                    $view->addData('amount', $amountStr);
-                    $view->addData('toAccount', $toAccountStr);
-                    echo $view->render();
-                }
+        if($user === null) {
+            //User isn't logged in
+            return;
+        }
+        if(isset($_GET['submit'])) {
+            $toAccountStr = $_GET["toAccount"];
+            $amountStr = $_GET["amount"];
+            $error = $this->handleTransfer($user, $fromAccountID, $toAccountStr, $amountStr);
+            if($error === null) {
+                $okLocation = static::getUrl("showAccounts");
+                $this->transactionSuccessful("Transfer successful", $okLocation);
             } else {
                 $view = new View('transTransfer');
-                echo $view->addData('fromAccountID', $fromAccountID)->render();
+                $view->addData('fromAccountID', $fromAccountID);
+                $view->addData('error', $error);
+                $view->addData('amount', $amountStr);
+                $view->addData('toAccount', $toAccountStr);
+                echo $view->render();
             }
+        } else {
+            $view = new View('transTransfer');
+            echo $view->addData('fromAccountID', $fromAccountID)->render();
         }
     }
 
@@ -199,6 +238,7 @@ class TransController extends Controller
     public function createTransWithdrawalPage(int $fromAccountID){
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
+            //User isn't logged in
             return;
         }
         if(isset($_GET['withdrawal'])){
@@ -249,6 +289,5 @@ class TransController extends Controller
         $transaction->setType($type);
         $transaction->setUserID(UserAccountController::getCurrentUser()->getId());
         $transaction->save();
-
     }
 }

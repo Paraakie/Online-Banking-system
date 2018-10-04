@@ -1,3 +1,10 @@
+<!--This is the user home page. A greeting will be shown depends on the time.date will be shown
+    All functionalities will be shown on this page including
+    - Create/Delete new bank account
+    - Withdrawal/Deposit/Transfer
+    - View transactions of one account or view all transactions that user made
+    - Logout
+    -->
 <?php include "header.phtml" ?>
 <form style="position:fixed;top:0;right:0;"method="get" action="logout">
     <?
@@ -23,28 +30,33 @@
     <p1>Your Accounts:</p1><br>
 
     <table style="border:1px solid black;border-spacing:30px;">
-    <tr>
-        <th>Account No.</th>
-        <th>Name</th>
-        <th>Balance</th>
-    </tr>
-
-    <? foreach ($accounts as $bankAccount){
-        $balance = ($bankAccount->getBalance()) / 100;
-        echo "
+        <thead>
             <tr>
-                <td>{$bankAccount->getID()}</td>
-                <td>{$bankAccount->getName()}</td>
-                <td>\${$balance}</td>
-                <td><a href=\"{$linkTo('accountDelete', ['id' => $bankAccount->getID()])}\">Delete</a></td>
-                <td><a href=\"{$linkTo('deposit', ['id' => $bankAccount->getID()])}\">Deposit</a></td>
-                <td><a href=\"{$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}\">Withdrawal</a></td>
-                <td><a href=\"{$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}\">Transfer</a></td>
-                <td><a href=\"{$linkTo('transactions')}?bankAccountID={$bankAccount->getID()}\">Transactions</td>
+                <th onclick="<?= $tableHeaderOnClickListeners[0] ?>" style="cursor:pointer">Account No. &#x21F5;</th>
+                <th onclick="<?= $tableHeaderOnClickListeners[1] ?>" style="cursor:pointer">Name &#x21F5;</th>
+                <th onclick="<?= $tableHeaderOnClickListeners[2] ?>" style="cursor:pointer">Balance &#x21F5;</th>
             </tr>
-        ";
-    }
-    ?>
+        </thead>
+
+        <tbody id="accounts">
+            <? foreach ($accounts as $bankAccount){
+                $balance = ($bankAccount->getBalance()) / 100;
+                echo "
+                <tr>
+                    <td>{$bankAccount->getID()}</td>
+                    <td>{$bankAccount->getName()}</td>
+                    <td>\${$balance}</td>
+                    <td><a href=\"{$linkTo('accountDelete', ['id' => $bankAccount->getID()])}\">Delete</a></td>
+                    <td><a href=\"{$linkTo('deposit', ['id' => $bankAccount->getID()])}\">Deposit</a></td>
+                    <td><a href=\"{$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}\">Withdrawal</a></td>
+                    <td><a href=\"{$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}\">Transfer</a></td>
+                    <td><a href=\"{$linkTo('transactions')}?bankAccountID={$bankAccount->getID()}\">Transactions</td>
+                </tr>
+            ";
+            }
+            ?>
+        </tbody>
+
     </table>
 
     <br>
@@ -54,3 +66,5 @@
 </div>
 
 <?php include "footer.phtml" ?>
+
+<?= $scripts ?>
