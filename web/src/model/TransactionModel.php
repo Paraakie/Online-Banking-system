@@ -7,10 +7,8 @@ use DateTime;
  * Class TransactionModel
  *
  * @package agilman/a2
- * @author Sven Gerhards
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-
-
 
 class TransactionModel extends Model
 {

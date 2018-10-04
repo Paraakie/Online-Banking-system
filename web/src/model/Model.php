@@ -8,12 +8,12 @@ use mysqli;
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class Model
 {
     protected $db;
 
-    // is this the best place for these constants?
     const DB_HOST = 'mysql';
     const DB_USER = 'root';
     const DB_PASS = 'root';
@@ -21,6 +21,7 @@ class Model
 
     public function __construct()
     {
+        //creating database
         $this->db = new mysqli(
             Model::DB_HOST,
             Model::DB_USER,
@@ -31,9 +32,6 @@ class Model
         if (!$this->db) {
             error_log("Failed to connect to mysql!", 0);
             die("Failed to connect to database");
-            // can't connect to MYSQL???
-            // handle it...
-            // e.g. throw new someException($this->db->connect_error, $this->db->connect_errno);
         }
 
         // This is to make our life easier

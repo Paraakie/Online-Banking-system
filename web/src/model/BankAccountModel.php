@@ -7,6 +7,7 @@ namespace agilman\a2\model;
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author  Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class BankAccountModel extends Model
 {
@@ -14,6 +15,7 @@ class BankAccountModel extends Model
      * @var int Account ID
      */
     private $id;
+
     /**
      * @var string Account Name
      */
@@ -23,8 +25,9 @@ class BankAccountModel extends Model
      * @var int Balance in cents
      */
     private $balance;
+
     /**
-     * @var int id of user
+     * @var int Owner's user ID
      */
     private $userID;
 
@@ -32,7 +35,7 @@ class BankAccountModel extends Model
     /**
      * @return int Account ID, unique to a bank account
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -44,18 +47,20 @@ class BankAccountModel extends Model
     {
         return $this->userID;
     }
+
     /**
      * @return string The name given to an account by the user
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @return int Account balance in cents
+     * @return int balance in cents
      */
-    public function getBalance(){
+    public function getBalance(): int
+    {
         return $this->balance;
     }
 
@@ -89,7 +94,7 @@ class BankAccountModel extends Model
      *
      * @return $this BankAccountModel
      */
-    public function setName(string $name)
+    public function setName(string $name): BankAccountModel
     {
         $this->name = $name;
         return $this;
@@ -122,7 +127,7 @@ class BankAccountModel extends Model
      *
      * @return $this BankAccountModel
      */
-    public function load($id)
+    public function load($id): ?BankAccountModel
     {
         if (!$result = $this->db->query("SELECT `name`, `balance`, `userID` FROM `bank_accounts` WHERE `id` = $id;")) {
             die($this->db->error);
@@ -145,7 +150,7 @@ class BankAccountModel extends Model
 
      * @return $this BankAccountModel
      */
-    public function save()
+    public function save(): BankAccountModel
     {
         if (!isset($this->id)) {
             // New account - Perform INSERT
@@ -180,7 +185,7 @@ class BankAccountModel extends Model
 
      * @return $this BankAccountModel
      */
-    public function delete()
+    public function delete(): BankAccountModel
     {
         if (!$result = $this->db->query("DELETE FROM `bank_accounts` WHERE `id` = $this->id;")) {
             die($this->db->error);

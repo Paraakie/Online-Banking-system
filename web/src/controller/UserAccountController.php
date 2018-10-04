@@ -14,9 +14,13 @@ use agilman\a2\model\UserAccountModel;
 /**
  * Class UserAccountController Handles all requests related to a user e.g. creating an account and logging in
  * @package agilman\a2\controller
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class UserAccountController extends Controller
 {
+    /**
+     * @const this constant value is the min length of password.
+     */
     private const MIN_PASSWORD_LENGTH = 4;
 
     /**
@@ -28,6 +32,7 @@ class UserAccountController extends Controller
      */
     private function handleSignUp(string $password, string $password2, string $name): ?string
     {
+        //Error handling
         if($password !== $password2) {
             return 'The two passwords must match';
         }
@@ -39,7 +44,7 @@ class UserAccountController extends Controller
         if($userAccount->loadByName($name) != null) {
             return 'The account name is already in use';
         }
-
+        //Information that user entered are correct, elgible to create a new user account
         $userAccount->setName($name);
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         $userAccount->setPassword($passwordHash);

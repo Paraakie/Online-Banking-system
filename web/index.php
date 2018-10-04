@@ -3,7 +3,7 @@
  * 159.339 Internet Programming 2017.2
  * 16192554, Junyi Chen
  * 15031719, Sven Gerhards
- * 16125296, Clancy
+ * 16125296, Issac Clancy
  *
  * Assignment: 2   Date: 01/09/17
  * System: PHP 7.1
