@@ -11,6 +11,10 @@ namespace agilman\a2\controller;
 use agilman\a2\view\View;
 use agilman\a2\model\UserAccountModel;
 
+/**
+ * Class UserAccountController Handles all requests related to a user e.g. creating an account and logging in
+ * @package agilman\a2\controller
+ */
 class UserAccountController extends Controller
 {
     private const MIN_PASSWORD_LENGTH = 4;

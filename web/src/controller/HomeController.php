@@ -1,9 +1,8 @@
 <?php
 namespace agilman\a2\controller;
 
-use agilman\a2\view\View;
 /**
- * Class HomeController
+ * Class HomeController handles redirecting to the right page when the default page is requested
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
@@ -31,7 +30,7 @@ class HomeController extends Controller
      *  Logout Action
      */
     public function logout(){
-        //Deleteing session
+        //Deleting session
         session_start();
         session_destroy();
         $this->redirect('login');
