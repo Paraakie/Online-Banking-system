@@ -3,7 +3,7 @@ namespace agilman\a2\model;
 
 
 /**
- * Class BankAccountModel
+ * Stores the information about a bank account and handles saving it to a database
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
@@ -11,7 +11,7 @@ namespace agilman\a2\model;
 class BankAccountModel extends Model
 {
     /**
-     * @var integer Account ID
+     * @var int Account ID
      */
     private $id;
     /**
@@ -19,23 +19,33 @@ class BankAccountModel extends Model
      */
     private $name;
 
+    /**
+     * @var int Balance in cents
+     */
     private $balance;
+    /**
+     * @var int id of user
+     */
     private $userID;
 
 
     /**
-     * @return int Account ID
+     * @return int Account ID, unique to a bank account
      */
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUserId(){
+    /**
+     * @return int The id of the user that owns this account
+     */
+    public function getUserId(): int
+    {
         return $this->userID;
     }
     /**
-     * @return string Account Name
+     * @return string The name given to an account by the user
      */
     public function getName()
     {
@@ -50,7 +60,7 @@ class BankAccountModel extends Model
     }
 
     /**
-     * Gets all transactions make with the account
+     * Gets all transactions made with the account
      */
     public function getTransactions(): \Generator
     {
@@ -95,9 +105,14 @@ class BankAccountModel extends Model
         return $this;
     }
 
-    public function setUserId(int $userID): void
+    /**
+     * @param int $userID The id of the user that has this account
+     * @return $this BankAccountModel
+     */
+    public function setUserId(int $userID): BankAccountModel
     {
         $this->userID = $userID;
+        return $this;
     }
 
     /**
