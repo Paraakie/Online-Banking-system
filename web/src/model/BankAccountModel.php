@@ -7,6 +7,7 @@ namespace agilman\a2\model;
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
+ * @author  Isaac Clancy, Junyi Chen, Sven Gerhards
  */
 class BankAccountModel extends Model
 {
@@ -14,12 +15,21 @@ class BankAccountModel extends Model
      * @var integer Account ID
      */
     private $id;
+
     /**
      * @var string Account Name
      */
     private $name;
 
+
+    /**
+     * @var decimal balance of specific bank account
+     */
     private $balance;
+
+    /**
+     * @var integer Owner's user ID
+     */
     private $userID;
 
 
@@ -31,9 +41,13 @@ class BankAccountModel extends Model
         return $this->id;
     }
 
+    /**
+     * @return int User Id
+     */
     public function getUserId(){
         return $this->userID;
     }
+
     /**
      * @return string Account Name
      */
@@ -43,7 +57,7 @@ class BankAccountModel extends Model
     }
 
     /**
-     * @return int Account balance in cents
+     * @return decimal balance in cents
      */
     public function getBalance(){
         return $this->balance;
