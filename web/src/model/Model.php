@@ -4,7 +4,7 @@ namespace agilman\a2\model;
 use mysqli;
 
 /**
- * Class Model
+ * Defined helper function for models and creates the database if it doesn't exist
  *
  * @package agilman/a2
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
@@ -12,6 +12,9 @@ use mysqli;
  */
 class Model
 {
+    /**
+     * @var mysqli Connection to database
+     */
     protected $db;
 
     const DB_HOST = 'mysql';
@@ -41,6 +44,7 @@ class Model
         if (!$this->db->select_db(Model::DB_NAME)) {
             // somethings not right.. handle it
             error_log("Mysql database not available!", 0);
+            die($this->db->error);
         }
 
         $result = $this->db->query("SHOW TABLES LIKE 'bank_accounts';");
@@ -61,6 +65,7 @@ class Model
             if (!$result) {
                 // handle appropriately
                 error_log("Failed creating table account", 0);
+                die($this->db->error);
             }
         }
 
@@ -80,6 +85,7 @@ class Model
             if (!$result) {
                 // handle appropriately
                 error_log("Failed creating table user_accounts", 0);
+                die($this->db->error);
             }
         }
 
@@ -108,6 +114,9 @@ class Model
         }
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public function close() {
         $this->db->close();
     }

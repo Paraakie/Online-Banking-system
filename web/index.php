@@ -38,7 +38,7 @@ if ($route) {
 // Otherwise check if the request is for a static resource
 $info = parse_url($_SERVER['REQUEST_URI']);
 // check if its an allowed static resource type and that the file exists
-if (preg_match('/\.(?:png|jpg|jpeg|css|js)$/', "$info[path]")
+if (preg_match('/\.(?:png|jpg|jpeg|css|js|ico)$/', "$info[path]")
     && file_exists("./$info[path]")) {
     // false indicates to web server that the route is for a static file - fetch it and return to client
     return false;
