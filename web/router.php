@@ -26,7 +26,7 @@ $collection->attachRoute(
     new Route(
         '/account/',
         array(
-        '_controller' => 'agilman\a2\controller\AccountController::showAccounts',
+        '_controller' => 'agilman\a2\controller\BankAccountController::showAccounts',
         'methods' => 'GET',
         'name' => 'showAccounts'
         )
@@ -41,7 +41,7 @@ $collection->attachRoute(
     new Route(
         '/account/create',
         array(
-        '_controller' => 'agilman\a2\controller\AccountController::createAction',
+        '_controller' => 'agilman\a2\controller\BankAccountController::createAction',
         'methods' => 'GET',
         'name' => 'accountCreate'
         )
@@ -52,7 +52,7 @@ $collection->attachRoute(
     new Route(
         '/account/create',
         array(
-            '_controller' => 'agilman\a2\controller\AccountController::createAction',
+            '_controller' => 'agilman\a2\controller\BankAccountController::createAction',
             'methods' => 'POST',
             'name' => 'accountCreate'
         )
@@ -66,7 +66,7 @@ $collection->attachRoute(
     new Route(
         '/account/delete/:id',
         array(
-        '_controller' => 'agilman\a2\controller\AccountController::deleteAction',
+        '_controller' => 'agilman\a2\controller\BankAccountController::deleteAction',
         'methods' => 'GET',
         'name' => 'accountDelete'
         )
@@ -161,7 +161,7 @@ $collection->attachRoute(
     )
 );
 
-/*
+/**
  * Transaction Transfer
  */
 $collection->attachRoute(
@@ -174,10 +174,10 @@ $collection->attachRoute(
         )
     )
 );
-/*
+
+/**
  * Transaction Withdrawal
  */
-
 $collection->attachRoute(
     new Route(
         '/transactions/withdrawal/:id',
