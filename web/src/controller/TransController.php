@@ -8,17 +8,21 @@ use agilman\a2\view\View;
 
 /**
  * Class TransController
+ *
+ * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-
-
 class TransController extends Controller
 {
     /**
-     * Display the Web-page of /Transaction/
+     * Display the Web-page of /Transactions/
      */
     public function createTransactionsPage(){
+        /**
+         * @var UserAccountModel $user This is used for user authenticity
+         */
         $user = UserAccountController::getCurrentUser();
         if($user === null) {
+            //unauthorised user
             return;
         }
         $scripts = '
