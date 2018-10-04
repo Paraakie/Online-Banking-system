@@ -21,6 +21,27 @@ class TransController extends Controller
         if($user === null) {
             return;
         }
+        $scripts = '
+            <script type="text/javascript">
+            let transactions,
+                order1 = 1,
+                order2 = 1,
+                order3 = 1,
+                order4 = 1,
+                order5 = 1;
+            window.onload = function () {
+                transactions = document.getElementById("transactions");
+            };
+        </script>
+        <script type="text/javascript" src="/static/scripts/sortTable.js"></script>
+        ';
+        $tableHeaderOnClickListeners = [
+            'sortTable(transactions, 0, order1);order1 *= -1; order2 = 1; order3 = 1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 1, order2);order1 = 1; order2 *= -1; order3 = 1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 2, order3);order1 = 1; order2 = 1; order3 *= -1; order4 = 1; order5 = 1;',
+            'sortTable(transactions, 3, order4);order1 = 1; order2 = 1; order3 = 1; order4 *= -1; order5 = 1;',
+            'sortTable(transactions, 4, order5);order1 = 1; order2 = 1; order3 = 1; order4 = 1; order5 *= -1;'
+            ];
         if(isset($_GET['bankAccountID'])) {
             $bankAccountID = $_GET['bankAccountID'];
             $bankAccount = $user->getBankAccountByID($bankAccountID);
@@ -28,6 +49,8 @@ class TransController extends Controller
                 $transactions = $bankAccount->getTransactions();
                 $view = new View('transaction');
                 $view->addData('transactions', $transactions);
+                $view->addData('scripts', $scripts);
+                $view->addData('tableHeaderOnClickListeners', $tableHeaderOnClickListeners);
                 echo $view->render();
             } else {
                 $this->redirect('showAccounts');
@@ -36,6 +59,8 @@ class TransController extends Controller
             $transactions = $user->getTransactions();
             $view = new View('transaction');
             $view->addData('transactions', $transactions);
+            $view->addData('scripts', $scripts);
+            $view->addData('tableHeaderOnClickListeners', $tableHeaderOnClickListeners);
             echo $view->render();
         }
     }
