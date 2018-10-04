@@ -1,3 +1,10 @@
+/**
+ * Sorts an html table body
+ * @param tableBody The body of the html table to sort
+ * @param col The index of the column to sort by
+ * @param order 1 = ascending order, -1 = descending order
+ */
+
 function sortTable(tableBody, col, order)
 {
     const rows = tableBody.rows;

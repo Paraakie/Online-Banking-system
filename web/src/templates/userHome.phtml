@@ -23,28 +23,33 @@
     <p1>Your Accounts:</p1><br>
 
     <table style="border:1px solid black;border-spacing:30px;">
-    <tr>
-        <th>Account No.</th>
-        <th>Name</th>
-        <th>Balance</th>
-    </tr>
-
-    <? foreach ($accounts as $bankAccount){
-        $balance = ($bankAccount->getBalance()) / 100;
-        echo "
+        <thead>
             <tr>
-                <td>{$bankAccount->getID()}</td>
-                <td>{$bankAccount->getName()}</td>
-                <td>\${$balance}</td>
-                <td><a href=\"{$linkTo('accountDelete', ['id' => $bankAccount->getID()])}\">Delete</a></td>
-                <td><a href=\"{$linkTo('deposit', ['id' => $bankAccount->getID()])}\">Deposit</a></td>
-                <td><a href=\"{$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}\">Withdrawal</a></td>
-                <td><a href=\"{$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}\">Transfer</a></td>
-                <td><a href=\"{$linkTo('transactions')}?bankAccountID={$bankAccount->getID()}\">Transactions</td>
+                <th onclick="<?= $tableHeaderOnClickListeners[0] ?>">Account No. &#x21F5;</th>
+                <th onclick="<?= $tableHeaderOnClickListeners[1] ?>">Name &#x21F5;</th>
+                <th onclick="<?= $tableHeaderOnClickListeners[2] ?>">Balance &#x21F5;</th>
             </tr>
-        ";
-    }
-    ?>
+        </thead>
+
+        <tbody id="accounts">
+            <? foreach ($accounts as $bankAccount){
+                $balance = ($bankAccount->getBalance()) / 100;
+                echo "
+                <tr>
+                    <td>{$bankAccount->getID()}</td>
+                    <td>{$bankAccount->getName()}</td>
+                    <td>\${$balance}</td>
+                    <td><a href=\"{$linkTo('accountDelete', ['id' => $bankAccount->getID()])}\">Delete</a></td>
+                    <td><a href=\"{$linkTo('deposit', ['id' => $bankAccount->getID()])}\">Deposit</a></td>
+                    <td><a href=\"{$linkTo('TransWithdrawal', ['id' => $bankAccount->getID()])}\">Withdrawal</a></td>
+                    <td><a href=\"{$linkTo('TransTransfer', ['id' => $bankAccount->getID()])}\">Transfer</a></td>
+                    <td><a href=\"{$linkTo('transactions')}?bankAccountID={$bankAccount->getID()}\">Transactions</td>
+                </tr>
+            ";
+            }
+            ?>
+        </tbody>
+
     </table>
 
     <br>
@@ -54,3 +59,5 @@
 </div>
 
 <?php include "footer.phtml" ?>
+
+<?= $scripts ?>

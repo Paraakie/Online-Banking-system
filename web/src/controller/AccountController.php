@@ -24,14 +24,36 @@ class AccountController extends Controller
          */
         $user = UserAccountController::getCurrentUser();
         //User authenticity
-        if($user !== null) {
-            //User is logged in
-            $accounts = $user->getBankAccounts();
-            $view = new View('userHome');
-            $view->addData('userName', $user->getName());
-            $view->addData('accounts', $accounts);
-            echo $view->render();
+        if($user === null) {
+            //User is not logged in
+            return;
         }
+
+        $scripts = '
+            <script type="text/javascript">
+            let accounts,
+                order1 = 1,
+                order2 = 1,
+                order3 = 1;
+            window.onload = function () {
+                accounts = document.getElementById("accounts");
+            };
+        </script>
+        <script type="text/javascript" src="/static/scripts/sortTable.js"></script>
+        ';
+        $tableHeaderOnClickListeners = [
+            'sortTable(accounts, 0, order1);order1 *= -1; order2 = 1; order3 = 1;',
+            'sortTable(accounts, 1, order2);order1 = 1; order2 *= -1; order3 = 1;',
+            'sortTable(accounts, 2, order3);order1 = 1; order2 = 1; order3 *= -1;'
+        ];
+
+        $accounts = $user->getBankAccounts();
+        $view = new View('userHome');
+        $view->addData('userName', $user->getName());
+        $view->addData('accounts', $accounts);
+        $view->addData('scripts', $scripts);
+        $view->addData('tableHeaderOnClickListeners', $tableHeaderOnClickListeners);
+        echo $view->render();
     }
 
     /**
