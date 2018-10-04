@@ -6,26 +6,30 @@
 <p>All of your transactions in one place</p>
 
 <table style="border-collapse: collapse;" border = "1">
-    <tr>
-        <th>ID</th>
-        <th>Account No.</th>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Type</th>
-    </tr>
-    <?php for (; $transactions->valid(); $transactions->next()) { //couldn't get foreach to work for empty generator
-        $transaction = $transactions->current(); ?>
+    <thead>
         <tr>
-            <td><?= $transaction->getId() ?></td>
-            <td><?= $transaction->getAccountID() ?></td>
-            <td><?= $transaction->getTime()->format('Y-m-d H:i:s') ?></td>
-            <td><?
-                $amount = $transaction->getAmount() / 100;
-                echo "\$$amount"
-                ?></td>
-            <td><?= $transaction->getType() ?></td>
+            <th onclick="<?= $tableHeaderOnClickListeners[0] ?>" style="cursor:pointer">ID &#x21F5;</th>
+            <th onclick="<?= $tableHeaderOnClickListeners[1] ?>" style="cursor:pointer">Account No. &#x21F5;</th>
+            <th onclick="<?= $tableHeaderOnClickListeners[2] ?>" style="cursor:pointer">Date &#x21F5;</th>
+            <th onclick="<?= $tableHeaderOnClickListeners[3] ?>" style="cursor:pointer">Amount in $ &#x21F5;</th>
+            <th onclick="<?= $tableHeaderOnClickListeners[4] ?>" style="cursor:pointer">Type &#x21F5;</th>
         </tr>
-    <?php } ?>
+    </thead>
+    <tbody id="transactions">
+        <?php for (; $transactions->valid(); $transactions->next()) { //couldn't get foreach to work for empty generator
+            $transaction = $transactions->current(); ?>
+            <tr>
+                <td><?= $transaction->getId() ?></td>
+                <td><?= $transaction->getAccountID() ?></td>
+                <td><?= $transaction->getTime()->format('Y-m-d H:i:s') ?></td>
+                <td><?
+                    $amount = $transaction->getAmount() / 100;
+                    echo "$amount"
+                    ?></td>
+                <td><?= $transaction->getType() ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
 </table>
 
 <br>
@@ -33,3 +37,5 @@
 
 <!---------- Body ends -------------------->
 <?php include "footer.phtml" ?>
+
+<?= $scripts ?>
