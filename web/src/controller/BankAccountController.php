@@ -13,7 +13,7 @@ use agilman\a2\view\View;
  * @author  Andrew Gilman <a.gilman@massey.ac.nz>
  * @author Isaac Clancy, Junyi Chen, Sven Gerhards
  */
-class AccountController extends Controller
+class BankAccountController extends Controller
 {
     /**
      * Shows all bank accounts for a user
