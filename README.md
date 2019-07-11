@@ -1,4 +1,4 @@
-# InternetpaperA2 - Bank website
+# Bank website
 Isaac's, Austin's and Sven's  Project
 
 Summary:
