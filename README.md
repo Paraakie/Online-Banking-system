@@ -1,4 +1,4 @@
-# Bank website
+# Online Banking System
 Isaac's, Austin's and Sven's  Project
 
 #Summary:
