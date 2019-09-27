@@ -14,7 +14,7 @@ Written by Sven Gerhards. Reviewed and discussed with Isaac Clancy and Austin Ch
 #About
 
 The purpose of this report is to introduce our First National Bank Project. Every feature and design decision will be listed and discussed in details. There is also a specific instruction for End-Users.
-We continuously worked on our project using GitHub (https://github.com/Paraakie/Bank-website)
+We continuously worked on our project using GitHub (https://github.com/Paraakie/Online-Banking-system)
 
 #Features
 #User-Accounts
