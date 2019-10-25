@@ -45,6 +45,9 @@ During the initial drafting phase, this was the first draft we came up with for 
 However during development, we agreed that a name for an account was necessary for the user to identify their account more easily; hence, a name variable was added to Accounts.
 Deleting accounts was complicated and resulted in bugs, we came to the conclusion that “AccountID” couldn’t be a Foreign key. Additionally, the connection between accounts and transactions is generally weak as it was only used to display the transactions. The values in question can’t be changed, this change shouldn’t cause any bugs or problems.
 
+#Encryption
+Passwords are encryted using the password_hash() function with the built in bcrypt algorithm. 
+Bcrypt is an adaptive hash function based on the Blowfish symmetric block cipher cryptographic algorithm.
 
 #Instructions for end users for First National Bank
 
